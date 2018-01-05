@@ -1,3 +1,7 @@
+if [ -f ~/.private-zshrc ]; then
+  source ~/.private-zshrc
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="agnoster"
@@ -8,6 +12,7 @@ DEFAULT_USER=scott
 
 plugins=(git zshmarks osx)
 source <(antibody init)
+
 
 # User configuration
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/scott/projects/go/bin:/usr/local/lib/android-sdk-macosx/platform-tools"
@@ -48,6 +53,8 @@ alias gun='gulp run'
 alias delete-docker-containers="docker rm $(docker ps -a -q)"
 alias delete-docker-images="docker rmi -f $(docker images -q)"
 alias 'git log'='nocorrect git log'
+alias vim=nvim
+alias vi=nvim
 
 # Change ulimit for nginx
 ulimit -n 1024
@@ -62,12 +69,8 @@ alias webservers="csshx newGrowExpress1 newGrowExpress2"
 
 alias gpr="ggpush && open-pr develop"
 
-export PATH="$PATH:`yarn global bin`"
-
 source /Users/scott/.gulp-autocompletion-zsh/gulp-autocompletion.zsh
 source /Users/scott/.gulp.plugin.zsh/gulp.plugin.zsh
 
-if [ -f ~/.private-zshrc ]; then
-  . ~/.private-zshrc
-fi
+export PATH="$PATH:`yarn global bin`"
 

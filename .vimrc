@@ -8,6 +8,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-obsession'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -22,7 +23,8 @@ Plug 'othree/html5.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'vim-airline/vim-airline'
 Plug 'airblade/vim-gitgutter'
-Plug 'mhartington/oceanic-next'
+Plug 'morhetz/gruvbox'
+Plug 'junegunn/seoul256.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'groenewege/vim-less'
 Plug 'gregsexton/MatchTag'
@@ -40,9 +42,9 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'google/vim-searchindex'
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'zchee/deoplete-go', { 'do': 'make'}
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 Plug 'easymotion/vim-easymotion'
 Plug 'machakann/vim-highlightedyank'
 
@@ -51,22 +53,19 @@ call plug#end()            " required
 " -----------------------------------------------------
 " Moving around, searching and patterns
 " ------------------------------------------------------
-set incsearch                   " Find as you type search
-set hlsearch                    " Highlight search terms
 set ignorecase                  " Case insensitive search
 set smartcase                   " Case sensitive when uc present
 set iskeyword-=.                " '.' is an end of word designator
 set iskeyword-=#                " '#' is an end of word designator
 set iskeyword-=-                " '-' is an end of word designator
 set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
-set inccommand=nosplit
+set inccommand=nosplit          " Live search and replace
 
 " -----------------------------------------------------
 " Displaying text
 " -----------------------------------------------------
 set guifont=FuraCode\ Nerd\ Font:h14
 set encoding=utf8
-set backspace=indent,eol,start  " Backspace for dummies
 set linespace=0                 " No extra spaces between rows
 set number                          " Line numbers on
 set relativenumber              " Relative line numbers
@@ -74,7 +73,7 @@ set scrolljump=1                " Lines to scroll when cursor leaves screen
 set scrolloff=8                 " Minimum lines to keep above and below cursor
 set nowrap                      " Don't wrap long lines Don't
 set nocursorcolumn
-set cursorline
+set nocursorline
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1 " Pipe in insert mode, block in others
 set completeopt-=preview
 
@@ -92,9 +91,24 @@ autocmd BufEnter * :syn sync maxlines=500
 if (has("termguicolors"))
  set termguicolors
 endif
-let g:oceanic_next_terminal_bold = 1
-let g:oceanic_next_terminal_italic = 1
-colorscheme OceanicNext
+
+colorscheme gruvbox
+"hi CursorLine guibg=#1d2021
+"hi CursorLineNr guibg=#1d2021
+" hi LineNr guibg=#1d2021
+"hi DiffAdd guibg=#98c379 guifg=black gui=italic
+"hi DiffDelete guibg=#e06c75 guifg=black
+"hi DiffChange guibg=#61afef guifg=black
+"hi DiffText guibg=#e5c07b guifg=black gui=italic
+
+set background=dark
+let g:gruvbox_italic = 1
+let g:gruvbox_bold = 0
+let g:gruvbox_underline = 1
+let g:gruvbox_undercurl = 1
+let g:gruvbox_contrast_dark = 'medium'
+let g:gruvbox_invert_selection = 0
+
 set autowrite "Checking to see if this will help remove some "nanny" messages
 au BufNewFile,BufRead *.ejs set filetype=html " Treat ejs files like html for syntax highlighting
 
@@ -104,7 +118,6 @@ au BufNewFile,BufRead *.ejs set filetype=html " Treat ejs files like html for sy
 set hidden                      " Allow buffer switching without saving
 set splitright                  " A new window is put right of the current one
 set splitbelow                  " A new window is put below of the current one
-set laststatus=2                " Always show the status bar / Airline
 
 " -----------------------------------------------------
 " Using the mouse
@@ -131,12 +144,10 @@ set conceallevel=1
 " -----------------------------------------------------
 " Tabs and indenting
 " -----------------------------------------------------
-set autoindent
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set expandtab " use spaces instead of tabs.
-set smarttab " let's tab key insert 'tab stops', and bksp deletes tabs.
 set shiftround " tab / shifting moves to closest tabstop.
 set smartindent " Intellegently dedent / indent new lines based on rules."
 
@@ -160,8 +171,6 @@ set noswapfile " Turn off swp file creation
 " -----------------------------------------------------
 " Command line editing
 " -----------------------------------------------------
-set history=1000                " Store a ton of history (default is 20)
-set wildmenu                    " Show list instead of just completing
 set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
 
 " -----------------------------------------------------
@@ -176,7 +185,6 @@ set backupdir=~/.vim/tmp/backup/
 set virtualedit=onemore                                 " Allow for cursor beyond last character
 set nojoinspaces                                        " Don't add more spaces with joing lines with <S-J>
 set shortmess=I                                         " Don't show the intro message on startup
-set showcmd
 "
 " -----------------------------------------------------
 " Key (re)mappings 
@@ -242,6 +250,10 @@ cmap w!! w !sudo tee > /dev/null %
 nnoremap <Leader>w :w<cr>
 nnoremap <Leader><Leader>n :!node %<cr>
 
+autocmd FileType go nmap <leader><leader>b <Plug>(go-build)
+autocmd FileType go nmap <leader><leader>r <Plug>(go-run)
+autocmd FileType go nmap <leader><leader>t  <Plug>(go-test)
+
 " gf work on node modules
 set suffixesadd+=.js
 set path+=$PWD/node_modules
@@ -275,8 +287,8 @@ nnoremap :g/ :g/\v
 nnoremap :g// :g//
 
 " Quick fix file navigation
-nmap <silent> <LEFT> <Plug>(ale_previous_wrap)zz
-nmap <silent> <RIGHT> <Plug>(ale_next_wrap)zz
+nmap <silent> <DOWN> :cprevious<CR> " j/k style navigation on my keyboard
+nmap <silent> <LEFT> :cnext<CR>
 
 tnoremap jk <c-\><c-n>
 
@@ -320,9 +332,24 @@ function! s:fzf_statusline()
   setlocal statusline=%#fzf1#\ >\ %#fzf2#fz%#fzf3#f
 endfunction
 
-" Ctags generate for current folder recursively
-set tags=tags;/
-nnoremap <f5> :!ctags -R  --language=javascript --exclude=.git --exclude=node_modules <CR>
+" --column: Show column number
+" --line-number: Show line number
+" --no-heading: Do not show file headings in results
+" --fixed-strings: Search term as a literal string
+" --ignore-case: Case insensitive search
+" --no-ignore: Do not respect .gitignore, etc...
+" --hidden: Search hidden files and folders
+" --follow: Follow symlinks
+" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+" --color: Search color options
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
+
+nnoremap <Leader>t :Find <C-r><C-w>
+vnoremap <Leader>t "hy:Find '<C-r>h'
+
+" Use rg instead of grep when using vimgrep
+set grepprg=rg\ --vimgrep
 
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
 
@@ -348,20 +375,29 @@ nnoremap <silent> <Leader><Enter> :call fzf#run({
 vmap <Enter> <Plug>(EasyAlign)
 
 " Airline
-let g:airline_powerline_fonts=1
-let g:airline#extensions#tabline#enabled=1
-let g:airline#extensions#hunks#enabled=0
-" let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#tabline#formatter = 'index_parent'
-let g:airline_theme='oceanicnext'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_min_count = 1
+let g:airline#extensions#tabline#tab_min_count = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#buffer_nr_show = 0
+let g:airline#extensions#tabline#show_buffers = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tagbar#enabled = 0
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline_theme = 'gruvbox'
+let g:airline_section_c = '%{fnamemodify(expand("%"), ":~:.")}'
+let g:airline_section_x = '%{fnamemodify(getcwd(), ":t")}'
+let g:airline_section_y = airline#section#create(['filetype'])
 
 " Javascript library syntax highlighting settings
 let g:used_javascript_libs = 'underscore,jquery,angularjs,chai,react'
 
 " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = ';;'
-let g:UltiSnipsJumpForwardTrigger = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+let g:UltiSnipsJumpForwardTrigger = ';;'
+let g:UltiSnipsJumpBackwardTrigger = '::'
 
 " -----------------------------------------------------
 " Helper functions
@@ -387,14 +423,14 @@ function! Lebab()
 endfunction
 command! Lebab :call Lebab()
 
-" ALE config
-let g:ale_sign_column_always = 1
-let g:airline#extensions#ale#enabled = 1
+" " ALE config
+" let g:ale_sign_column_always = 1
+" let g:airline#extensions#ale#enabled = 1
 
-let g:ale_fixers = {
-\   'javascript': ['eslint'],
-\}
-noremap <Leader><Leader>f :ALEFix<CR>
+" let g:ale_fixers = {
+" \   'javascript': ['eslint'],
+" \}
+" noremap <Leader><Leader>f :ALEFix<CR>
 
 augroup qf
     autocmd!
@@ -438,9 +474,19 @@ let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_metalinter_autosave = 1
+let g:go_auto_sameids = 1
+
 
 " Auto-Pairs
 let g:AutoPairsMultilineClose = 0
 
 " RipGrep
 let g:rg_derive_root = 1
+
+"Fix block cursor
+augroup leavingVimStuff
+ autocmd VimLeave * set guicursor=a:ver10-blinkon0
+augroup END
+
