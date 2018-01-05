@@ -66,10 +66,8 @@ set inccommand=nosplit          " Live search and replace
 " -----------------------------------------------------
 set guifont=FuraCode\ Nerd\ Font:h14
 set encoding=utf8
-set linespace=0                 " No extra spaces between rows
 set number                          " Line numbers on
 set relativenumber              " Relative line numbers
-set scrolljump=1                " Lines to scroll when cursor leaves screen
 set scrolloff=8                 " Minimum lines to keep above and below cursor
 set nowrap                      " Don't wrap long lines Don't
 set nocursorcolumn
