@@ -14,39 +14,44 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 
-Plug 'junegunn/vim-easy-align'
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'othree/yajs.vim'
+Plug 'mxw/vim-jsx'
+Plug 'junegunn/vim-easy-align'
 Plug 'othree/html5.vim'
-Plug 'Raimondi/delimitMate'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'morhetz/gruvbox'
-Plug 'junegunn/seoul256.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'groenewege/vim-less'
 Plug 'gregsexton/MatchTag'
 Plug 'tmhedberg/matchit'
 Plug 'jremmen/vim-ripgrep'
 Plug 'kshenoy/vim-signature' " Adds label in gutter for marks 
 Plug 'wellle/targets.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'mxw/vim-jsx'
 Plug 'SirVer/ultisnips'
 Plug 'AndrewRadev/sideways.vim'
 Plug 'hail2u/vim-css3-syntax'
-Plug 'jiangmiao/auto-pairs'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'google/vim-searchindex'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'zchee/deoplete-go', { 'do': 'make'}
-" Plug 'w0rp/ale'
+Plug 'w0rp/ale'
 Plug 'easymotion/vim-easymotion'
 Plug 'machakann/vim-highlightedyank'
+Plug 'joereynolds/place.vim'
+Plug 'mattn/emmet-vim'
+Plug 'wlangstroth/vim-racket'
+Plug 'ap/vim-css-color'
+Plug 'brooth/far.vim'
+Plug 'qpkorr/vim-renamer'
+
+" Plug 'cyansprite/Extract'
 
 call plug#end()            " required
 
@@ -71,10 +76,9 @@ set relativenumber              " Relative line numbers
 set scrolloff=8                 " Minimum lines to keep above and below cursor
 set nowrap                      " Don't wrap long lines Don't
 set nocursorcolumn
-set nocursorline
+set cursorline
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1 " Pipe in insert mode, block in others
 set completeopt-=preview
-
 " Automatically chanme the current directory
 " Had to do it on insert enter. autochdir didn't work properly with path
 " completion for some reason
@@ -90,15 +94,11 @@ if (has("termguicolors"))
  set termguicolors
 endif
 
-colorscheme gruvbox
-"hi CursorLine guibg=#1d2021
-"hi CursorLineNr guibg=#1d2021
-" hi LineNr guibg=#1d2021
-"hi DiffAdd guibg=#98c379 guifg=black gui=italic
-"hi DiffDelete guibg=#e06c75 guifg=black
-"hi DiffChange guibg=#61afef guifg=black
-"hi DiffText guibg=#e5c07b guifg=black gui=italic
+nnoremap [[ ?{<CR>w99[{:nohlsearch<CR>
+nnoremap ]] j0[[%/{<CR>:nohlsearch<CR>
 
+
+colorscheme gruvbox
 set background=dark
 let g:gruvbox_italic = 1
 let g:gruvbox_bold = 0
@@ -194,11 +194,12 @@ vmap jk <Esc>
 
 noremap j gj
 noremap k gk
-noremap n nzz
-noremap N Nzz
 
 " Make Y act like D and C
 noremap Y y$
+
+" Start editing after current w
+noremap E ea
 
 " Go to the end of what was just pasted. 
 vnoremap <silent> y y`]
@@ -248,6 +249,10 @@ cmap w!! w !sudo tee > /dev/null %
 nnoremap <Leader>w :w<cr>
 nnoremap <Leader><Leader>n :!node %<cr>
 
+nnoremap <Leader><Leader>wl dawea <ESC>pxb
+nnoremap <Leader><Leader>wh dawbPa <ESC>bhx
+
+" Golang settings
 autocmd FileType go nmap <leader><leader>b <Plug>(go-build)
 autocmd FileType go nmap <leader><leader>r <Plug>(go-run)
 autocmd FileType go nmap <leader><leader>t  <Plug>(go-test)
@@ -274,7 +279,6 @@ nnoremap <Leader>ev :e $MYVIMRC<cr>
 nnoremap <Leader>sv :source $MYVIMRC<cr>
 
 let g:indent_guides_enable_on_vim_startup = 0
-
 
 " Permanent magic regex mode
 nnoremap / /\v
@@ -312,15 +316,20 @@ let $FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git
 let g:fzf_action = {
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
-let g:fzf_layout = { 'down': '~20%' }
+let g:fzf_layout = { 'down': '~30%' }
 
 " Normal mode completion
 fun! s:fzf_root()
 	let l:path = finddir('.git', expand('%:p:h').';')
-	return fnamemodify(substitute(l:path, '.git', '', ''), ':p:h')
+	return fnamemodify(substitute(l:path, '\.git', '', ''), ':p:h')
 endfun
 
 nnoremap <silent> <Leader>f :exe 'Files ' . <SID>fzf_root()<CR>
+nnoremap <silent> <Leader>b :Buffers<CR>
+nnoremap <silent> <Leader>l :BLines<CR>
+inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
+    \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
+    \ fzf#wrap({'dir': expand('%:p:h')}))
 
 function! s:fzf_statusline()
   " Override statusline as you like
@@ -341,7 +350,6 @@ endfunction
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
-
 
 nnoremap <Leader>t :Find <C-r><C-w>
 vnoremap <Leader>t "hy:Find '<C-r>h'
@@ -388,19 +396,17 @@ let g:airline_theme = 'gruvbox'
 let g:airline_section_c = '%{fnamemodify(expand("%"), ":~:.")}'
 let g:airline_section_x = '%{fnamemodify(getcwd(), ":t")}'
 let g:airline_section_y = airline#section#create(['filetype'])
+let g:airline#extensions#tabline#formatter = 'jsformatter'
 
 " Javascript library syntax highlighting settings
 let g:used_javascript_libs = 'underscore,jquery,angularjs,chai,react'
 
 " better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/.vim/UltiSnips']
 let g:UltiSnipsExpandTrigger = ';;'
 let g:UltiSnipsJumpForwardTrigger = ';;'
 let g:UltiSnipsJumpBackwardTrigger = '::'
 
-" -----------------------------------------------------
-" Helper functions
-" -----------------------------------------------------
-"
 " -----------------------------------------------------
 " Qargs - used for populating the args list with the filenames in the quickfix
 " list
@@ -421,14 +427,38 @@ function! Lebab()
 endfunction
 command! Lebab :call Lebab()
 
-" " ALE config
-" let g:ale_sign_column_always = 1
-" let g:airline#extensions#ale#enabled = 1
+" ALE config
+let g:ale_sign_column_always = 1
+let g:airline#extensions#ale#enabled = 1
 
-" let g:ale_fixers = {
-" \   'javascript': ['eslint'],
-" \}
-" noremap <Leader><Leader>f :ALEFix<CR>
+" let g:ale_fixers = { 'javascript': ['eslint'] }
+let g:ale_linters =
+      \ { 'javascript': ['eslint'],
+      \ 'go': ['gofmt']
+\}
+noremap <Leader><Leader>f :ALEFix<CR>
+
+" let g:ale_fixers = { 'javascript': ['eslint', 'prettier'] }
+" let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5'
+" let g:ale_fix_on_save = 1
+
+" Different setups for different projects
+function! SetupEnvironment()
+  let l:path = expand('%:p')
+  if l:path =~ '/Users/scott/work/grow'
+    let g:ale_enabled = 0
+    " let g:ale_fixers = { 'javascript': ['eslint'] }
+    " let g:ale_fix_on_save = 0
+  else
+    let g:ale_enabled = 1
+    let g:ale_javascript_prettier_use_local_config = 1
+    let g:ale_fixers = { 'javascript': ['eslint'] }
+    let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5'
+    let g:ale_fix_on_save = 0
+  endif
+endfunction
+autocmd! BufReadPost,BufNewFile * call SetupEnvironment()
+
 
 augroup qf
     autocmd!
@@ -473,18 +503,59 @@ let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
-let g:go_metalinter_autosave = 1
-let g:go_auto_sameids = 1
-
-
-" Auto-Pairs
-let g:AutoPairsMultilineClose = 0
+let g:go_metalinter_autosave = 0
+let g:go_auto_sameids = 0
 
 " RipGrep
 let g:rg_derive_root = 1
+set grepprg=rg\ --vimgrep
 
 "Fix block cursor
 augroup leavingVimStuff
  autocmd VimLeave * set guicursor=a:ver10-blinkon0
 augroup END
+
+augroup TerminalStuff
+   au! 
+  autocmd TermOpen * setlocal nonumber norelativenumber
+augroup END
+
+" place.vim config
+nmap ga <Plug>(place-insert)
+nmap gb <Plug>(place-insert-multiple)
+
+
+" Emmet expansion
+" imap <leader>ee <C-Y>,
+" let g:user_emmet_settings = {
+" \  'javascript.jsx' : {
+" \      'extends': 'jsx',
+" \      'quote_char': "'",
+" \  },
+" \}
+
+if has("autocmd")
+  au BufReadPost *.rkt,*.rktl set filetype=racket
+  au filetype racket set lisp
+  au filetype racket set autoindent
+endif
+
+nmap <Leader><Leader>uh <Plug>GitGutterUndoHunk
+
+"Extract settings
+" let g:extract_loadDeoplete = 1
+" let g:extract_maxCount = 10
+
+" Mode cursorline custom
+"
+" Change Color when entering Insert Mode
+
+" autocmd InsertEnter * highlight CursorLine guibg=#3c3836
+" autocmd InsertLeave * highlight CursorLine guibg=#076678
+"
+"
+
+"Far settings
+
+let g:far#source = 'rgnvim'
 
