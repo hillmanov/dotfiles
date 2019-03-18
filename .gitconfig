@@ -1,0 +1,42 @@
+[user]
+# Please adapt and uncomment the following lines:
+  name = Scott Hillman
+  email = hillmanov@gmail.com
+[alias]
+    # one-line log
+    l = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+
+    a = add
+    ap = add -p
+    c = commit --verbose
+    ca = commit -a --verbose
+    cm = commit -m
+    cam = commit -a -m
+    
+    d = diff
+    ds = diff --stat
+    dc = diff --cached
+
+    st = status
+    co = checkout
+    cob = checkout -b
+    # list branches sorted by last modified
+    b = branch
+
+    # list aliases
+    la = "!git config -l | grep alias | cut -c 7-"
+[merge]
+	tool = sublime
+[mergetool]
+  prompt = false
+[mergetool "intellij"]
+  cmd = idea merge $(cd $(dirname "$LOCAL") && pwd)/$(basename "$LOCAL") $(cd $(dirname "$REMOTE") && pwd)/$(basename "$REMOTE") $(cd $(dirname "$BASE") && pwd)/$(basename "$BASE") $(cd $(dirname "$MERGED") && pwd)/$(basename "$MERGED")
+  trustExitCode = false
+  #cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[difftool]
+  prompt = false
+[diff]
+  tool = vimdiff
+[mergetool "sublime"]
+	cmd = smerge -w $MERGED
+	trustExitCode = false

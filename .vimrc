@@ -14,42 +14,40 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 
-Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'othree/yajs.vim'
 Plug 'mxw/vim-jsx'
-Plug 'junegunn/vim-easy-align'
 Plug 'othree/html5.vim'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'ap/vim-css-color'
+
+Plug 'junegunn/vim-easy-align'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'morhetz/gruvbox'
-Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'gregsexton/MatchTag'
 Plug 'tmhedberg/matchit'
 Plug 'jremmen/vim-ripgrep'
 Plug 'kshenoy/vim-signature' " Adds label in gutter for marks 
 Plug 'wellle/targets.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-go', { 'do': 'make'}
 Plug 'SirVer/ultisnips'
 Plug 'AndrewRadev/sideways.vim'
-Plug 'hail2u/vim-css3-syntax'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'google/vim-searchindex'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-Plug 'zchee/deoplete-go', { 'do': 'make'}
 Plug 'w0rp/ale'
 Plug 'easymotion/vim-easymotion'
 Plug 'machakann/vim-highlightedyank'
-Plug 'joereynolds/place.vim'
-Plug 'mattn/emmet-vim'
-Plug 'wlangstroth/vim-racket'
-Plug 'ap/vim-css-color'
 Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
+Plug 'jiangmiao/auto-pairs'
 
 " Plug 'cyansprite/Extract'
 
@@ -120,8 +118,7 @@ set splitbelow                  " A new window is put below of the current one
 " -----------------------------------------------------
 " Using the mouse
 " -----------------------------------------------------
-set mouse=a "Enabled mouse for highlighting text
-set mousehide "Hide mouse while characters are being typed
+set mouse= "Disabled mouse completely
 
 " -----------------------------------------------------
 " Selecting text
