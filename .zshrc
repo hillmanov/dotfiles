@@ -50,12 +50,13 @@ alias dmb='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d' # Dele
 alias dof='rm **/*.orig' # Delete .orig files
 alias pr='open-pr develop'
 alias pun='gulp run --dsEnv production'
-alias gun='gulp run'
+alias gun='gulp runAll --silentQueuePolling'
 alias 'git log'='nocorrect git log'
 alias vim=nvim
 alias vi=nvim
 alias lg=lazygit
-# Funcations so that the values are executed on demand, not ~/.zshrc load time.
+
+# Functions so that the values are executed on demand, not ~/.zshrc load time.
 delete-docker-containers() {
   docker rm $(docker ps -a -q)
 }
@@ -65,6 +66,11 @@ delete-docker-images() {
 ds() {
    docker stop $(docker ps -a -q)
 }
+
+gpr() {
+  git push origin HEAD && git open-pr "$@"
+}
+
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" -g "!node_modules/*"'
@@ -86,6 +92,12 @@ bindkey '^ ' autosuggest-accept
 # fnm
 export PATH=$HOME/.fnm:$PATH
 eval `fnm env`
+
+
+# Virtual folders
+mount_venus() {
+  sshfs pi@192.168.86.188:/home ~/virtual/venus
+}
 
 
 # tabtab source for slss package

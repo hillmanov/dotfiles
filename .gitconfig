@@ -26,17 +26,20 @@
     # list aliases
     la = "!git config -l | grep alias | cut -c 7-"
 [merge]
-	tool = sublime
-[mergetool]
-  prompt = false
-[mergetool "intellij"]
-  cmd = idea merge $(cd $(dirname "$LOCAL") && pwd)/$(basename "$LOCAL") $(cd $(dirname "$REMOTE") && pwd)/$(basename "$REMOTE") $(cd $(dirname "$BASE") && pwd)/$(basename "$BASE") $(cd $(dirname "$MERGED") && pwd)/$(basename "$MERGED")
-  trustExitCode = false
-  #cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+	tool = nvim
+#[mergetool]
+#  prompt = false
+# [mergetool "intellij"]
+#   #Use sublime merge
+#   #cmd = idea merge $(cd $(dirname "$LOCAL") && pwd)/$(basename "$LOCAL") $(cd $(dirname "$REMOTE") && pwd)/$(basename "$REMOTE") $(cd $(dirname "$BASE") && pwd)/$(basename "$BASE") $(cd $(dirname "$MERGED") && pwd)/$(basename "$MERGED")
+#   trustExitCode = true
+#   cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [difftool]
   prompt = false
 [diff]
   tool = vimdiff
-[mergetool "sublime"]
-	cmd = smerge -w $MERGED
-	trustExitCode = false
+[mergetool "nvim"]
+  cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
+# [mergetool "sublime"]
+# 	cmd = smerge -w $MERGED
+# 	trustExitCode = false

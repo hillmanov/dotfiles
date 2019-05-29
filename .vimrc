@@ -9,6 +9,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-projectionist'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -31,7 +32,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'morhetz/gruvbox'
 Plug 'tmhedberg/matchit'
 Plug 'jremmen/vim-ripgrep'
-Plug 'kshenoy/vim-signature' " Adds label in gutter for marks 
+Plug 'kshenoy/vim-signature' " Adds label in gutter for marks
 Plug 'wellle/targets.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-go', { 'do': 'make'}
@@ -47,7 +48,13 @@ Plug 'easymotion/vim-easymotion'
 Plug 'machakann/vim-highlightedyank'
 Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
-Plug 'jiangmiao/auto-pairs'
+
+" Typescript stuff
+" Plug 'Quramy/tsuquyomi'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
+" Plug 'HerringtonDarkholme/yats.vim'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
 
 " Plug 'cyansprite/Extract'
 
@@ -104,6 +111,10 @@ let g:gruvbox_underline = 1
 let g:gruvbox_undercurl = 1
 let g:gruvbox_contrast_dark = 'medium'
 let g:gruvbox_invert_selection = 0
+
+set hlsearch
+hi Search ctermbg=LightYellow
+hi Search ctermfg=Red
 
 set autowrite "Checking to see if this will help remove some "nanny" messages
 au BufNewFile,BufRead *.ejs set filetype=html " Treat ejs files like html for syntax highlighting
@@ -182,7 +193,7 @@ set nojoinspaces                                        " Don't add more spaces 
 set shortmess=I                                         " Don't show the intro message on startup
 "
 " -----------------------------------------------------
-" Key (re)mappings 
+" Key (re)mappings
 " -----------------------------------------------------
 
 let g:mapleader = ' '
@@ -198,7 +209,7 @@ noremap Y y$
 " Start editing after current w
 noremap E ea
 
-" Go to the end of what was just pasted. 
+" Go to the end of what was just pasted.
 vnoremap <silent> y y`]
 vnoremap <silent> p p`]
 nnoremap <silent> p p`]
@@ -218,7 +229,7 @@ noremap <Leader>p $p
 nnoremap <Leader>r "_diwP
 nnoremap <expr> <Leader>rs ':%s/' . @/ . '//g<LEFT><LEFT>'
 " Repeat last replacement of a word
-nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc> 
+nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc>
 
 " Move lines around with Ctrl j and k in any mode
 nnoremap <C-j> :m .+1<CR>
@@ -307,7 +318,7 @@ let g:NERDTreeShowHidden=1
 let g:NERDTreeKeepTreeInNewTab=1
 let g:nerdtree_tabs_open_on_gui_startup=0
 
-" FZF customizations" 
+" FZF customizations"
 " This is the default extra key bindings
 let $FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*" --glob "!node_modules/*"'
 let g:fzf_action = {
@@ -483,7 +494,7 @@ autocmd FileType javascript setlocal omnifunc=tern#Complete
 let g:tern_map_prefix = '<Leader>'
 
 " Use deoplete.
-let g:deoplete#enable_at_startup = 0
+let g:deoplete#enable_at_startup = 1
 autocmd InsertEnter * call deoplete#enable() " Lazy load deoplete - first time entering insert mode
 let g:tern_request_timeout = 1
 let g:tern_show_signature_in_pum = '0'  " This do disable full signature type on autocomplete
@@ -491,7 +502,7 @@ nnoremap <Leader><Leader>d :TernDef<CR>
 nnoremap <Leader><Leader>r :TernRename<CR>
 nnoremap <Leader><Leader><Leader>r :TernRefs<CR>
 
-" Go config 
+" Go config
 let g:go_fmt_command = 'goimports' " Run goimports on save for go files. Also runs gofmt (which was replaced by goimports)
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
@@ -513,7 +524,7 @@ augroup leavingVimStuff
 augroup END
 
 augroup TerminalStuff
-   au! 
+   au!
   autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
 
@@ -550,9 +561,13 @@ nmap <Leader><Leader>uh <Plug>GitGutterUndoHunk
 " autocmd InsertEnter * highlight CursorLine guibg=#3c3836
 " autocmd InsertLeave * highlight CursorLine guibg=#076678
 "
-"
-
 "Far settings
 
 let g:far#source = 'rgnvim'
 
+" COC settings
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <leader>rn <Plug>(coc-rename)
