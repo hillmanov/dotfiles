@@ -8,22 +8,19 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-speeddating'
-Plug 'tpope/vim-obsession'
-Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-projectionist' " Jump to alternate files quickly. 
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 
-Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'othree/yajs.vim'
 Plug 'mxw/vim-jsx'
 Plug 'othree/html5.vim'
-Plug 'hail2u/vim-css3-syntax'
 Plug 'ap/vim-css-color'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'othree/javascript-libraries-syntax.vim'
 
 Plug 'junegunn/vim-easy-align'
 Plug 'vim-airline/vim-airline'
@@ -35,28 +32,22 @@ Plug 'jremmen/vim-ripgrep'
 Plug 'kshenoy/vim-signature' " Adds label in gutter for marks
 Plug 'wellle/targets.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-go', { 'do': 'make'}
 Plug 'SirVer/ultisnips'
-Plug 'AndrewRadev/sideways.vim'
-Plug 'AndrewRadev/splitjoin.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'google/vim-searchindex'
-Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-Plug 'w0rp/ale'
-Plug 'easymotion/vim-easymotion'
 Plug 'machakann/vim-highlightedyank'
+Plug 'easymotion/vim-easymotion'
+Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
+Plug 'AndrewRadev/sideways.vim'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'google/vim-searchindex'
+Plug 'w0rp/ale'
 
 " Typescript stuff
-" Plug 'Quramy/tsuquyomi'
-" Plug 'leafgarland/typescript-vim'
-" Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
-" Plug 'HerringtonDarkholme/yats.vim'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
-
-" Plug 'cyansprite/Extract'
 
 call plug#end()            " required
 
@@ -101,7 +92,6 @@ endif
 
 nnoremap [[ ?{<CR>w99[{:nohlsearch<CR>
 nnoremap ]] j0[[%/{<CR>:nohlsearch<CR>
-
 
 colorscheme gruvbox
 set background=dark
@@ -227,7 +217,7 @@ noremap <Leader>p $p
 
 " Replace current word with what is in the clipboard
 nnoremap <Leader>r "_diwP
-nnoremap <expr> <Leader>rs ':%s/' . @/ . '//g<LEFT><LEFT>'
+
 " Repeat last replacement of a word
 nnoremap <leader>. :let @/=@"<cr>/<cr>cgn<c-r>.<esc>
 
@@ -244,19 +234,17 @@ nnoremap <Leader><Leader>j :%!python -m json.tool<CR>
 vnoremap <Leader><Leader>j :'<,'>!python -m json.tool<CR>
 
 " Formated pasted text automatically
-" nnoremap p p=`]
+nnoremap p p=`]
 
 " Select pasted text
 nnoremap gp `[v`]
-
-" Adjust viewports to the same size
-map <Leader>= <C-w>=
 
 cmap w!! w !sudo tee > /dev/null %
 
 nnoremap <Leader>w :w<cr>
 nnoremap <Leader><Leader>n :!node %<cr>
 
+" Poor attempt at moving words to the left or right
 nnoremap <Leader><Leader>wl dawea <ESC>pxb
 nnoremap <Leader><Leader>wh dawbPa <ESC>bhx
 
@@ -272,15 +260,6 @@ set path+=$PWD/node_modules
 " Search and replace in the file
 nnoremap <Leader>h :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
 vnoremap <Leader>h "hy:%s/<C-r>h//gc<left><left><left>
-nmap <expr> M ':%s/' . @/ . '//g<left><left>'
-
-" Search and replace in the files in the quickfix list
-nnoremap <Leader>H :Qargs \| argdo %s/\<<C-r><C-w>\>//gc \| update<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-vnoremap <Leader>H "hy:Qargs \| argdo %s/<C-r>h//gc \| update<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-
-" Find project wide
-" nnoremap <Leader><Leader>/ :ProjectRootExe Rg<space><C-r><C-w>
-" vnoremap <Leader><Leader>/ "hy:ProjectRootExe Rg<space><C-r>h<space>
 
 " vimrc edit and source
 nnoremap <Leader>ev :e $MYVIMRC<cr>
@@ -300,6 +279,7 @@ nnoremap :g// :g//
 nmap <silent> <DOWN> :cprevious<CR> " j/k style navigation on my keyboard
 nmap <silent> <LEFT> :cnext<CR>
 
+" Terminal jk -> ESC mapping
 tnoremap jk <c-\><c-n>
 
 " -----------------------------------------------------
@@ -359,10 +339,13 @@ endfunction
 " --color: Search color options
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 
+" FZF find word under cursor in file
 nnoremap <Leader>t :Find <C-r><C-w>
 vnoremap <Leader>t "hy:Find '<C-r>h'
 
 " Use rg instead of grep when using vimgrep
+" RipGrep
+let g:rg_derive_root = 1
 set grepprg=rg\ --vimgrep
 
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
@@ -377,13 +360,6 @@ endfunction
 function! s:bufopen(e)
   execute 'buffer' matchstr(a:e, '^[ 0-9]*')
 endfunction
-
-nnoremap <silent> <Leader><Enter> :call fzf#run({
-\   'source':  reverse(<sid>buflist()),
-\   'sink':    function('<sid>bufopen'),
-\   'options': '+m',
-\   'down':    len(<sid>buflist()) + 2
-\ })<CR>
 
 " Start ieteractive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
@@ -415,19 +391,7 @@ let g:UltiSnipsExpandTrigger = ';;'
 let g:UltiSnipsJumpForwardTrigger = ';;'
 let g:UltiSnipsJumpBackwardTrigger = '::'
 
-" -----------------------------------------------------
-" Qargs - used for populating the args list with the filenames in the quickfix
-" list
-command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
-function! QuickfixFilenames()
-  " Building a hash ensures we get each buffer only once
-  let l:buffer_numbers = {}
-  for l:quickfix_item in getqflist()
-    let l:buffer_numbers[l:quickfix_item['bufnr']] = bufname(l:quickfix_item['bufnr'])
-  endfor
-  return join(values(l:buffer_numbers))
-endfunction
-
+" Run current buffer through Lebab -> es6-ify a file
 function! Lebab()
     let l:winview = winsaveview()
     silent !lebab % -o % --transform arrow,let,arg-spread,obj-method,obj-shorthand,template
@@ -467,7 +431,7 @@ function! SetupEnvironment()
 endfunction
 autocmd! BufReadPost,BufNewFile * call SetupEnvironment()
 
-
+" Quickfix window settings
 augroup qf
     autocmd!
     autocmd FileType qf set nobuflisted
@@ -489,18 +453,9 @@ inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<c-d>"
 " Enable jsx highlighting for .js files as well
 let g:jsx_ext_required = 0
 
-" tern and JavaScript
-autocmd FileType javascript setlocal omnifunc=tern#Complete
-let g:tern_map_prefix = '<Leader>'
-
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
 autocmd InsertEnter * call deoplete#enable() " Lazy load deoplete - first time entering insert mode
-let g:tern_request_timeout = 1
-let g:tern_show_signature_in_pum = '0'  " This do disable full signature type on autocomplete
-nnoremap <Leader><Leader>d :TernDef<CR>
-nnoremap <Leader><Leader>r :TernRename<CR>
-nnoremap <Leader><Leader><Leader>r :TernRefs<CR>
 
 " Go config
 let g:go_fmt_command = 'goimports' " Run goimports on save for go files. Also runs gofmt (which was replaced by goimports)
@@ -514,10 +469,6 @@ let g:go_highlight_extra_types = 1
 let g:go_metalinter_autosave = 0
 let g:go_auto_sameids = 0
 
-" RipGrep
-let g:rg_derive_root = 1
-set grepprg=rg\ --vimgrep
-
 "Fix block cursor
 augroup leavingVimStuff
  autocmd VimLeave * set guicursor=a:ver10-blinkon0
@@ -528,41 +479,9 @@ augroup TerminalStuff
   autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
 
-" place.vim config
-nmap ga <Plug>(place-insert)
-nmap gb <Plug>(place-insert-multiple)
-
-
-" Emmet expansion
-" imap <leader>ee <C-Y>,
-" let g:user_emmet_settings = {
-" \  'javascript.jsx' : {
-" \      'extends': 'jsx',
-" \      'quote_char': "'",
-" \  },
-" \}
-
-if has("autocmd")
-  au BufReadPost *.rkt,*.rktl set filetype=racket
-  au filetype racket set lisp
-  au filetype racket set autoindent
-endif
-
 nmap <Leader><Leader>uh <Plug>GitGutterUndoHunk
 
-"Extract settings
-" let g:extract_loadDeoplete = 1
-" let g:extract_maxCount = 10
-
-" Mode cursorline custom
-"
-" Change Color when entering Insert Mode
-
-" autocmd InsertEnter * highlight CursorLine guibg=#3c3836
-" autocmd InsertLeave * highlight CursorLine guibg=#076678
-"
 "Far settings
-
 let g:far#source = 'rgnvim'
 
 " COC settings

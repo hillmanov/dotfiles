@@ -2,10 +2,6 @@ if [ -f ~/.private-zshrc ]; then
   source ~/.private-zshrc
 fi
 
-# fnm
-export PATH=$HOME/.fnm:$PATH
-eval `fnm env`
-
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="agnoster"
@@ -71,7 +67,6 @@ gpr() {
   git push origin HEAD && git open-pr "$@"
 }
 
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" -g "!node_modules/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -79,8 +74,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 alias gpr="ggpush && open-pr develop"
-
-bindkey '^ ' autosuggest-accept
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
@@ -93,12 +86,10 @@ bindkey '^ ' autosuggest-accept
 export PATH=$HOME/.fnm:$PATH
 eval `fnm env`
 
-
 # Virtual folders
 mount_venus() {
   sshfs pi@192.168.86.188:/home ~/virtual/venus
 }
-
 
 # tabtab source for slss package
 # uninstall by removing these lines or running `tabtab uninstall slss`
