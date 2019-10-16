@@ -16,7 +16,7 @@ Plug 'scrooloose/nerdtree'
 
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'othree/yajs.vim'
-Plug 'mxw/vim-jsx'
+Plug 'neoclide/vim-jsx-improve'
 Plug 'othree/html5.vim'
 Plug 'ap/vim-css-color'
 Plug 'hail2u/vim-css3-syntax'
@@ -31,13 +31,13 @@ Plug 'tmhedberg/matchit'
 Plug 'jremmen/vim-ripgrep'
 Plug 'kshenoy/vim-signature' " Adds label in gutter for marks
 Plug 'wellle/targets.vim'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'SirVer/ultisnips'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'machakann/vim-highlightedyank'
 Plug 'easymotion/vim-easymotion'
-Plug 'zchee/deoplete-go', { 'do': 'make'}
+" Plug 'zchee/deoplete-go', { 'do': 'make'}
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
@@ -47,7 +47,7 @@ Plug 'google/vim-searchindex'
 Plug 'w0rp/ale'
 
 " Typescript stuff
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
 call plug#end()            " required
 
@@ -79,6 +79,9 @@ set completeopt-=preview
 " Had to do it on insert enter. autochdir didn't work properly with path
 " completion for some reason
 autocmd InsertEnter * silent! lcd %:p:h
+set lazyredraw                 " don't update the display while executing macros
+set gdefault " Replace all instances on a line by default
+set ttyfast
 "
 " -----------------------------------------------------
 " Syntax, highlighting and spelling
@@ -157,7 +160,7 @@ set nofoldenable
 " -----------------------------------------------------
 " Mapping
 " -----------------------------------------------------
-set timeoutlen=350
+set timeoutlen=250
 
 " -----------------------------------------------------
 " The swap file
@@ -232,9 +235,6 @@ inoremap <C-k> <Esc>:m-2<CR>gi
 " Format json
 nnoremap <Leader><Leader>j :%!python -m json.tool<CR>
 vnoremap <Leader><Leader>j :'<,'>!python -m json.tool<CR>
-
-" Formated pasted text automatically
-nnoremap p p=`]
 
 " Select pasted text
 nnoremap gp `[v`]
@@ -403,29 +403,27 @@ command! Lebab :call Lebab()
 let g:ale_sign_column_always = 1
 let g:airline#extensions#ale#enabled = 1
 
-" let g:ale_fixers = { 'javascript': ['eslint'] }
+let g:ale_fixers = { 'javascript': ['eslint'] }
 let g:ale_linters =
       \ { 'javascript': ['eslint'],
       \ 'go': ['gofmt']
 \}
 noremap <Leader><Leader>f :ALEFix<CR>
 
-" let g:ale_fixers = { 'javascript': ['eslint', 'prettier'] }
-" let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5'
-" let g:ale_fix_on_save = 1
+let g:ale_fixers = { 'javascript': ['eslint' ] }
+let g:ale_fix_on_save = 0
 
 " Different setups for different projects
 function! SetupEnvironment()
   let l:path = expand('%:p')
   if l:path =~ '/Users/scott/work/grow'
-    let g:ale_enabled = 0
-    " let g:ale_fixers = { 'javascript': ['eslint'] }
-    " let g:ale_fix_on_save = 0
+    let g:ale_enabled = 1
+    let g:ale_fixers = { 'javascript': ['eslint'] }
+    let g:ale_fix_on_save = 0
   else
     let g:ale_enabled = 1
     let g:ale_javascript_prettier_use_local_config = 1
     let g:ale_fixers = { 'javascript': ['eslint'] }
-    let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5'
     let g:ale_fix_on_save = 0
   endif
 endfunction
@@ -453,9 +451,9 @@ inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<c-d>"
 " Enable jsx highlighting for .js files as well
 let g:jsx_ext_required = 0
 
-" Use deoplete.
-let g:deoplete#enable_at_startup = 1
-autocmd InsertEnter * call deoplete#enable() " Lazy load deoplete - first time entering insert mode
+" " Use deoplete.
+" let g:deoplete#enable_at_startup = 1
+" autocmd InsertEnter * call deoplete#enable() " Lazy load deoplete - first time entering insert mode
 
 " Go config
 let g:go_fmt_command = 'goimports' " Run goimports on save for go files. Also runs gofmt (which was replaced by goimports)
@@ -479,10 +477,11 @@ augroup TerminalStuff
   autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
 
-nmap <Leader><Leader>uh <Plug>GitGutterUndoHunk
+nmap <Leader><Leader>uh <Plug>(GitGutterUndoHunk)
 
 "Far settings
 let g:far#source = 'rgnvim'
+let g:far#default_file_mask = '**/*.*'
 
 " COC settings
 nmap <silent> gd <Plug>(coc-definition)
@@ -490,3 +489,15 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <leader>rn <Plug>(coc-rename)
+
+" Let nvim know where pythong is so it doesn't have to find it on startup
+" Speeds up opening by ~200ms (half of what it was!)
+let g:loaded_python_provider = 1
+let g:python_host_skip_check=1
+let g:python_host_prog = '/usr/bin/python'
+let g:python3_host_skip_check=1
+let g:python3_host_prog = '/usr/local/bin/python3'
+
+" Save and restore folds automatically
+autocmd BufWrite * mkview
+autocmd BufRead * silent! loadview

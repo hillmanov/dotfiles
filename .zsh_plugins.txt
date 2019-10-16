@@ -1,0 +1,5 @@
+akoenig/gulp.plugin.zsh
+caarlos0/open-pr
+zsh-users/zsh-completions
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-syntax-highlighting

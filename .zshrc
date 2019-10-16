@@ -1,3 +1,5 @@
+ZSH_DISABLE_COMPFIX=true
+zmodload zsh/zprof
 if [ -f ~/.private-zshrc ]; then
   source ~/.private-zshrc
 fi
@@ -10,12 +12,12 @@ ZSH_THEME="agnoster"
 #ENABLE_CORRECTION="true"
 DEFAULT_USER=scott
 
-plugins=(git osx zsh-completions zsh-autosuggestions jump)
+plugins=(git osx jump)
 source <(antibody init)
 autoload -U compinit && compinit
 
 # User configuration
-export PATH="/usr/bin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/scott/projects/go/bin:/usr/local/lib/android-sdk-macosx/platform-tools"
+export PATH="/usr/bin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/scott/projects/go/bin:/usr/local/lib/android-sdk-macosx/platform-tools:/Users/scott/work/grow/core/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 
 export ANDROID_HOME="/Users/scott/Library/Android/sdk"
@@ -67,6 +69,10 @@ gpr() {
   git push origin HEAD && git open-pr "$@"
 }
 
+function iterm2_print_user_vars() {
+  iterm2_set_user_var projectDir $(basename $(git rev-parse --show-toplevel 2> /dev/null) 2> /dev/null)
+}
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" -g "!node_modules/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -94,3 +100,9 @@ mount_venus() {
 # tabtab source for slss package
 # uninstall by removing these lines or running `tabtab uninstall slss`
 [[ -f /Users/scott/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/scott/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh
+
+
+alias ld='lazydocker'
+
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
