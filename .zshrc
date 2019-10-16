@@ -13,7 +13,6 @@ ZSH_THEME="agnoster"
 DEFAULT_USER=scott
 
 plugins=(git osx jump)
-source <(antibody init)
 autoload -U compinit && compinit
 
 # User configuration
@@ -24,7 +23,7 @@ export ANDROID_HOME="/Users/scott/Library/Android/sdk"
 export PATH="$PATH:$ANDROID_HOME/platform-tools"
  
 source $ZSH/oh-my-zsh.sh
-antibody bundle < ~/.zsh_plugins.txt
+source ~/.zsh_plugins.sh
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then

@@ -1,0 +1,5 @@
+{
+  "tsserver.implicitProjectConfig.experimentalDecorators": true,
+  "javascript.suggest.enabled": true,
+  "snippets.ultisnips.directories": ["UltiSnips", "~/.vim/UltiSnips"]
+}

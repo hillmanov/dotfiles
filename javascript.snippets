@@ -1,0 +1,669 @@
+snippet acomp "Angular component" i
+module.exports = app => {
+  app.component('$1', {
+    bindings: {
+
+    },
+    template: require('./${1/[A-Z]\w/-\l$0/g}.html'),
+    controllerAs: '$1Ctrl',
+    controller() {
+      this.$onInit = () => {
+
+      };
+
+			this.$onChanges = (changes) => {
+			
+			};
+
+			$0
+    }
+  });
+};
+endsnippet
+
+snippet rcomp "React component" i
+import React from 'react';
+import {observer} from 'mobx-react';
+const cx = require('classnames/bind').bind(require('./styles.scss'));
+
+@observer
+export default class $1 extends React.Component {
+  render() {
+    return (
+			<div className={cx('container')}>
+			
+			</div>
+	  );
+  }
+}
+endsnippet
+
+snippet sfc "Stateless functional component" i 
+import React from 'react';
+import { observer, inject } from 'mobx-react';
+const cx = require('classnames/bind').bind(require('./styles.scss'));
+
+const $1 = inject('')(observer(({ }) => {
+  return (
+		<div className={cx('container')}>
+
+		</div>
+	);
+}));
+
+export default $1;
+endsnippet
+
+snippet comprop "Computed property to get something from props" i
+@computed
+get $1() {
+	return this.props.$1;
+}
+$0
+endsnippet
+
+snippet comp "Computed property scaffolding" i
+@computed
+get $1() {
+	return $2; 
+}
+$0
+endsnippet
+
+snippet mset "Mobx state tree setter" i
+set${1/\w+/\u$0/g}($1) {
+	self.${1/\w+/\l$0/g} = ${1/\w+/\l$0/g};
+},
+$0
+endsnippet
+
+snippet mobxStore "ES5 style store" i
+import _ from 'lodash';
+import { action, computed, extendObservable } from 'mobx';
+
+function $1()  {
+  extendObservable(this, {
+
+  })
+}
+
+export default new $1();
+endsnippet
+
+snippet hillmanFamily "My Family" i
+contacts: [
+	{
+		firstName: 'Scott',
+		lastName: 'Hillman',
+		age: 33
+	},
+	{
+		firstName: 'Esther',
+			lastName: 'Hillman',
+			age: 31
+	},
+	{
+		firstName: 'Darcy',
+			lastName: 'Hillman',
+			age: 7
+	},
+	{
+		firstName: 'Adrie',
+			lastName: 'Hillman',
+			age: 5
+	},
+	{
+		firstName: 'Liam',
+			lastName: 'Hillman',
+			age: 3
+	},
+	{
+		firstName: 'Millie',
+			lastName: 'Hillman',
+			age: 1
+	}
+]
+endsnippet
+
+
+snippet ifc "Inline sfc" i
+const $1 = observer(({ }) => {
+  return (
+		<div>
+
+		</div>
+	);
+});
+endsnippet
+
+snippet cat "Categories tag for dataforger" i
+export const categories = ['$1'];
+endsnippet
+
+
+snippet cn "className shortcut" i
+className={cx('$1')}
+endsnippet
+
+snippet div "div with className" i
+<div className={cx('$1')}>
+	${VISUAL}${0}
+</div>
+endsnippet
+
+snippet rf "React fragment" i
+<React.Fragment>
+	${VISUAL}${0}
+</React.Fragment>
+endsnippet
+
+snippet growConfig "require grow config" i
+const config = require('@grow/grow-config');
+endsnippet
+snippet growModels "require grow models" i
+const models = require('@grow/grow-models');
+endsnippet
+snippet growIsomorphic "require grow isomorphic" i
+const isomorphic = require('@grow/grow-isomorphic');
+endsnippet
+
+snippet isvg "Isvg" i
+<Isvg src={require('./images/$1.svg')} />
+endsnippet
+
+snippet i_ "import lodash"
+import _ from 'lodash';
+endsnippet
+
+snippet iui "import from grow/core/ui"
+import { $1 } from '@grow/core/ui';
+$0
+endsnippet
+
+snippet r_ "require lodash"
+const _ = require('lodash');
+endsnippet
+
+snippet exportIndex "Export" i
+export default from './$1';
+endsnippet
+
+snippet fn  "es6 function" i
+($1) =>  {
+	$0
+}
+endsnippet
+
+snippet fun  "es5 function" i
+function ($1) {
+	$0
+}
+endsnippet
+
+snippet cline "console.log(CURRENT LINE NUMBER)"
+console.log('Line: `!v line('.')`');
+endsnippet
+
+snippet then "then"
+.then($1 => {
+  $0
+})
+endsnippet
+
+snippet actions "mst actions"
+.actions(self => ({
+  $0
+}))
+endsnippet
+
+snippet views "mst views"
+.views(self => ({
+  $0
+}))
+endsnippet
+
+snippet volatile "mst views"
+.volatile(self => ({
+  $0
+}))
+endsnippet
+
+snippet model "mst model"
+model('$1', {
+  $0
+});
+endsnippet
+
+snippet catch "catch"
+.catch(err => {
+  $0
+})
+endsnippet
+
+snippet finally "catch"
+.finally(() => {
+  $0
+});
+endsnippet
+
+snippet prom "New Promise"
+return new Promise((resolve, reject) => {
+  $0
+});
+endsnippet
+
+snippet forEach "lodash forEach" i
+_.forEach($1, ($2, $3) => {
+  $0
+});
+endsnippet
+
+snippet each "lodash forEach" i
+_.each($1, ($2, $3) => {
+  $0
+});
+endsnippet
+
+snippet map "lodash map" i
+_.map($1, ($2, $3) => {
+  $0
+});
+endsnippet
+
+snippet jss "JSON.stringify()" i
+JSON.stringify(${VISUAL}${0}, null, 2)
+endsnippet
+
+
+snippet ob "<Observer>" i
+<Observer>{() => (
+  ${VISUAL}${0} 
+)}
+</Observer>
+endsnippet
+
+snippet jsp "JSON.parse()" i
+JSON.parse(${VISUAL}${0})
+endsnippet
+
+snippet clv "console.log()" i
+console.log(\`${VISUAL}$1\`, ${VISUAL}${1});
+endsnippet
+
+snippet cl "console.log()" i
+console.log(\`${0}\`);
+endsnippet
+
+snippet cll "console.log()" i
+console.log(${0});
+endsnippet
+
+snippet r "require" b
+const $1 = require('$1');
+endsnippet
+
+snippet i "import" b
+import $1 from '$2';
+endsnippet
+
+snippet me "module.exports" b
+module.exports = {$0};
+endsnippet
+
+snippet if "if" i
+if ($1) {
+  ${VISUAL}$0
+}
+endsnippet
+
+snippet ife "if" i
+if ($1) {
+  ${VISUAL}$0
+} else {
+
+}
+endsnippet
+
+snippet :f "Object Method"
+${1:method_name}: (${3:parameters}) => {
+  ${VISUAL}$0
+}${10:,}
+endsnippet
+
+snippet :, "Object Value JS"
+${1:value_name}: ${2:value},
+${0}
+endsnippet
+
+snippet : "Object key key: 'value'"
+${1:key}: ${2:"${3:value}"}${4:, }
+endsnippet
+
+snippet proto "Prototype (proto)"
+${1:class_name}.prototype.${2:method_name} = function (${3:first_argument}) {
+  ${VISUAL}$0
+};
+
+endsnippet
+
+snippet it "it test block"
+it('$1', () => {
+	$0
+});
+endsnippet
+
+snippet describe "describe test block"
+describe('$1', () => {
+
+	it('$2', () => {
+		$0
+	});
+
+});
+endsnippet
+
+snippet emp "No empty"
+_.isEmpty($1)
+endsnippet
+
+snippet nemp "No empty"
+!_.isEmpty($1)
+endsnippet
+
+snippet ili "import LoadingIndicator"
+import LoadingIndicator from 'components/LoadingIndicator';
+endsnippet
+
+snippet uli "use LoadingIndicator"
+<LoadingIndicator text="Loading $1..." />
+endsnippet
+
+snippet idrs "import DateRangeSelector"
+import DateRangeSelector from '../../components/DateRangeSelector';
+endsnippet
+
+snippet udrs "use DateRangeSelector"
+<DateRangeSelector
+	range={{
+		since: this.config.report.params.$1,
+		until: this.config.report.params.$2,
+	}}
+	rangeUpdated={this.config.setDateRange}
+/>
+endsnippet
+
+snippet loadResource "load resource block"
+get${1/.*/\u$0/g}() {
+	return this.setStateAsync({ $1: null, loading${1/.*/\u$0/g}: true })
+	.then(() => resources.get${1/.*/\u$0/g}(this.config.authId))
+	.then($1 => this.setStateAsync({ ${1}, loading${1/.*/\u$0/g}: false }))
+}
+endsnippet
+
+snippet iapi "import api" 
+import api from 'services/api';
+endsnippet
+
+snippet loadingComp "loading component"
+{this.state.loading${1/.*/\u$0/g} &&
+<LoadingIndicator text="Loading `!p snip.rv = t[1].capitalize()`..." />
+}
+{!this.state.loading`!p snip.rv = t[1].capitalize()` && !_.isEmpty(this.state.$1) &&
+	<Dropdown
+		label="Select `!p snip.rv = t[1][:-1]`"
+		onSelect={this.set`!p snip.rv = t[1].capitalize()[:-1]`}
+		options={this.state.$1}
+		value={this.config.report.params.`!p snip.rv = t[1][:-1]`}
+	/>
+}
+endsnippet
+
+snippet cfeq "config field" i
+this.config.report.params.$1 $3= $2;
+endsnippet
+
+snippet slfeq "self config field" i
+self.report.params.$1 $3= $2;
+endsnippet
+
+snippet stfeq "store field" i
+store.report.params.$1 $3= $2;
+endsnippet
+
+snippet cf "use config field" i
+this.config.report.params.$1
+endsnippet
+
+snippet slf "use self config field" i
+self.report.params.$1
+endsnippet
+
+snippet stf "use store field" i
+store.report.params.$1
+endsnippet
+
+snippet stfe "expect store field"
+expect(store.report.params.$1).to.be.equal('$1');
+endsnippet
+
+snippet drf "Date range fields"
+since: optional(string, ''),
+until: optional(string, ''),
+endsnippet
+
+snippet drs "Date range setters"
+setDateRange({ since, until }) {
+	self.setSince(since);
+	self.setUntil(until);
+},
+setSince(since) {
+	self.report.params.since = since;
+},
+setUntil(until) {
+	self.report.params.until = until;
+},
+endsnippet
+
+snippet ostr "Optional string"
+optional(string, ''),
+endsnippet
+
+snippet mstr "Maybe string"
+maybe(string),
+endsnippet
+
+snippet stateLoad "initial state for loading"
+$1: null,
+loading`!p snip.rv = t[1].capitalize()`: false,
+
+endsnippet
+
+snippet _g "Lodash getify"
+_.get(`!p snip.rv = snip.v.text.split(".")[0]`, '`!p snip.rv = ".".join(snip.v.text.split(".")[1:])`')
+endsnippet
+
+snippet suiff "Semantic UI Form Field"
+<Form.Field>
+	<label>$1</label>
+	<input
+		value={$2}
+		onChange={e => $3(e.target.value)}
+	/> 
+</Form.Field>
+endsnippet
+
+snippet suib "Semantic UI Button"
+<Button onClick={$1} $2>$3</Button>
+endsnippet
+
+snippet rclass "React Class Component"
+class $1 extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+	  return (
+		  <div>
+		    $0
+		  </div>
+	  )
+	}
+}
+endsnippet
+
+snippet rclassdec "React Class Component"
+const $1 = observer(class $1 extends React.Component {
+	constructor() {
+		super();
+	}
+
+	render() {
+	  return (
+		  <div>
+		    $0
+		  </div>
+	  )
+	}
+});
+
+decorate($1, {
+
+});
+endsnippet
+
+snippet cnst "constructor" b 
+constructor() {
+
+}
+endsnippet
+
+# Component Lifecycle
+snippet cwm "Component Will Mount" b
+componentWillMount() {
+	$1
+}
+endsnippet
+
+snippet cdm "Component Did Mount" b
+componentDidMount() {
+	$1
+}
+endsnippet
+
+snippet cdup "Component Did Update" b
+componentDidUpdate(prevProps, prevState) {
+	$1
+}
+endsnippet
+
+snippet cwu "Component Will Unmount" b
+componentWillUnmount() {
+	$1
+}
+endsnippet
+
+snippet ren "Render"
+render() {
+	return ${1:(
+		${2:<div>${3}</div>}
+	);}
+}
+endsnippet
+
+snippet afn "async anonymous function"
+async ($1) => {
+	$0
+}
+endsnippet
+
+snippet afnc "async function"
+async function $1($2) {
+	$0
+}
+endsnippet
+
+snippet estart "simple express server"
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+app.use(bodyParser.json());
+
+app.listen(3012, () => {
+	console.log(`App is listening on port 3012`);
+});
+endsnippet
+
+snippet eget "Express get"
+${1:app}.get('/$2', (req, res) => {
+	$0
+});
+endsnippet
+
+snippet epost "Express get"
+${1:app}.post('/$2', (req, res) => {
+	$0
+});
+endsnippet
+
+snippet cm "class method"
+$1() {
+	$0
+}
+endsnippet
+
+# The options currently supported are: >
+# b   Beginning of line - A snippet with this option is expanded only if the
+# tab trigger is the first word on the line. In other words, if only
+# whitespace precedes the tab trigger, expand. The default is to expand
+# snippets at any position regardless of the preceding non-whitespace
+# characters.
+# 
+# i   In-word expansion - By default a snippet is expanded only if the tab
+# trigger is the first word on the line or is preceded by one or more
+# whitespace characters. A snippet with this option is expanded
+# regardless of the preceding character. In other words, the snippet can
+# be triggered in the middle of a word.
+# 
+# w   Word boundary - With this option, the snippet is expanded if
+# the tab trigger start matches a word boundary and the tab trigger end
+# matches a word boundary. In other words the tab trigger must be
+# preceded and followed by non-word characters. Word characters are
+# defined by the 'iskeyword' setting. Use this option, for example, to
+# permit expansion where the tab trigger follows punctuation without
+# expanding suffixes of larger words.
+# 
+# r   Regular expression - With this option, the tab trigger is expected to
+# be a python regular expression. The snippet is expanded if the recently
+# typed characters match the regular expression. Note: The regular
+# expression MUST be quoted (or surrounded with another character) like a
+# multi-word tab trigger (see above) whether it has spaces or not. A
+# resulting match is passed to any python code blocks in the snippet
+# definition as the local variable "match".
+# 
+# t   Do not expand tabs - If a snippet definition includes leading tab
+# characters, by default UltiSnips expands the tab characters honoring
+# the Vim 'shiftwidth', 'softtabstop', 'expandtab' and 'tabstop'
+# indentation settings. (For example, if 'expandtab' is set, the tab is
+# 		replaced with spaces.) If this option is set, UltiSnips will ignore the
+# Vim settings and insert the tab characters as is. This option is useful
+# for snippets involved with tab delimited formats, for example.
+# 
+# s   Remove whitespace immediately before the cursor at the end of a line
+# before jumping to the next tabstop.  This is useful if there is a
+# tabstop with optional text at the end of a line.
+# 
+# m   Trim all whitespaces from right side of snippet lines. Useful when
+# snippet contains empty lines which should remain empty after expanding.
+# Without this option empty lines in snippets definition will have
+# indentation too.
+# 
+# e   Context snippets - With this option expansion of snippet can be
+# controlled not only by previous characters in line, but by any given
+# python expression. This option can be specified along with other
+# options, like 'b'. See |UltiSnips-context-snippets| for more info.
+# 
+# A   Snippet will be triggered automatically, when condition matches.
+# See |UltiSnips-autotrigger| for more info.
+
