@@ -1,5 +1,4 @@
-ZSH_DISABLE_COMPFIX=true
-zmodload zsh/zprof
+ZSH_DISABLE_COMPFIX="true"
 if [ -f ~/.private-zshrc ]; then
   source ~/.private-zshrc
 fi
@@ -8,16 +7,14 @@ fi
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="agnoster"
 
-# Uncomment the following line to enable command auto-correction.
-#ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 DEFAULT_USER=scott
 
 plugins=(git osx jump)
 autoload -U compinit && compinit
 
 # User configuration
-export PATH="/usr/bin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/scott/projects/go/bin:/usr/local/lib/android-sdk-macosx/platform-tools:/Users/scott/work/grow/core/bin"
-export PATH="$PATH:$HOME/.cargo/bin"
+export PATH="/usr/bin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/scott/projects/go/bin:/usr/local/lib/android-sdk-macosx/platform-tools"
 
 export ANDROID_HOME="/Users/scott/Library/Android/sdk"
 export PATH="$PATH:$ANDROID_HOME/platform-tools"
@@ -52,6 +49,7 @@ alias 'git log'='nocorrect git log'
 alias vim=nvim
 alias vi=nvim
 alias lg=lazygit
+alias ld='lazydocker'
 
 # Functions so that the values are executed on demand, not ~/.zshrc load time.
 delete-docker-containers() {
@@ -63,13 +61,13 @@ delete-docker-images() {
 ds() {
    docker stop $(docker ps -a -q)
 }
-
 gpr() {
   git push origin HEAD && git open-pr "$@"
 }
 
-function iterm2_print_user_vars() {
-  iterm2_set_user_var projectDir $(basename $(git rev-parse --show-toplevel 2> /dev/null) 2> /dev/null)
+# Virtual folders
+mount_venus() {
+  sshfs pi@192.168.86.188:/home ~/virtual/venus
 }
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -78,30 +76,10 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-alias gpr="ggpush && open-pr develop"
-
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /Users/scott/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/scott/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /Users/scott/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/scott/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh
-
 # fnm
 export PATH=$HOME/.fnm:$PATH
 eval `fnm env`
 
-# Virtual folders
-mount_venus() {
-  sshfs pi@192.168.86.188:/home ~/virtual/venus
-}
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-# tabtab source for slss package
-# uninstall by removing these lines or running `tabtab uninstall slss`
-[[ -f /Users/scott/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/scott/.config/yarn/global/node_modules/tabtab/.completions/slss.zsh
-
-
-alias ld='lazydocker'
-
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
+eval "$(direnv hook zsh)"

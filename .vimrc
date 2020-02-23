@@ -31,13 +31,10 @@ Plug 'tmhedberg/matchit'
 Plug 'jremmen/vim-ripgrep'
 Plug 'kshenoy/vim-signature' " Adds label in gutter for marks
 Plug 'wellle/targets.vim'
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'SirVer/ultisnips'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'machakann/vim-highlightedyank'
 Plug 'easymotion/vim-easymotion'
-" Plug 'zchee/deoplete-go', { 'do': 'make'}
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
@@ -45,6 +42,8 @@ Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'google/vim-searchindex'
 Plug 'w0rp/ale'
+Plug 'SirVer/ultisnips'
+Plug 'vimwiki/vimwiki'
 
 " Typescript stuff
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -65,7 +64,7 @@ set inccommand=nosplit          " Live search and replace
 " -----------------------------------------------------
 " Displaying text
 " -----------------------------------------------------
-set guifont=FuraCode\ Nerd\ Font:h14
+set guifont=FuraCode\ Nerd\ Font:h12
 set encoding=utf8
 set number                          " Line numbers on
 set relativenumber              " Relative line numbers
@@ -248,11 +247,6 @@ nnoremap <Leader><Leader>n :!node %<cr>
 nnoremap <Leader><Leader>wl dawea <ESC>pxb
 nnoremap <Leader><Leader>wh dawbPa <ESC>bhx
 
-" Golang settings
-autocmd FileType go nmap <leader><leader>b <Plug>(go-build)
-autocmd FileType go nmap <leader><leader>r <Plug>(go-run)
-autocmd FileType go nmap <leader><leader>t  <Plug>(go-test)
-
 " gf work on node modules
 set suffixesadd+=.js
 set path+=$PWD/node_modules
@@ -301,10 +295,11 @@ let g:nerdtree_tabs_open_on_gui_startup=0
 " FZF customizations"
 " This is the default extra key bindings
 let $FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*" --glob "!node_modules/*"'
+let $FZF_DEFAULT_OPTS="--reverse " " top to bottom
 let g:fzf_action = {
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
-let g:fzf_layout = { 'down': '~30%' }
+let g:fzf_layout = { 'window': { 'width': 0.85, 'height': 0.7} }
 
 " Normal mode completion
 fun! s:fzf_root()
@@ -312,7 +307,8 @@ fun! s:fzf_root()
 	return fnamemodify(substitute(l:path, '\.git', '', ''), ':p:h')
 endfun
 
-nnoremap <silent> <Leader>f :exe 'Files ' . <SID>fzf_root()<CR>
+nnoremap <silent> <leader>f :exe 'GFiles --exclude-standard --others --cached'<CR>
+"nnoremap <silent> <leader>f :exe 'Files ' . <SID>fzf_root()<CR>
 nnoremap <silent> <Leader>b :Buffers<CR>
 nnoremap <silent> <Leader>l :BLines<CR>
 inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
@@ -385,12 +381,6 @@ let g:airline#extensions#tabline#formatter = 'jsformatter'
 " Javascript library syntax highlighting settings
 let g:used_javascript_libs = 'underscore,jquery,angularjs,chai,react'
 
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/.vim/UltiSnips']
-let g:UltiSnipsExpandTrigger = ';;'
-let g:UltiSnipsJumpForwardTrigger = ';;'
-let g:UltiSnipsJumpBackwardTrigger = '::'
-
 " Run current buffer through Lebab -> es6-ify a file
 function! Lebab()
     let l:winview = winsaveview()
@@ -404,10 +394,7 @@ let g:ale_sign_column_always = 1
 let g:airline#extensions#ale#enabled = 1
 
 let g:ale_fixers = { 'javascript': ['eslint'] }
-let g:ale_linters =
-      \ { 'javascript': ['eslint'],
-      \ 'go': ['gofmt']
-\}
+let g:ale_linters = { 'javascript': ['eslint'] }
 noremap <Leader><Leader>f :ALEFix<CR>
 
 let g:ale_fixers = { 'javascript': ['eslint' ] }
@@ -443,29 +430,44 @@ xmap aa <Plug>SidewaysArgumentTextobjA
 omap ia <Plug>SidewaysArgumentTextobjI
 xmap ia <Plug>SidewaysArgumentTextobjI
 
-" use tab to forward cycle
-inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
-" use tab to backward cycle
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<c-d>"
-
 " Enable jsx highlighting for .js files as well
 let g:jsx_ext_required = 0
 
-" " Use deoplete.
-" let g:deoplete#enable_at_startup = 1
-" autocmd InsertEnter * call deoplete#enable() " Lazy load deoplete - first time entering insert mode
-
 " Go config
-let g:go_fmt_command = 'goimports' " Run goimports on save for go files. Also runs gofmt (which was replaced by goimports)
+let g:go_list_type = "quickfix"
+let g:go_fmt_command = "goimports"
+let g:go_fmt_fail_silently = 1
+
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_generate_tags = 1
+let g:go_highlight_space_tab_error = 0
+let g:go_highlight_array_whitespace_error = 0
+let g:go_highlight_trailing_whitespace_error = 0
 let g:go_highlight_extra_types = 1
-let g:go_metalinter_autosave = 0
-let g:go_auto_sameids = 0
+let g:go_def_mapping_enabled = 0 " We'll use the language server instead for go to def stuff
+
+" Golang settings
+autocmd FileType go nmap <leader><leader>b <Plug>(go-build)
+autocmd FileType go nmap <leader><leader>r <Plug>(go-run)
+autocmd FileType go nmap <leader><leader>t  <Plug>(go-test)
+let g:go_gorename_command = 'gopls'
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+
+augroup go
+  autocmd!
+  autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+  autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+  autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+augroup END
+
+nnoremap <silent> <leader>a :cclose<CR>:lclose<CR>
 
 "Fix block cursor
 augroup leavingVimStuff
@@ -490,14 +492,27 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <leader>rn <Plug>(coc-rename)
 
-" Let nvim know where pythong is so it doesn't have to find it on startup
-" Speeds up opening by ~200ms (half of what it was!)
+
+" Let nvim know where python is so it doesn't have to find it on startup
 let g:loaded_python_provider = 1
 let g:python_host_skip_check=1
 let g:python_host_prog = '/usr/bin/python'
 let g:python3_host_skip_check=1
-let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python3_host_prog = '/usr/bin/python3'
 
 " Save and restore folds automatically
 autocmd BufWrite * mkview
 autocmd BufRead * silent! loadview
+
+"Snippets
+" use tab to forward cycle
+inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
+" use tab to backward cycle
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<c-d>"
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/dotfiles/']
+let g:UltiSnipsExpandTrigger = ';;'
+let g:UltiSnipsJumpForwardTrigger = ';;'
+let g:UltiSnipsJumpBackwardTrigger = '::'
+

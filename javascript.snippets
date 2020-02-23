@@ -1,3 +1,11 @@
+global !p
+def camelCaseToTitle(name):
+	s1 = re.sub('(.)([A-Z][a-z]+)', r'\1 \2', name)
+	s2 = re.sub('([a-z0-9])([A-Z])', r'\1 \2', s1).lower()
+	return ' '.join(s.capitalize() for s in s2.split())
+endglobal
+
+
 snippet acomp "Angular component" i
 module.exports = app => {
   app.component('$1', {
@@ -71,8 +79,8 @@ $0
 endsnippet
 
 snippet mset "Mobx state tree setter" i
-set${1/\w+/\u$0/g}($1) {
-	self.${1/\w+/\l$0/g} = ${1/\w+/\l$0/g};
+set${VISUAL/\w+/\u$0/g}${1/\w+/\u$0/g}(${VISUAL}$1) {
+	self.${VISUAL}$1 = ${VISUAL}$1;
 },
 $0
 endsnippet
@@ -612,6 +620,34 @@ $1() {
 	$0
 }
 endsnippet
+
+snippet finput "Form field"
+<Form.Item validateStatus={c.$1Status.status} help={c.$1Status.error} className={cx('formField')}>
+	<label>`!p snip.rv = camelCaseToTitle(t[1])`: </label>
+	<Input
+		onChange={(e) => c.set${1/\w+/\u$0/g}(e.target.value)}
+		placeholder="`!p snip.rv = camelCaseToTitle(t[1])`"
+		value={c.$1}
+	/>
+</Form.Item>
+endsnippet
+
+snippet fselect "Form field"
+<Form.Item validateStatus={c.$1Status.status} help={c.$1Status.error} className={cx('formField')}>
+	<label>`!p snip.rv = camelCaseToTitle(t[1])`: </label>
+	<Select 
+		onChange={(value) => c.set${1/\w+/\u$0/g}(value)}
+		value={c.$1}
+		placeholder="`!p snip.rv = camelCaseToTitle(t[1])`"
+	>
+		{map(c.$1Options, ({ label, value} ) => (
+			<Option key={value} value={value}>{label}</Option>
+		))}
+	</Select>
+</Form.Item>
+endsnippet
+
+
 
 # The options currently supported are: >
 # b   Beginning of line - A snippet with this option is expanded only if the
