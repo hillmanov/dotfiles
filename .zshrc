@@ -3,6 +3,9 @@ if [ -f ~/.private-zshrc ]; then
   source ~/.private-zshrc
 fi
 
+
+source ~/.bash_profile
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="agnoster"
@@ -50,6 +53,7 @@ alias vim=nvim
 alias vi=nvim
 alias lg=lazygit
 alias ld='lazydocker'
+alias python=/usr/bin/python3
 
 # Functions so that the values are executed on demand, not ~/.zshrc load time.
 delete-docker-containers() {
@@ -81,5 +85,6 @@ export PATH=$HOME/.fnm:$PATH
 eval `fnm env`
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
 eval "$(direnv hook zsh)"

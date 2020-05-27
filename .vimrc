@@ -394,7 +394,8 @@ let g:ale_sign_column_always = 1
 let g:airline#extensions#ale#enabled = 1
 
 let g:ale_fixers = { 'javascript': ['eslint'] }
-let g:ale_linters = { 'javascript': ['eslint'] }
+let g:ale_linters = { 'javascript': ['eslint'], 'go': ['gopls'] }
+
 noremap <Leader><Leader>f :ALEFix<CR>
 
 let g:ale_fixers = { 'javascript': ['eslint' ] }
@@ -456,7 +457,7 @@ let g:go_def_mapping_enabled = 0 " We'll use the language server instead for go 
 autocmd FileType go nmap <leader><leader>b <Plug>(go-build)
 autocmd FileType go nmap <leader><leader>r <Plug>(go-run)
 autocmd FileType go nmap <leader><leader>t  <Plug>(go-test)
-let g:go_gorename_command = 'gopls'
+let g:go_rename_command = 'gopls'
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
 
