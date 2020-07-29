@@ -4,7 +4,8 @@ if [ -f ~/.private-zshrc ]; then
 fi
 
 
-source ~/.bash_profile
+# Source this if you need the conda pythong stuff (spleeter)
+# source ~/.bash_profile
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -68,6 +69,14 @@ ds() {
 gpr() {
   git push origin HEAD && git open-pr "$@"
 }
+clearDockerLog(){
+  dockerLogFile=$(docker inspect $1 | grep -G '\"LogPath\": \"*\"' | sed -e 's/.*\"LogPath\": \"//g' | sed -e 's/\",//g')
+  rmCommand="rm $dockerLogFile"
+  screen -d -m -S dockerlogdelete ~/Library/Containers/com.docker.docker/Data/vms/0/tty
+  screen -S dockerlogdelete -p 0 -X stuff $"$rmCommand"
+  screen -S dockerlogdelete -p 0 -X stuff $'\n'
+  screen -S dockerlogdelete -X quit
+}
 
 # Virtual folders
 mount_venus() {
@@ -87,4 +96,9 @@ eval `fnm env`
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
+export GIT_EDITOR="nvim -c 'norm gg'" 
+
 eval "$(direnv hook zsh)"
+
+
+

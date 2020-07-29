@@ -14,20 +14,20 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 
-Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'othree/yajs.vim'
-Plug 'neoclide/vim-jsx-improve'
+Plug 'yuezk/vim-js'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/html5.vim'
 Plug 'ap/vim-css-color'
 Plug 'hail2u/vim-css3-syntax'
-Plug 'othree/javascript-libraries-syntax.vim'
+
+Plug 'andymass/vim-matchup'
 
 Plug 'junegunn/vim-easy-align'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'morhetz/gruvbox'
-Plug 'tmhedberg/matchit'
 Plug 'jremmen/vim-ripgrep'
 Plug 'kshenoy/vim-signature' " Adds label in gutter for marks
 Plug 'wellle/targets.vim'
@@ -133,9 +133,6 @@ set clipboard=unnamed
 " -----------------------------------------------------
 set showmatch                   " Show matching brackets/parenthesis
 set selection=exclusive " $ will not select newline at the end of the line (v$ and d$)
-
-" Don't indent promise chains (https://github.com/pangloss/vim-javascript/issues/467#issuecomment-247851078)
-let g:javascript_opfirst = 1
 
 set conceallevel=1
 
