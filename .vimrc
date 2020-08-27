@@ -1,5 +1,4 @@
 "----------------------------------------------------- Plugins
-" -----------------------------------------------------
 call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-fugitive'
@@ -33,7 +32,6 @@ Plug 'kshenoy/vim-signature' " Adds label in gutter for marks
 Plug 'wellle/targets.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'machakann/vim-highlightedyank'
 Plug 'easymotion/vim-easymotion'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'brooth/far.vim'
@@ -41,14 +39,16 @@ Plug 'qpkorr/vim-renamer'
 Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'google/vim-searchindex'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'SirVer/ultisnips'
 Plug 'vimwiki/vimwiki'
+Plug 'psliwka/vim-smoothie'
 
-" Typescript stuff
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-yank', {'do': 'yarn install --frozen-lockfile'}
 
-call plug#end()            " required
+call plug#end()            
 
 " -----------------------------------------------------
 " Moving around, searching and patterns
@@ -235,8 +235,6 @@ vnoremap <Leader><Leader>j :'<,'>!python -m json.tool<CR>
 " Select pasted text
 nnoremap gp `[v`]
 
-cmap w!! w !sudo tee > /dev/null %
-
 nnoremap <Leader>w :w<cr>
 nnoremap <Leader><Leader>n :!node %<cr>
 
@@ -387,32 +385,14 @@ endfunction
 command! Lebab :call Lebab()
 
 " ALE config
-let g:ale_sign_column_always = 1
-let g:airline#extensions#ale#enabled = 1
-
-let g:ale_fixers = { 'javascript': ['eslint'] }
-let g:ale_linters = { 'javascript': ['eslint'], 'go': ['gopls'] }
-
 noremap <Leader><Leader>f :ALEFix<CR>
 
+let g:ale_enabled = 1
 let g:ale_fixers = { 'javascript': ['eslint' ] }
+let g:ale_linters = { 'javascript': ['eslint'], 'go': ['gopls'] }
+let g:ale_sign_column_always = 1
+let g:airline#extensions#ale#enabled = 1
 let g:ale_fix_on_save = 0
-
-" Different setups for different projects
-function! SetupEnvironment()
-  let l:path = expand('%:p')
-  if l:path =~ '/Users/scott/work/grow'
-    let g:ale_enabled = 1
-    let g:ale_fixers = { 'javascript': ['eslint'] }
-    let g:ale_fix_on_save = 0
-  else
-    let g:ale_enabled = 1
-    let g:ale_javascript_prettier_use_local_config = 1
-    let g:ale_fixers = { 'javascript': ['eslint'] }
-    let g:ale_fix_on_save = 0
-  endif
-endfunction
-autocmd! BufReadPost,BufNewFile * call SetupEnvironment()
 
 " Quickfix window settings
 augroup qf
@@ -489,7 +469,6 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <leader>rn <Plug>(coc-rename)
-
 
 " Let nvim know where python is so it doesn't have to find it on startup
 let g:loaded_python_provider = 1

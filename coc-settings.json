@@ -5,6 +5,7 @@
   "tsserver.implicitProjectConfig.checkJs": false,
   "snippets.ultisnips.directories": ["~/.config/coc/ultisnips"],
   "suggest.noselect": true,
+  "yank.highlight.duration": 1000,
   "snippets.extends": {
     "javascriptreact": ["javascript"]
   },
