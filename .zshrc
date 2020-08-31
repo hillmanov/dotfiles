@@ -43,6 +43,9 @@ export TERM=xterm-256color
 export GOPATH=/Users/scott/projects/go
 PATH=$PATH:$GOPATH/bin
 
+# Brew executables
+export PATH="/usr/local/sbin:$PATH"
+
 # aliases
 alias dmb='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d' # Delete merged branches
 alias dof='rm **/*.orig' # Delete .orig files
