@@ -20,7 +20,6 @@ brew cask install hiddenbar
 brew cask install private-internet-access
 
 sudo pip3 install neovim
-curl -o- -L https://yarnpkg.com/install.sh | bash
 
 "$(brew --prefix)"/opt/fzf/install
 
@@ -52,7 +51,5 @@ nvim --headless +UpdateRemotePlugins +qa
 source ~/.zshrc
 
 touch ~/.hushlogin
-
-
 
 # curl -LO "https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Regular/complete/Fira%20Code%20Regular%20Nerd%20Font%20Complete.ttf\?raw\=true" ~/Desktop/fira.ttf

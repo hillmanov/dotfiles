@@ -50,8 +50,6 @@ export PATH="/usr/local/sbin:$PATH"
 alias dmb='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d' # Delete merged branches
 alias dof='rm **/*.orig' # Delete .orig files
 alias pr='open-pr develop'
-alias pun='gulp run --dsEnv production'
-alias gun='gulp runAll --silentQueuePolling'
 alias 'git log'='nocorrect git log'
 alias vim=nvim
 alias vi=nvim
@@ -102,6 +100,3 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export GIT_EDITOR="nvim -c 'norm gg'" 
 
 eval "$(direnv hook zsh)"
-
-
-
