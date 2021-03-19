@@ -38,12 +38,11 @@ Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
 Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'google/vim-searchindex'
 Plug 'dense-analysis/ale'
 Plug 'SirVer/ultisnips'
 Plug 'vimwiki/vimwiki'
-Plug 'psliwka/vim-smoothie'
 Plug 'mbbill/undotree'
+Plug 'rust-lang/rust.vim'
 
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
@@ -108,6 +107,7 @@ let g:gruvbox_invert_selection = 0
 set hlsearch
 hi Search ctermbg=LightYellow
 hi Search ctermfg=Red
+hi HighlightedyankRegion cterm=bold gui=bold ctermbg=0 guibg=#13354A
 
 set autowrite "Checking to see if this will help remove some "nanny" messages
 au BufNewFile,BufRead *.ejs set filetype=html " Treat ejs files like html for syntax highlighting
@@ -476,7 +476,7 @@ let g:loaded_python_provider = 1
 let g:python_host_skip_check=1
 let g:python_host_prog = '/usr/bin/python'
 let g:python3_host_skip_check=1
-let g:python3_host_prog = '/usr/bin/python3'
+let g:python3_host_prog = '/usr/local/bin/python3'
 
 " Save and restore folds automatically
 autocmd BufWrite * mkview

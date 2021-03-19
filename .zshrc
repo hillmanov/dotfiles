@@ -18,7 +18,7 @@ plugins=(git osx jump)
 autoload -U compinit && compinit
 
 # User configuration
-export PATH="/usr/bin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/scott/projects/go/bin:/usr/local/lib/android-sdk-macosx/platform-tools"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/scott/projects/go/bin:/usr/local/lib/android-sdk-macosx/platform-tools"
 
 export ANDROID_HOME="/Users/scott/Library/Android/sdk"
 export PATH="$PATH:$ANDROID_HOME/platform-tools"
@@ -55,7 +55,7 @@ alias vim=nvim
 alias vi=nvim
 alias lg=lazygit
 alias ld='lazydocker'
-alias python=/usr/bin/python3
+alias python=/usr/local/bin/python3
 
 # Functions so that the values are executed on demand, not ~/.zshrc load time.
 delete-docker-containers() {
@@ -100,3 +100,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export GIT_EDITOR="nvim -c 'norm gg'" 
 
 eval "$(direnv hook zsh)"
+
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
