@@ -64,7 +64,7 @@ set inccommand=nosplit          " Live search and replace
 " -----------------------------------------------------
 " Displaying text
 " -----------------------------------------------------
-set guifont=FuraCode\ Nerd\ Font:h12
+set guifont=FiraCode\ Nerd\ Font:h12
 set encoding=utf8
 set number                          " Line numbers on
 set relativenumber              " Relative line numbers
@@ -248,8 +248,8 @@ set suffixesadd+=.js
 set path+=$PWD/node_modules
 
 " Search and replace in the file
-nnoremap <Leader>h :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
-vnoremap <Leader>h "hy:%s/<C-r>h//gc<left><left><left>
+nnoremap <Leader>h :%s/\<<C-r><C-w>\>//c<Left><Left><Left>
+vnoremap <Leader>h "hy:%s/<C-r>h//c<left><left><left>
 
 " vimrc edit and source
 nnoremap <Leader>ev :e $MYVIMRC<cr>
@@ -476,7 +476,7 @@ let g:loaded_python_provider = 1
 let g:python_host_skip_check=1
 let g:python_host_prog = '/usr/bin/python'
 let g:python3_host_skip_check=1
-let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python3_host_prog = '/usr/bin/python'
 
 " Save and restore folds automatically
 autocmd BufWrite * mkview
@@ -487,6 +487,8 @@ autocmd BufRead * silent! loadview
 inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
 " use tab to backward cycle
 inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<c-d>"
+
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/dotfiles/']

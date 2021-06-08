@@ -5,13 +5,14 @@
   "tsserver.implicitProjectConfig.checkJs": false,
   "snippets.ultisnips.directories": ["~/.config/coc/ultisnips"],
   "suggest.noselect": true,
+  "suggest.removeDuplicateItems": true,
   "yank.highlight.duration": 1000,
   "snippets.extends": {
     "javascriptreact": ["javascript"]
   },
   "languageserver": {
     "golang": {
-      "command": "/Users/scott/projects/go/bin/gopls",
+      "command": "/home/scott/go/bin/gopls",
       "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
       "filetypes": ["go"],
       "initializationOptions": {
