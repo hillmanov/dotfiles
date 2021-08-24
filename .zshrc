@@ -3,10 +3,6 @@ if [ -f ~/.private-zshrc ]; then
   source ~/.private-zshrc
 fi
 
-
-# Source this if you need the conda pythong stuff (spleeter)
-# source ~/.bash_profile
-
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="agnoster"
@@ -43,7 +39,6 @@ PATH=$PATH:$GOPATH/bin
 # aliases
 alias dmb='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d' # Delete merged branches
 alias dof='rm **/*.orig' # Delete .orig files
-alias pr='open-pr develop'
 alias 'git log'='nocorrect git log'
 alias vim=nvim
 alias vi=nvim
@@ -60,11 +55,9 @@ delete-docker-images() {
 ds() {
    docker stop $(docker ps -a -q)
 }
-gpr() {
-  git push origin HEAD && git open-pr "$@"
-}
 spleeter() {
   echo "Separating into vocal and accompaniment tracks..."
+  mkdir -p "$(pwd)"/output
   docker run --gpus all -v "$(pwd)"/output:/output -v "$(pwd)"/:/spleeter researchdeezer/spleeter separate -p spleeter:2stems-16kHz -o /output -i /spleeter/"$1"
 }
 clearDockerLog(){
@@ -74,6 +67,9 @@ clearDockerLog(){
   screen -S dockerlogdelete -p 0 -X stuff $"$rmCommand"
   screen -S dockerlogdelete -p 0 -X stuff $'\n'
   screen -S dockerlogdelete -X quit
+}
+open() {
+  dolphin . &
 }
 
 # Virtual folders

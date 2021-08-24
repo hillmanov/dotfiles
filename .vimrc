@@ -13,6 +13,8 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 
+Plug 'justinj/vim-pico8-syntax'
+
 Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'othree/javascript-libraries-syntax.vim'
@@ -36,17 +38,20 @@ Plug 'easymotion/vim-easymotion'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
-Plug 'AndrewRadev/sideways.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'dense-analysis/ale'
 Plug 'SirVer/ultisnips'
 Plug 'vimwiki/vimwiki'
 Plug 'mbbill/undotree'
 Plug 'rust-lang/rust.vim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'folke/todo-comments.nvim'
+Plug 'neovim/nvim-lspconfig'
 
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-yank', {'do': 'yarn install --frozen-lockfile'}
 
 call plug#end()            
 
@@ -104,6 +109,11 @@ let g:gruvbox_undercurl = 1
 let g:gruvbox_contrast_dark = 'medium'
 let g:gruvbox_invert_selection = 0
 
+autocmd ColorScheme * highlight CocErrorFloat guifg=#ffffff
+autocmd ColorScheme * highlight CocInfoFloat guifg=#ffffff
+autocmd ColorScheme * highlight CocWarningFloat guifg=#ffffff
+autocmd ColorScheme * highlight SignColumn guibg=#adadad
+
 set hlsearch
 hi Search ctermbg=LightYellow
 hi Search ctermfg=Red
@@ -111,6 +121,9 @@ hi HighlightedyankRegion cterm=bold gui=bold ctermbg=0 guibg=#13354A
 
 set autowrite "Checking to see if this will help remove some "nanny" messages
 au BufNewFile,BufRead *.ejs set filetype=html " Treat ejs files like html for syntax highlighting
+
+" Highlight yank
+au TextYankPost * lua vim.highlight.on_yank {higroup="IncSearch", timeout=350, on_visual=true}
 
 " -----------------------------------------------------
 " Multiple windows
@@ -127,7 +140,7 @@ set mouse= "Disabled mouse completely
 " -----------------------------------------------------
 " Selecting text
 " -----------------------------------------------------
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 " -----------------------------------------------------
 " Editing text
@@ -401,18 +414,19 @@ augroup qf
     autocmd FileType qf set nobuflisted
 augroup END
 
-" Sideways config
-nnoremap <Leader><Leader>h :SidewaysLeft<cr>
-nnoremap <Leader><Leader>l :SidewaysRight<cr>
-omap aa <Plug>SidewaysArgumentTextobjA
-xmap aa <Plug>SidewaysArgumentTextobjA
-omap ia <Plug>SidewaysArgumentTextobjI
-xmap ia <Plug>SidewaysArgumentTextobjI
-
 " Enable jsx highlighting for .js files as well
 let g:jsx_ext_required = 0
 
+"""""
 " Go config
+"
+" disable all linters as that is taken care of by coc.nvim
+let g:go_diagnostics_enabled = 0
+let g:go_metalinter_enabled = []
+
+" don't jump to errors after metalinter is invoked
+let g:go_jump_to_error = 0
+"
 let g:go_list_type = "quickfix"
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 1
@@ -430,6 +444,52 @@ let g:go_highlight_array_whitespace_error = 0
 let g:go_highlight_trailing_whitespace_error = 0
 let g:go_highlight_extra_types = 1
 let g:go_def_mapping_enabled = 0 " We'll use the language server instead for go to def stuff
+"
+" automatically highlight variable your cursor is on
+let g:go_auto_sameids = 0
+
+lua << EOF
+require'lspconfig'.gopls.setup{}
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "all",     
+  highlight = {
+    enable = true              
+  },
+  indent = {
+    enable = false
+  },
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = {
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+      },
+    },
+    swap = {
+      enable = true,
+      swap_next = {
+        ["<leader><leader>l"] = "@parameter.inner",
+      },
+      swap_previous = {
+        ["<leader><leader>h"] = "@parameter.inner",
+      },
+    },
+  move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]]"] = "@function.outer",
+      },
+      goto_previous_start = {
+        ["[["] = "@function.outer",
+      },
+    },
+  }
+}
+require("todo-comments").setup{}
+EOF
 
 " Golang settings
 autocmd FileType go nmap <leader><leader>b <Plug>(go-build)

@@ -1,4 +1,11 @@
 {
+  "diagnostic.errorSign": "✘",
+  "diagnostic.warningSign": "!",
+  "diagnostic.infoSign": "?",
+  "diagnostic.checkCurrentLine": true,
+
+  "coc.preferences.hoverTarget": "float",
+
   "tsserver.implicitProjectConfig.experimentalDecorators": true,
   "javascript.suggest.enabled": true,
   "javascript.suggestionActions.enabled": false,
@@ -12,7 +19,7 @@
   },
   "languageserver": {
     "golang": {
-      "command": "/home/scott/go/bin/gopls",
+      "command": "gopls",
       "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
       "filetypes": ["go"],
       "initializationOptions": {
@@ -20,5 +27,8 @@
         "completeUnimported": true
       }
     }
+  },
+  "go.goplsOptions": {
+    "staticcheck": true
   }
 }
