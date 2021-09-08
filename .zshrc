@@ -3,10 +3,6 @@ if [ -f ~/.private-zshrc ]; then
   source ~/.private-zshrc
 fi
 
-
-# Source this if you need the conda pythong stuff (spleeter)
-# source ~/.bash_profile
-
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="agnoster"
@@ -14,15 +10,12 @@ ZSH_THEME="agnoster"
 ENABLE_CORRECTION="true"
 DEFAULT_USER=scott
 
-plugins=(git osx jump)
+plugins=(git jump)
 autoload -U compinit && compinit
 
 # User configuration
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/scott/projects/go/bin:/usr/local/lib/android-sdk-macosx/platform-tools"
 
-export ANDROID_HOME="/Users/scott/Library/Android/sdk"
-export PATH="$PATH:$ANDROID_HOME/platform-tools"
- 
 source $ZSH/oh-my-zsh.sh
 source ~/.zsh_plugins.sh
 
@@ -40,22 +33,17 @@ export CLICOLOR=1
 export TERM=xterm-256color
 
 # Go
-export GOPATH=/Users/scott/projects/go
+export GOPATH=/home/scott/go
 PATH=$PATH:$GOPATH/bin
-
-# Brew executables
-export PATH="/usr/local/sbin:$PATH"
 
 # aliases
 alias dmb='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d' # Delete merged branches
 alias dof='rm **/*.orig' # Delete .orig files
-alias pr='open-pr develop'
 alias 'git log'='nocorrect git log'
 alias vim=nvim
 alias vi=nvim
 alias lg=lazygit
 alias ld='lazydocker'
-alias python=/usr/local/bin/python3
 
 # Functions so that the values are executed on demand, not ~/.zshrc load time.
 delete-docker-containers() {
@@ -67,8 +55,10 @@ delete-docker-images() {
 ds() {
    docker stop $(docker ps -a -q)
 }
-gpr() {
-  git push origin HEAD && git open-pr "$@"
+spleeter() {
+  echo "Separating into vocal and accompaniment tracks..."
+  mkdir -p "$(pwd)"/output
+  docker run --gpus all -v "$(pwd)"/output:/output -v "$(pwd)"/:/spleeter researchdeezer/spleeter separate -p spleeter:2stems-16kHz -o /output -i /spleeter/"$1"
 }
 clearDockerLog(){
   dockerLogFile=$(docker inspect $1 | grep -G '\"LogPath\": \"*\"' | sed -e 's/.*\"LogPath\": \"//g' | sed -e 's/\",//g')
@@ -77,6 +67,9 @@ clearDockerLog(){
   screen -S dockerlogdelete -p 0 -X stuff $"$rmCommand"
   screen -S dockerlogdelete -p 0 -X stuff $'\n'
   screen -S dockerlogdelete -X quit
+}
+open() {
+  dolphin . &
 }
 
 # Virtual folders
@@ -104,3 +97,7 @@ eval "$(direnv hook zsh)"
 # tabtab source for packages
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
+
+# fnm
+export PATH=/home/scott/.fnm:$PATH
+eval "`fnm env`"
