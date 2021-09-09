@@ -452,6 +452,7 @@ lua << EOF
 require'lspconfig'.gopls.setup{}
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "all",     
+  ignore_install = { "haskell" },
   highlight = {
     enable = true              
   },
@@ -536,7 +537,7 @@ let g:loaded_python_provider = 1
 let g:python_host_skip_check=1
 let g:python_host_prog = '/usr/bin/python'
 let g:python3_host_skip_check=1
-let g:python3_host_prog = '/usr/bin/python'
+let g:python3_host_prog = '/usr/local/bin/python3'
 
 " Save and restore folds automatically
 autocmd BufWrite * mkview
