@@ -9,8 +9,6 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-projectionist' " Jump to alternate files quickly. 
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 
 Plug 'justinj/vim-pico8-syntax'
@@ -24,15 +22,17 @@ Plug 'hail2u/vim-css3-syntax'
 
 Plug 'andymass/vim-matchup'
 
+Plug 'hoob3rt/lualine.nvim'
+Plug 'akinsho/bufferline.nvim'
 Plug 'junegunn/vim-easy-align'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'morhetz/gruvbox'
-Plug 'jremmen/vim-ripgrep'
+" Plug 'jremmen/vim-ripgrep'
+Plug 'lamchau/vim-ripgrep', { 'branch': 'patch-1' }
 Plug 'kshenoy/vim-signature' " Adds label in gutter for marks
 Plug 'wellle/targets.vim'
 Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'easymotion/vim-easymotion'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
@@ -47,6 +47,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'folke/todo-comments.nvim'
 Plug 'neovim/nvim-lspconfig'
 
@@ -82,7 +83,7 @@ set completeopt-=preview
 " Automatically chanme the current directory
 " Had to do it on insert enter. autochdir didn't work properly with path
 " completion for some reason
-autocmd InsertEnter * silent! lcd %:p:h
+" autocmd InsertEnter * silent! lcd %:p:h
 set lazyredraw                 " don't update the display while executing macros
 set gdefault " Replace all instances on a line by default
 set ttyfast
@@ -99,6 +100,9 @@ endif
 
 nnoremap [[ ?{<CR>w99[{:nohlsearch<CR>
 nnoremap ]] j0[[%/{<CR>:nohlsearch<CR>
+
+" Switch back and forth between the last two buffers
+nnoremap <Backspace> <C-^>
 
 colorscheme gruvbox
 set background=dark
@@ -285,11 +289,18 @@ nmap <silent> <LEFT> :cnext<CR>
 " Terminal jk -> ESC mapping
 tnoremap jk <c-\><c-n>
 
+
 " -----------------------------------------------------
 " PLugin settings
 " -----------------------------------------------------
 " NERFTree customizations
-map <C-n> :exe 'NERDTreeToggle ' . <SID>fzf_root()<CR>
+
+fun! s:project_root()
+	let l:path = finddir('.git', expand('%:p:h').';')
+	return fnamemodify(substitute(l:path, '\.git', '', ''), ':p:h')
+endfun
+
+map <C-n> :exe 'NERDTreeToggle ' . <SID>project_root()<CR>
 nmap <Leader>nt :NERDTreeFind<CR>
 
 let g:NERDTreeShowBookmarks=1
@@ -301,59 +312,89 @@ let g:NERDTreeShowHidden=1
 let g:NERDTreeKeepTreeInNewTab=1
 let g:nerdtree_tabs_open_on_gui_startup=0
 
-" FZF customizations"
-" This is the default extra key bindings
-let $FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*" --glob "!node_modules/*"'
-let $FZF_DEFAULT_OPTS="--reverse " " top to bottom
-let g:fzf_action = {
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
-let g:fzf_layout = { 'window': { 'width': 0.85, 'height': 0.7} }
+" ------------------------------
+"  Telescope
+" ------------------------------
+nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>g <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>n <cmd>lua require('telescope.builtin').file_browser()<cr>
 
-" Normal mode completion
-fun! s:fzf_root()
-	let l:path = finddir('.git', expand('%:p:h').';')
-	return fnamemodify(substitute(l:path, '\.git', '', ''), ':p:h')
-endfun
+lua << EOF
 
-nnoremap <silent> <leader>f :exe 'GFiles --exclude-standard --others --cached'<CR>
-"nnoremap <silent> <leader>f :exe 'Files ' . <SID>fzf_root()<CR>
-nnoremap <silent> <Leader>b :Buffers<CR>
-nnoremap <silent> <Leader>l :BLines<CR>
-inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
-    \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
-    \ fzf#wrap({'dir': expand('%:p:h')}))
+require('lualine').setup({
+  options = {
+    theme = 'gruvbox',
+    section_separators = {'', ''},
+    component_separators = {'', ''},
+  },
+})
 
-function! s:fzf_statusline()
-  " Override statusline as you like
-  highlight fzf1 ctermfg=161 ctermbg=251
-  highlight fzf2 ctermfg=23 ctermbg=251
-  highlight fzf3 ctermfg=237 ctermbg=251
-  setlocal statusline=%#fzf1#\ >\ %#fzf2#fz%#fzf3#f
-endfunction
+require("bufferline").setup{
+  options = {
+    max_name_length = 50,
+    separator_style = "slant"
+  }
+}
 
-" --column: Show column number
-" --line-number: Show line number
-" --no-heading: Do not show file headings in results
-" --fixed-strings: Search term as a literal string
-" --ignore-case: Case insensitive search
-" --no-ignore: Do not respect .gitignore, etc...
-" --hidden: Search hidden files and folders
-" --follow: Follow symlinks
-" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
-" --color: Search color options
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
-
-" FZF find word under cursor in file
-nnoremap <Leader>t :Find <C-r><C-w>
-vnoremap <Leader>t "hy:Find '<C-r>h'
+local actions = require('telescope.actions')
+require('telescope').setup{
+  defaults = {
+    prompt_prefix = " ",
+    selection_caret = " ",
+    entry_prefix = "  ",
+    initial_mode = "insert",
+    selection_strategy = "reset",
+    sorting_strategy = "ascending",
+    layout_strategy = "horizontal",
+    layout_config = {
+      width = 0.75,
+      prompt_position = "top",
+      preview_cutoff = 120,
+      horizontal = { mirror = false },
+      vertical = { mirror = false },
+    },
+    file_sorter = require("telescope.sorters").get_fzy_sorter,
+    file_ignore_patterns = {".git"},
+    generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
+    path_display = { "absolute" },
+    winblend = 0,
+    border = {},
+    borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    color_devicons = true,
+    use_less = true,
+    set_env = { ["COLORTERM"] = "truecolor" },
+    file_previewer = require("telescope.previewers").vim_buffer_cat.new,
+    grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
+    qbbist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
+    mappings = {
+      i = {
+        ["<esc>"] = actions.close,
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+        ["<CR>"] = actions.select_default + actions.center,
+      },
+      n = {
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+      },
+    },
+  },
+  extensions = {
+    fzy_native = {
+      override_generic_sorter = false,
+      override_file_sorter = true,
+    },
+  }
+}
+EOF
 
 " Use rg instead of grep when using vimgrep
 " RipGrep
 let g:rg_derive_root = 1
 set grepprg=rg\ --vimgrep
-
-autocmd! User FzfStatusLine call <SID>fzf_statusline()
 
 function! s:buflist()
   redir => l:ls
@@ -368,24 +409,6 @@ endfunction
 
 " Start ieteractive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
-
-" Airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_min_count = 1
-let g:airline#extensions#tabline#tab_min_count = 1
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline#extensions#tabline#buffer_nr_show = 0
-let g:airline#extensions#tabline#show_buffers = 1
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#tagbar#enabled = 0
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline_theme = 'gruvbox'
-let g:airline_section_c = '%{fnamemodify(expand("%"), ":~:.")}'
-let g:airline_section_x = '%{fnamemodify(getcwd(), ":t")}'
-let g:airline_section_y = airline#section#create(['filetype'])
-let g:airline#extensions#tabline#formatter = 'jsformatter'
 
 " Javascript library syntax highlighting settings
 let g:used_javascript_libs = 'underscore,jquery,angularjs,chai,react'
@@ -405,7 +428,6 @@ let g:ale_enabled = 1
 let g:ale_fixers = { 'javascript': ['eslint' ] }
 let g:ale_linters = { 'javascript': ['eslint'], 'go': ['gopls'] }
 let g:ale_sign_column_always = 1
-let g:airline#extensions#ale#enabled = 1
 let g:ale_fix_on_save = 0
 
 " Quickfix window settings
@@ -448,10 +470,12 @@ let g:go_def_mapping_enabled = 0 " We'll use the language server instead for go 
 " automatically highlight variable your cursor is on
 let g:go_auto_sameids = 0
 
+
 lua << EOF
 require'lspconfig'.gopls.setup{}
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "all",     
+  ignore_install = { "haskell" },
   highlight = {
     enable = true              
   },
@@ -477,7 +501,7 @@ require'nvim-treesitter.configs'.setup {
         ["<leader><leader>h"] = "@parameter.inner",
       },
     },
-  move = {
+    move = {
       enable = true,
       set_jumps = true, -- whether to set jumps in the jumplist
       goto_next_start = {
@@ -487,7 +511,15 @@ require'nvim-treesitter.configs'.setup {
         ["[["] = "@function.outer",
       },
     },
-  }
+  },
+--  incremental_selection = {
+ --   enable = true,
+  --  keymaps = {
+   --   init_selection = "<S-n>",
+    --  node_incremental = "<S-n>",
+     -- node_decremental = "<S-m>",
+   -- },
+  -- },
 }
 require("todo-comments").setup{}
 EOF
@@ -537,7 +569,7 @@ let g:loaded_python_provider = 1
 let g:python_host_skip_check=1
 let g:python_host_prog = '/usr/bin/python'
 let g:python3_host_skip_check=1
-let g:python3_host_prog = '/usr/bin/python'
+let g:python3_host_prog = '/usr/local/bin/python3'
 
 " Save and restore folds automatically
 autocmd BufWrite * mkview

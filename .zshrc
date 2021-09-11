@@ -33,7 +33,11 @@ export CLICOLOR=1
 export TERM=xterm-256color
 
 # Go
-export GOPATH=/home/scott/go
+if [[ `uname` == "Darwin" ]]; then
+  export GOPATH=/Users/scott/go
+else
+  export GOPATH=/home/scott/go
+fi
 PATH=$PATH:$GOPATH/bin
 
 # aliases
