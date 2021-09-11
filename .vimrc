@@ -465,6 +465,7 @@ require'nvim-treesitter.configs'.setup {
       keymaps = {
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
+        ["aa"] = "@parameter.inner",
       },
     },
     swap = {
