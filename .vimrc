@@ -23,6 +23,7 @@ Plug 'hail2u/vim-css3-syntax'
 Plug 'andymass/vim-matchup'
 
 Plug 'hoob3rt/lualine.nvim'
+Plug 'akinsho/bufferline.nvim'
 Plug 'junegunn/vim-easy-align'
 Plug 'airblade/vim-gitgutter'
 Plug 'morhetz/gruvbox'
@@ -82,7 +83,7 @@ set completeopt-=preview
 " Automatically chanme the current directory
 " Had to do it on insert enter. autochdir didn't work properly with path
 " completion for some reason
-autocmd InsertEnter * silent! lcd %:p:h
+" autocmd InsertEnter * silent! lcd %:p:h
 set lazyredraw                 " don't update the display while executing macros
 set gdefault " Replace all instances on a line by default
 set ttyfast
@@ -99,6 +100,9 @@ endif
 
 nnoremap [[ ?{<CR>w99[{:nohlsearch<CR>
 nnoremap ]] j0[[%/{<CR>:nohlsearch<CR>
+
+" Switch back and forth between the last two buffers
+nnoremap <Backspace> <C-^>
 
 colorscheme gruvbox
 set background=dark
@@ -322,9 +326,16 @@ require('lualine').setup({
   options = {
     theme = 'gruvbox',
     section_separators = {'', ''},
-    component_separators = {'', ''}
+    component_separators = {'', ''},
   },
 })
+
+require("bufferline").setup{
+  options = {
+    max_name_length = 50,
+    separator_style = "slant"
+  }
+}
 
 local actions = require('telescope.actions')
 require('telescope').setup{
@@ -500,14 +511,14 @@ require'nvim-treesitter.configs'.setup {
       },
     },
   },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "<S-n>",
-      node_incremental = "<S-n>",
-      node_decremental = "<S-m>",
-    },
-  },
+--  incremental_selection = {
+ --   enable = true,
+  --  keymaps = {
+   --   init_selection = "<S-n>",
+    --  node_incremental = "<S-n>",
+     -- node_decremental = "<S-m>",
+   -- },
+  -- },
 }
 require("todo-comments").setup{}
 EOF
