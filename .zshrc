@@ -105,3 +105,4 @@ eval "$(direnv hook zsh)"
 # fnm
 export PATH=/home/scott/.fnm:$PATH
 eval "`fnm env`"
+

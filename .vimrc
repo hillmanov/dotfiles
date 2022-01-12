@@ -51,6 +51,8 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'folke/todo-comments.nvim'
 Plug 'neovim/nvim-lspconfig'
 
+Plug 'github/copilot.vim'
+
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
 
@@ -256,6 +258,9 @@ nnoremap gp `[v`]
 nnoremap <Leader>w :w<cr>
 nnoremap <Leader><Leader>n :!node %<cr>
 
+"AOC
+nnoremap <Leader>arc :make run-current<cr>
+
 " Poor attempt at moving words to the left or right
 nnoremap <Leader><Leader>wl dawea <ESC>pxb
 nnoremap <Leader><Leader>wh dawbPa <ESC>bhx
@@ -324,9 +329,7 @@ lua << EOF
 
 require('lualine').setup({
   options = {
-    theme = 'gruvbox',
-    section_separators = {'', ''},
-    component_separators = {'', ''},
+    theme = 'gruvbox'
   },
 })
 
@@ -569,7 +572,7 @@ let g:loaded_python_provider = 1
 let g:python_host_skip_check=1
 let g:python_host_prog = '/usr/bin/python'
 let g:python3_host_skip_check=1
-let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python3_host_prog = '/usr/bin/python'
 
 " Save and restore folds automatically
 autocmd BufWrite * mkview
