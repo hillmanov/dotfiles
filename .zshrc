@@ -13,6 +13,9 @@ DEFAULT_USER=scott
 plugins=(git jump)
 autoload -U compinit && compinit
 
+# User configuration
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/scott/projects/go/bin:/usr/local/lib/android-sdk-macosx/platform-tools"
+
 source $ZSH/oh-my-zsh.sh
 source ~/.zsh_plugins.sh
 
@@ -32,7 +35,6 @@ fi
 PATH=$PATH:$GOPATH/bin
 
 # aliases
-alias dmb='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d' # Delete merged branches
 alias dof='rm **/*.orig' # Delete .orig files
 alias 'git log'='nocorrect git log'
 alias vim=nvim
@@ -45,7 +47,7 @@ delete-docker-containers() {
   docker rm $(docker ps -a -q)
 }
 delete-docker-images() {
-  docker rmi -f $(docker images -q)
+  docker rmi -f $(docker images -a -q)
 }
 delete-docker-volumes() {
   docker volume rm -f $(docker volume ls -q)
@@ -69,6 +71,15 @@ clearDockerLog(){
 open() {
   dolphin . &
 }
+dmb() {
+  git remote prune origin
+  for branch in $(git branch -a | sed 's/^\s*//' | sed 's/^remotes\///' | grep -v 'master$'); do
+    last_commit_msg="$(git log --oneline --format=%f -1 $branch)"
+    if [[ "$(git log --oneline --format=%f | grep $last_commit_msg | wc -l)" -eq 1 ]]; then
+      git branch -D $branch
+    fi
+  done
+}
 
 # Virtual folders
 mount_venus() {
@@ -84,6 +95,9 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export GIT_EDITOR="nvim -c 'norm gg'" 
 
 eval "$(direnv hook zsh)"
+
+# fnm
+eval "$(fnm env --use-on-cd)"
 
 # tabtab source for packages
 # uninstall by removing these lines
