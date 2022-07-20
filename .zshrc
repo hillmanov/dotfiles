@@ -47,6 +47,9 @@ delete-docker-containers() {
 delete-docker-images() {
   docker rmi -f $(docker images -q)
 }
+delete-docker-volumes() {
+  docker volume rm -f $(docker volume ls -q)
+}
 ds() {
    docker stop $(docker ps -a -q)
 }
@@ -86,3 +89,4 @@ eval "$(direnv hook zsh)"
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
 
+eval "$(fnm env --use-on-cd)"
