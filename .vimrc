@@ -270,8 +270,8 @@ set suffixesadd+=.js
 set path+=$PWD/node_modules
 
 " Search and replace in the file
-nnoremap <Leader>h :%s/\<<C-r><C-w>\>//c<Left><Left><Left>
-vnoremap <Leader>h "hy:%s/<C-r>h//c<left><left><left>
+nnoremap <Leader>h :%s/\<<C-r><C-w>\>//c<Left><Left>
+vnoremap <Leader>h "hy:%s/<C-r>h//c<left><left>
 
 " vimrc edit and source
 nnoremap <Leader>ev :e $MYVIMRC<cr>
@@ -360,7 +360,7 @@ require('telescope').setup{
     file_sorter = require("telescope.sorters").get_fzy_sorter,
     file_ignore_patterns = {".git"},
     generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-    path_display = { "absolute" },
+    path_display = { "truncate" },
     winblend = 0,
     border = {},
     borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
@@ -591,4 +591,6 @@ let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/dotfiles/']
 let g:UltiSnipsExpandTrigger = ';;'
 let g:UltiSnipsJumpForwardTrigger = ';;'
 let g:UltiSnipsJumpBackwardTrigger = '::'
+
+autocmd FileType javascript,javascriptreact,typescript,typescriptreact UltiSnipsAddFiletypes javascript.javascriptreact.typescript.typescriptreact
 

@@ -76,7 +76,8 @@ dmb() {
   for branch in $(git branch -a | sed 's/^\s*//' | sed 's/^remotes\///' | grep -v 'master$'); do
     last_commit_msg="$(git log --oneline --format=%f -1 $branch)"
     if [[ "$(git log --oneline --format=%f | grep $last_commit_msg | wc -l)" -eq 1 ]]; then
-      git branch -D $branch
+      echo "Deleting branch: $branch"
+      git branch -D $branch &> /dev/null
     fi
   done
 }
