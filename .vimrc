@@ -93,6 +93,8 @@ set ttyfast
 " -----------------------------------------------------
 " Syntax, highlighting and spelling
 " -----------------------------------------------------
+"
+
 syntax on
 syntax sync minlines=256
 autocmd BufEnter * :syn sync maxlines=500
@@ -199,7 +201,7 @@ set backup                                              " enable backups
 set backupdir=~/.vim/tmp/backup/
 set virtualedit=onemore                                 " Allow for cursor beyond last character
 set nojoinspaces                                        " Don't add more spaces with joing lines with <S-J>
-set shortmess=I                                         " Don't show the intro message on startup
+set shortmess=ITF                                       " Don't show the intro message on startup
 "
 " -----------------------------------------------------
 " Key (re)mappings
