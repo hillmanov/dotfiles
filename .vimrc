@@ -1,4 +1,6 @@
-"----------------------------------------------------- Plugins
+"----------------------------------------------------- 
+"Plugins
+"----------------------------------------------------- 
 call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-fugitive'
@@ -8,54 +10,37 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-projectionist' " Jump to alternate files quickly. 
-
+Plug 'AndrewRadev/splitjoin.vim'
 Plug 'scrooloose/nerdtree'
-
-Plug 'justinj/vim-pico8-syntax'
-
-Plug 'yuezk/vim-js'
-Plug 'maxmellon/vim-jsx-pretty'
-Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'othree/html5.vim'
-Plug 'ap/vim-css-color'
-Plug 'hail2u/vim-css3-syntax'
-
-Plug 'andymass/vim-matchup'
-
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'hoob3rt/lualine.nvim'
 Plug 'akinsho/bufferline.nvim'
 Plug 'junegunn/vim-easy-align'
+Plug 'kshenoy/vim-signature' " Adds label in gutter for marks
 Plug 'airblade/vim-gitgutter'
 Plug 'morhetz/gruvbox'
-" Plug 'jremmen/vim-ripgrep'
-Plug 'lamchau/vim-ripgrep', { 'branch': 'patch-1' }
-Plug 'kshenoy/vim-signature' " Adds label in gutter for marks
+Plug 'jremmen/vim-ripgrep'
+Plug 'easymotion/vim-easymotion'
 Plug 'wellle/targets.vim'
+Plug 'andymass/vim-matchup'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-web-devicons'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'easymotion/vim-easymotion'
-Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
-Plug 'AndrewRadev/splitjoin.vim'
 Plug 'dense-analysis/ale'
 Plug 'SirVer/ultisnips'
-Plug 'vimwiki/vimwiki'
 Plug 'mbbill/undotree'
-Plug 'rust-lang/rust.vim'
+Plug 'folke/todo-comments.nvim'
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+Plug 'nvim-lua/plenary.nvim'
+Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'folke/todo-comments.nvim'
-Plug 'neovim/nvim-lspconfig'
-
-Plug 'github/copilot.vim'
-
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
 
+Plug 'github/copilot.vim'
 call plug#end()            
 
 " -----------------------------------------------------
@@ -82,7 +67,7 @@ set nocursorcolumn
 set cursorline
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1 " Pipe in insert mode, block in others
 set completeopt-=preview
-" Automatically chanme the current directory
+" Automatically change the current directory
 " Had to do it on insert enter. autochdir didn't work properly with path
 " completion for some reason
 " autocmd InsertEnter * silent! lcd %:p:h
@@ -93,8 +78,6 @@ set ttyfast
 " -----------------------------------------------------
 " Syntax, highlighting and spelling
 " -----------------------------------------------------
-"
-
 syntax on
 syntax sync minlines=256
 autocmd BufEnter * :syn sync maxlines=500
@@ -104,9 +87,6 @@ endif
 
 nnoremap [[ ?{<CR>w99[{:nohlsearch<CR>
 nnoremap ]] j0[[%/{<CR>:nohlsearch<CR>
-
-" Switch back and forth between the last two buffers
-nnoremap <Backspace> <C-^>
 
 colorscheme gruvbox
 set background=dark
@@ -120,7 +100,6 @@ let g:gruvbox_invert_selection = 0
 autocmd ColorScheme * highlight CocErrorFloat guifg=#ffffff
 autocmd ColorScheme * highlight CocInfoFloat guifg=#ffffff
 autocmd ColorScheme * highlight CocWarningFloat guifg=#ffffff
-autocmd ColorScheme * highlight SignColumn guibg=#adadad
 
 set hlsearch
 hi Search ctermbg=LightYellow
@@ -194,7 +173,6 @@ set wildmode=list:longest,full  " Command <Tab> completion, list matches, then l
 " Various
 " -----------------------------------------------------
 scriptencoding utf-8
-
 set undofile                                            " save central undo files
 set undodir=~/.vim/tmp/undo/
 set backup                                              " enable backups
@@ -206,7 +184,6 @@ set shortmess=ITF                                       " Don't show the intro m
 " -----------------------------------------------------
 " Key (re)mappings
 " -----------------------------------------------------
-
 let g:mapleader = ' '
 imap jk <Esc>
 vmap jk <Esc>
@@ -301,7 +278,6 @@ tnoremap jk <c-\><c-n>
 " PLugin settings
 " -----------------------------------------------------
 " NERFTree customizations
-
 fun! s:project_root()
 	let l:path = finddir('.git', expand('%:p:h').';')
 	return fnamemodify(substitute(l:path, '\.git', '', ''), ':p:h')
@@ -318,83 +294,6 @@ let g:NERDTreeMouseMode=2
 let g:NERDTreeShowHidden=1
 let g:NERDTreeKeepTreeInNewTab=1
 let g:nerdtree_tabs_open_on_gui_startup=0
-
-" ------------------------------
-"  Telescope
-" ------------------------------
-nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>g <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>n <cmd>lua require('telescope.builtin').file_browser()<cr>
-
-lua << EOF
-
-require('lualine').setup({
-  options = {
-    theme = 'gruvbox'
-  },
-})
-
-require("bufferline").setup{
-  options = {
-    max_name_length = 50,
-    separator_style = "slant"
-  }
-}
-
-local actions = require('telescope.actions')
-require('telescope').setup{
-  defaults = {
-    prompt_prefix = " ",
-    selection_caret = " ",
-    entry_prefix = "  ",
-    initial_mode = "insert",
-    selection_strategy = "reset",
-    sorting_strategy = "ascending",
-    layout_strategy = "horizontal",
-    layout_config = {
-      width = 0.75,
-      prompt_position = "top",
-      preview_cutoff = 120,
-      horizontal = { mirror = false },
-      vertical = { mirror = false },
-    },
-    file_sorter = require("telescope.sorters").get_fzy_sorter,
-    file_ignore_patterns = {".git"},
-    generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-    path_display = { "truncate" },
-    winblend = 0,
-    border = {},
-    borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-    color_devicons = true,
-    use_less = true,
-    set_env = { ["COLORTERM"] = "truecolor" },
-    file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-    grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
-    qbbist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
-    mappings = {
-      i = {
-        ["<esc>"] = actions.close,
-        ["<C-j>"] = actions.move_selection_next,
-        ["<C-k>"] = actions.move_selection_previous,
-        ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
-        ["<CR>"] = actions.select_default + actions.center,
-      },
-      n = {
-        ["<C-j>"] = actions.move_selection_next,
-        ["<C-k>"] = actions.move_selection_previous,
-        ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
-      },
-    },
-  },
-  extensions = {
-    fzy_native = {
-      override_generic_sorter = false,
-      override_file_sorter = true,
-    },
-  }
-}
-EOF
 
 " Use rg instead of grep when using vimgrep
 " RipGrep
@@ -414,9 +313,6 @@ endfunction
 
 " Start ieteractive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
-
-" Javascript library syntax highlighting settings
-let g:used_javascript_libs = 'underscore,jquery,angularjs,chai,react'
 
 " Run current buffer through Lebab -> es6-ify a file
 function! Lebab()
@@ -475,60 +371,6 @@ let g:go_def_mapping_enabled = 0 " We'll use the language server instead for go 
 " automatically highlight variable your cursor is on
 let g:go_auto_sameids = 0
 
-
-lua << EOF
-require'lspconfig'.gopls.setup{}
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all",     
-  ignore_install = { "haskell" },
-  highlight = {
-    enable = true              
-  },
-  indent = {
-    enable = false
-  },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true,
-      keymaps = {
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["aa"] = "@parameter.inner",
-      },
-    },
-    swap = {
-      enable = true,
-      swap_next = {
-        ["<leader><leader>l"] = "@parameter.inner",
-      },
-      swap_previous = {
-        ["<leader><leader>h"] = "@parameter.inner",
-      },
-    },
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        ["]]"] = "@function.outer",
-      },
-      goto_previous_start = {
-        ["[["] = "@function.outer",
-      },
-    },
-  },
---  incremental_selection = {
- --   enable = true,
-  --  keymaps = {
-   --   init_selection = "<S-n>",
-    --  node_incremental = "<S-n>",
-     -- node_decremental = "<S-m>",
-   -- },
-  -- },
-}
-require("todo-comments").setup{}
-EOF
-
 " Golang settings
 autocmd FileType go nmap <leader><leader>b <Plug>(go-build)
 autocmd FileType go nmap <leader><leader>r <Plug>(go-run)
@@ -580,15 +422,10 @@ let g:python3_host_prog = '/usr/bin/python'
 autocmd BufWrite * mkview
 autocmd BufRead * silent! loadview
 
-"Snippets
-" use tab to forward cycle
-inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
-" use tab to backward cycle
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<c-d>"
+" Tab to autocomplete from coc.nvim
+inoremap <expr> <tab> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" better key bindings for UltiSnipsExpandTrigger
+" Better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/dotfiles/']
 let g:UltiSnipsExpandTrigger = ';;'
 let g:UltiSnipsJumpForwardTrigger = ';;'
@@ -596,3 +433,137 @@ let g:UltiSnipsJumpBackwardTrigger = '::'
 
 autocmd FileType javascript,javascriptreact,typescript,typescriptreact UltiSnipsAddFiletypes javascript.javascriptreact.typescript.typescriptreact
 
+" ------------------------------
+"  Telescope
+" ------------------------------
+nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>g <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>n <cmd>lua require('telescope.builtin').file_browser()<cr>
+
+" Lua configs!
+lua << EOF
+require'lspconfig'.gopls.setup{}
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "all",     
+  ignore_install = { "haskell" },
+  highlight = {
+    enable = true              
+  },
+  indent = {
+    enable = true
+  },
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = {
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["aa"] = "@parameter.inner",
+      },
+    },
+    swap = {
+      enable = true,
+      swap_next = {
+        ["<leader><leader>l"] = "@parameter.inner",
+      },
+      swap_previous = {
+        ["<leader><leader>h"] = "@parameter.inner",
+      },
+    },
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]]"] = "@function.outer",
+      },
+      goto_previous_start = {
+        ["[["] = "@function.outer",
+      },
+    },
+  },
+--  incremental_selection = {
+ --   enable = true,
+  --  keymaps = {
+   --   init_selection = "<S-n>",
+    --  node_incremental = "<S-n>",
+     -- node_decremental = "<S-m>",
+   -- },
+  -- },
+}
+require("todo-comments").setup{}
+
+require('lualine').setup({
+  options = {
+    theme = 'gruvbox'
+  },
+})
+
+require("bufferline").setup{
+  options = {
+    max_name_length = 50,
+    separator_style = "slant"
+  }
+}
+
+local actions = require('telescope.actions')
+
+require('telescope').setup{
+  defaults = {
+    prompt_prefix = " ",
+    selection_caret = " ",
+    entry_prefix = "  ",
+    initial_mode = "insert",
+    selection_strategy = "reset",
+    sorting_strategy = "ascending",
+    layout_strategy = "horizontal",
+    layout_config = {
+      width = 0.75,
+      prompt_position = "top",
+      preview_cutoff = 120,
+      horizontal = { mirror = false },
+      vertical = { mirror = false },
+    },
+    file_sorter = require("telescope.sorters").get_fzy_sorter,
+    file_ignore_patterns = {".git"},
+    generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
+    path_display = { "truncate" },
+    winblend = 0,
+    border = {},
+    borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    color_devicons = true,
+    use_less = true,
+    set_env = { ["COLORTERM"] = "truecolor" },
+    file_previewer = require("telescope.previewers").vim_buffer_cat.new,
+    grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
+    qbbist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
+    mappings = {
+      i = {
+        ["<esc>"] = actions.close,
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+        ["<CR>"] = actions.select_default + actions.center,
+      },
+      n = {
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+      },
+    },
+  },
+  extensions = {
+    fzy_native = {
+      override_generic_sorter = false,
+      override_file_sorter = true,
+    },
+  }
+}
+EOF
+
+"-------------------------------
+" Copilot
+" -------------------------------
+imap <silent><script><expr> <C-c> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
