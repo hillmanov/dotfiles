@@ -1,23 +1,23 @@
 ZSH_DISABLE_COMPFIX="true"
-if [ -f ~/.private-zshrc ]; then
-  source ~/.private-zshrc
-fi
-
-# Path to your oh-my-zsh installation.
-export ZSH=/usr/share/oh-my-zsh
 ZSH_THEME="agnoster"
-
-ENABLE_CORRECTION="true"
 DEFAULT_USER=scott
+
+export ZSH=/usr/share/oh-my-zsh
+
 
 plugins=(git jump)
 autoload -U compinit && compinit
 
 # User configuration
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/scott/projects/go/bin:/usr/local/lib/android-sdk-macosx/platform-tools"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/home/scott/.local/bin"
 
 source $ZSH/oh-my-zsh.sh
 source ~/.zsh_plugins.sh
+
+# Load private-zshrc if it exists
+if [ -f ~/.private-zshrc ]; then
+  source ~/.private-zshrc
+fi
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
@@ -27,11 +27,7 @@ else
 fi
 
 # Go
-if [[ `uname` == "Darwin" ]]; then
-  export GOPATH=/Users/scott/go
-else
-  export GOPATH=/home/scott/go
-fi
+export GOPATH=/home/scott/go
 PATH=$PATH:$GOPATH/bin
 
 # aliases
@@ -58,7 +54,7 @@ ds() {
 spleeter() {
   echo "Separating into vocal and accompaniment tracks..."
   mkdir -p "$(pwd)"/output
-  docker run --gpus all -v "$(pwd)"/output:/output -v "$(pwd)"/:/spleeter researchdeezer/spleeter separate -p spleeter:2stems-16kHz -o /output -i /spleeter/"$1"
+  docker run --gpus all -v "$(pwd)"/output:/output -v "$(pwd)"/:/spleeter splitit:latest separate -p spleeter:2stems-16kHz -o /output -i /spleeter/"$1"
 }
 clearDockerLog(){
   dockerLogFile=$(docker inspect $1 | grep -G '\"LogPath\": \"*\"' | sed -e 's/.*\"LogPath\": \"//g' | sed -e 's/\",//g')
@@ -103,5 +99,3 @@ eval "$(fnm env --use-on-cd)"
 # tabtab source for packages
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
-
-eval "$(fnm env --use-on-cd)"

@@ -422,10 +422,11 @@ let g:python3_host_prog = '/usr/bin/python'
 autocmd BufWrite * mkview
 autocmd BufRead * silent! loadview
 
-" Tab to autocomplete from coc.nvim
-inoremap <expr> <tab> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+" use tab to forward cycle
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
-" Better key bindings for UltiSnipsExpandTrigger
+"Snippets
+" better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/dotfiles/']
 let g:UltiSnipsExpandTrigger = ';;'
 let g:UltiSnipsJumpForwardTrigger = ';;'
@@ -566,4 +567,3 @@ EOF
 " Copilot
 " -------------------------------
 imap <silent><script><expr> <C-c> copilot#Accept("\<CR>")
-let g:copilot_no_tab_map = v:true
