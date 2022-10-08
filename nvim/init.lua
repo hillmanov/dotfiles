@@ -1,4 +1,4 @@
 require "global"
 require "plugins"
-require "settings"
+-- require "settings"
 require "mappings"

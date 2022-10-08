@@ -30,7 +30,7 @@ require "paq" {
   {"fatih/vim-go", run=":GoInstallBinaries" };
   "nvim-lua/plenary.nvim";
   "neovim/nvim-lspconfig";
-  "nvim-treesitter/nvim-treesitter", {run = ":TSUpdate"};
+  {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"};
   "nvim-treesitter/nvim-treesitter-textobjects";
   "nvim-telescope/telescope.nvim";
   {"neoclide/coc.nvim", run="yarn install --frozen-lockfile"};
