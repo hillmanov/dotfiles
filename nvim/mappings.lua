@@ -68,7 +68,7 @@ map("v", "<Leader>h", '"hy:%s/<C-r>h//c<left><left>', opts)
 
 
 -- Permanent magic regex mode
-map("n", "/", "/\v", opts)
+map("n", "/", "/\\v", opts)
 map("v", "/", "/v", opts)
 map("c", "%s/", "%smagic/")
 map("c", "\\>s/", "\\>smagic/")
