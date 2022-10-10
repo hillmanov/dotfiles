@@ -8,13 +8,12 @@ require "paq" {
   "tpope/vim-projectionist"; 
   "AndrewRadev/splitjoin.vim";
   "scrooloose/nerdtree";
-  "tiagofumo/vim-nerdtree-syntax-highlight";
   "hoob3rt/lualine.nvim";
   "akinsho/bufferline.nvim";
   "junegunn/vim-easy-align";
   "kshenoy/vim-signature";
   "airblade/vim-gitgutter";
-  "morhetz/gruvbox";
+  "ellisonleao/gruvbox.nvim";
   "jremmen/vim-ripgrep";
   "easymotion/vim-easymotion";
   "wellle/targets.vim";

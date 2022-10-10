@@ -1,3 +1,5 @@
+local cmd = vim.cmd
+
 local opts = {
   ignorecase     = true, -- Case insensitive search
   smartcase      = true, -- Case sensitive when uc present
@@ -32,9 +34,7 @@ local opts = {
   noswapfile     = true,
   wildmode       = "list:longest,full",
   undofile       = true,
-  undodir        = "~/.nvim/tmp/undo/",
   backup         = true,
-  backupdir      = "~/.nvim/tmp/backup/",
   virtualedit    = "onemore", -- All cursor to go past the end of the the last character
   nojoinspaces   = true, -- No double spaces with join
   shortmess      = "ITF",
@@ -43,3 +43,11 @@ local opts = {
 for k, v in pairs(opts) do
   vim.o[k] = v
 end
+
+-- Highlight on yank
+cmd [[
+  augroup YankHighlight
+    autocmd!
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank {timeout=250}
+  augroup end
+]]

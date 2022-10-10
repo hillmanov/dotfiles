@@ -65,15 +65,6 @@ map("v", "<Leader>h", '"hy:%s/<C-r>h//c<left><left>', opts)
 -- nnoremap <Leader>ev :e $MYVIMRC<cr>
 -- nnoremap <Leader>sv :source $MYVIMRC<cr>
 
-
-
--- Permanent magic regex mode
-map("n", "/", "/\\v", opts)
-map("v", "/", "/v", opts)
-map("c", "%s/", "%smagic/")
-map("c", "\\>s/", "\\>smagic/")
-map("n", "g/", "g/\\v", opts)
-
 -- Quick fix file navigation
 map("n", "<DOWN>", ":cpreviews<CR>", opts)
 map("n", "<LEFT>", ":cnext<CR>", opts)
@@ -81,10 +72,8 @@ map("n", "<LEFT>", ":cnext<CR>", opts)
 -- Terminal jk -> ESC mapping
 map("t", "jk", "<c-\\><c-n>", opts)
 
-
-
--- map("n", "<C-n>", ":exe 'NERDTreeToggle ' . project_root()<CR>", opts)
--- map("n", "<Leader>nt", ":NERDTreeFind<CR>", opts)
+map("n", "<C-n>", ":NERDTreeToggle<CR>", opts)
+map("n", "<Leader>nt", ":NERDTreeFind<CR>", opts)
 
 -- Start ieteractive EasyAlign in visual mode (e.g. vip<Enter>)
 map("v", "<Enter>", "<Plug>(EasyAlign)", opts)
