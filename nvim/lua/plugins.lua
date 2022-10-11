@@ -7,7 +7,7 @@ require "paq" {
   "tpope/vim-speeddating";
   "tpope/vim-projectionist"; 
   "AndrewRadev/splitjoin.vim";
-  "scrooloose/nerdtree";
+  "preservim/nerdtree";
   "hoob3rt/lualine.nvim";
   "akinsho/bufferline.nvim";
   "junegunn/vim-easy-align";
@@ -32,7 +32,7 @@ require "paq" {
   {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"};
   "nvim-treesitter/nvim-treesitter-textobjects";
   "nvim-telescope/telescope.nvim";
-  {"neoclide/coc.nvim", run="yarn install --frozen-lockfile"};
-  {"neoclide/coc-tsserver", run="yarn install --frozen-lockfile"};
   "github/copilot.vim";
 }
+
+require("plugin-configs/nerdtree");
