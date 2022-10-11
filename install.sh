@@ -1,7 +1,7 @@
 #! /bin/zsh
 
 mkdir -p ~/.config/{nvim}
-mkdir -p ~/.nvim/tmp/{undo,backup}
+mkdir -p ~/.nvim/{undo,backup}
 
 ln -s "$PWD/nvim" ~/.config/nvim
 ln -s "$PWD/.zshrc" ~/.
