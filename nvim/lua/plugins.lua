@@ -9,6 +9,7 @@ require "paq" {
   "AndrewRadev/splitjoin.vim";
   "preservim/nerdtree";
   "hoob3rt/lualine.nvim";
+  "kyazdani42/nvim-web-devicons";
   "akinsho/bufferline.nvim";
   "junegunn/vim-easy-align";
   "kshenoy/vim-signature";
@@ -19,7 +20,6 @@ require "paq" {
   "wellle/targets.vim";
   "andymass/vim-matchup";
   "ryanoasis/vim-devicons";
-  "kyazdani42/nvim-web-devicons";
   "brooth/far.vim";
   "qpkorr/vim-renamer";
   "dense-analysis/ale";
@@ -36,3 +36,10 @@ require "paq" {
 }
 
 require("plugin-configs/nerdtree");
+require("plugin-configs/telescope");
+require("plugin-configs/lualine");
+require("plugin-configs/treesitter");
+require("plugin-configs/todo-comments");
+require("plugin-configs/bufferline");
+require("plugin-configs/ultisnips");
+

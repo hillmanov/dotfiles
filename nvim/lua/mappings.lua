@@ -24,16 +24,16 @@ map("v", ">", ">gv", opts)
 map("n", "=", "=gv", opts)
 
 map("n", "<tab>", ":bn<CR>", opts)
-map("n", "<S-tab>", ":bp<CR>", opts)
-map("n", "<Leader>x", ":bd<CR>", opts)
-map("n", "<Leader>c", "<C-w>q", opts)
-map("n", "<Leader>p", "$p", opts)
+map("n", "<s-tab>", ":bp<CR>", opts)
+map("n", "<leader>x", ":bd<CR>", opts)
+map("n", "<leader>c", "<C-w>q", opts)
+map("n", "<leader>p", "$p", opts)
 
 -- Replace current word with what is in the clipboard
-map("n", "<Leader>r", '"_diwP', opts)
+map("n", "<leader>r", '"_diwP', opts)
 
 -- Repeat last replacement of a word
-map("n", "<Leader>.", ':let @/=@"<cr>/<cr>cgn<c-r>.<esc>', opts)
+map("n", "<leader>.", ':let @/=@"<cr>/<cr>cgn<c-r>.<esc>', opts)
 
 -- Move lines around with Ctrl j and k in any mode
 map("n", "<C-j>", ":m .+1<CR>", opts)
@@ -44,26 +44,26 @@ map("i", "<C-j>", "<Esc>:m+<CR>gi", opts)
 map("i", "<C-k>", "<Esc>:m-2<CR>gi", opts)
 
 -- Format json
-map("n", "<Leader><Leader>j", ":%!python -m json.tool<CR>", opts)
-map("v", "<Leader><Leader>j", ":'<,'>!python -m json.tool<CR>", opts)
+map("n", "<leader><leader>j", ":%!python -m json.tool<CR>", opts)
+map("v", "<leader><leader>j", ":'<,'>!python -m json.tool<CR>", opts)
 
 -- Select pasted text
 map("n", "gp", "`[v`]", opts)
 
-map("n", "<Leader>q", ":w<CR>", opts)
-map("n", "<Leader><Leader>n", ":!node %<cr>", opts)
+map("n", "<leader>w", ":w<CR>", opts)
+map("n", "<leader><leader>n", ":!node %<cr>", opts)
 
 --AOC
-map("n", "<Leader>arc", ":make run-current<cr>", opts)
+map("n", "<leader>arc", ":make run-current<cr>", opts)
 
 
 -- Search and replace in the file
-map("n", "<Leader>h", ":%s/<C-r><C-w>//c<Left><Left>", opts)
-map("v", "<Leader>h", '"hy:%s/<C-r>h//c<left><left>', opts)
+map("n", "<leader>h", ":%s/<C-r><C-w>//c<Left><Left>", opts)
+map("v", "<leader>h", '"hy:%s/<C-r>h//c<left><left>', opts)
 
 -- vimrc edit and source
--- nnoremap <Leader>ev :e $MYVIMRC<cr>
--- nnoremap <Leader>sv :source $MYVIMRC<cr>
+-- nnoremap <leader>ev :e $MYVIMRC<cr>
+-- nnoremap <leader>sv :source $MYVIMRC<cr>
 
 -- Quick fix file navigation
 map("n", "<DOWN>", ":cpreviews<CR>", opts)
@@ -73,14 +73,19 @@ map("n", "<LEFT>", ":cnext<CR>", opts)
 map("t", "jk", "<c-\\><c-n>", opts)
 
 map("n", "<C-n>", ":NERDTreeToggle<CR>", opts)
-map("n", "<Leader>nt", ":NERDTreeFind<CR>", opts)
+map("n", "<leader>nt", ":NERDTreeFind<CR>", opts)
 
 -- Start ieteractive EasyAlign in visual mode (e.g. vip<Enter>)
 map("v", "<Enter>", "<Plug>(EasyAlign)", opts)
 
 -- ALE config
-map("n", "<Leader><Leader>f", ":ALEFix<CR>", opts)
+map("n", "<leader><leader>f", ":ALEFix<CR>", opts)
 
+-- Telescope config
+map('n', '<leader>f', '<cmd>lua require("telescope.builtin").find_files()<cr>', opts)
+map('n', '<leader>g', '<cmd>lua require("telescope.builtin").live_grep()<cr>', opts)
+map('n', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<cr>', opts)
+map('n', '<leader>n', '<cmd>lua require("telescope.builtin").file_browser()<cr>', opts)
 
 -- COC settings
 -- nmap <silent> gd <Plug>(coc-definition)
