@@ -4,7 +4,6 @@ DEFAULT_USER=scott
 
 export ZSH=/usr/share/oh-my-zsh
 
-
 plugins=(git jump)
 autoload -U compinit && compinit
 

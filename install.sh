@@ -9,9 +9,9 @@ ln -s "$PWD/.zsh_plugins.txt" ~/.
 
 antibody bundle < "$PWD/.zsh_plugins.txt" > ~/.zsh_plugins.sh
 
-git clone --depth=1 https://github.com/savq/paq-nvim.git "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
+git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
-nvim --headless +PaqInstall +qa
+nvim --headless +PackerInstall +qa
 nvim --headless +GoInstallBinaries +qa
 nvim --headless +GoUpdateBinaries +qa
 nvim --headless +UpdateRemotePlugins +qa

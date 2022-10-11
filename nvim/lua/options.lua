@@ -1,6 +1,7 @@
 local cmd = vim.cmd
 
 local opts = {
+  guifont        = "FiraCode Nerd Font",
   ignorecase     = true, -- Case insensitive search
   smartcase      = true, -- Case sensitive when uc present
   number         = true,
@@ -41,6 +42,7 @@ local opts = {
   virtualedit    = "onemore", -- All cursor to go past the end of the the last character
   nojoinspaces   = true, -- No double spaces with join
   shortmess      = "ITF",
+  grepprg        = "rg\\", --vimgrep
 }
 
 for k, v in pairs(opts) do
