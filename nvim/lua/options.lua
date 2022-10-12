@@ -11,7 +11,6 @@ local opts = {
   foldnestmax    = 1,
   gdefault       = true, -- Replace all instances on a line by default ( not need to add g  flag)
   grepprg        = "rg\\", --vimgrep
-  guifont        = "FiraCode Nerd Font:h12",
   hidden         = true, -- Allow buffer switching without saving
   ignorecase     = true, -- Case insensitive search
   lazyredraw     = true, -- "Don't redraw while executing macros

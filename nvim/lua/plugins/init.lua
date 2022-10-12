@@ -14,11 +14,21 @@ require('packer').startup(function(use)
   use "preservim/nerdtree"
   use "hoob3rt/lualine.nvim"
   use "kyazdani42/nvim-web-devicons"
-  use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
+  use {"ellisonleao/gruvbox.nvim", 
+    config = function()
+      require('gruvbox').setup { }
+    end,
+  }
+  use {'akinsho/bufferline.nvim', 
+    tag = "v2.*", 
+    requires = {'kyazdani42/nvim-web-devicons'},
+    config = function() 
+      require('bufferline').setup { } 
+    end,
+  }
   use "junegunn/vim-easy-align"
   use "kshenoy/vim-signature"
   use "airblade/vim-gitgutter"
-  use "morhetz/gruvbox"
   use "jremmen/vim-ripgrep"
   use "easymotion/vim-easymotion"
   use "wellle/targets.vim"
@@ -35,15 +45,13 @@ require('packer').startup(function(use)
   use "hrsh7th/cmp-path"
   use "hrsh7th/cmp-cmdline"
   use "quangnguyen30192/cmp-nvim-ultisnips"
-  use {
-    "hrsh7th/nvim-cmp",
+  use {"hrsh7th/nvim-cmp",
     disable = false,
   }
 
   use "SirVer/ultisnips"
   use "mbbill/undotree"
-  use {
-    "folke/todo-comments.nvim",
+  use {"folke/todo-comments.nvim",
     requires = "nvim-lua/plenary.nvim",
   }
   use "fatih/vim-go"
@@ -53,7 +61,8 @@ require('packer').startup(function(use)
   use "nvim-telescope/telescope.nvim"
   use "zbirenbaum/copilot.lua"  
   use "zbirenbaum/copilot-cmp"
-end)
+end
+)
 
 -- Relative requires not possible, so we have to start at the top
 require("plugins/config/nerdtree");
@@ -61,7 +70,6 @@ require("plugins/config/telescope");
 require("plugins/config/lualine");
 require("plugins/config/treesitter");
 require("plugins/config/todo-comments");
-require("plugins/config/bufferline");
 require("plugins/config/ultisnips");
 require("plugins/config/go");
 require("plugins/config/copilot");
