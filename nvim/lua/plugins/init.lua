@@ -59,8 +59,7 @@ require('packer').startup(function(use)
   use "nvim-treesitter/nvim-treesitter"
   use "nvim-treesitter/nvim-treesitter-textobjects"
   use "nvim-telescope/telescope.nvim"
-  use "zbirenbaum/copilot.lua"  
-  use "zbirenbaum/copilot-cmp"
+  use "github/copilot.vim"
 end
 )
 
@@ -72,7 +71,6 @@ require("plugins/config/treesitter");
 require("plugins/config/todo-comments");
 require("plugins/config/ultisnips");
 require("plugins/config/go");
-require("plugins/config/copilot");
 require("plugins/config/cmp");
 
 
