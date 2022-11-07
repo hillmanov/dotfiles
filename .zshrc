@@ -76,6 +76,9 @@ dmb() {
     fi
   done
 }
+opr() {
+  ggpush && git open-pr "$@"
+}
 
 # Virtual folders
 mount_venus() {

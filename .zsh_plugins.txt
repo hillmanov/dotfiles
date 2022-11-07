@@ -1,5 +1,5 @@
 zsh-users/zsh-completions
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-syntax-highlighting
-
+caarlos0/open-pr kind:path
 ohmyzsh/ohmyzsh path:plugins/timer
