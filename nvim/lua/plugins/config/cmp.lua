@@ -72,7 +72,6 @@ cmp.setup {
   mapping = {
     ["<down>"] = cmp.mapping.select_next_item(),
     ["<up>"] = cmp.mapping.select_prev_item(),
-    ["<tab>"] = cmp.mapping.confirm { select = true },
     ["<cr>"] = cmp.mapping.confirm { select = true },
     ["<c-space>"] = cmp.mapping.complete(),
   },
@@ -81,7 +80,6 @@ cmp.setup {
     ghost_text = true,
   },
   sources = {
-    { name = "copilot" },
     { name = "nvim_lsp" },
     { name = "nvim_lua" },
     { name = "buffer" },
@@ -98,7 +96,7 @@ cmp.setup {
       cmp.config.compare.order,
     },
   },
-  preselect = cmp.PreselectMode.Item,
+  preselect = cmp.PreselectMode.None,
 }
 
 --set max height of items
