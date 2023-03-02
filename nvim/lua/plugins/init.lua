@@ -64,6 +64,7 @@ end
 )
 
 -- Relative requires not possible, so we have to start at the top
+require("plugins/config/copilot");
 require("plugins/config/nerdtree");
 require("plugins/config/telescope");
 require("plugins/config/lualine");
