@@ -36,6 +36,7 @@ alias vim=nvim
 alias vi=nvim
 alias lg=lazygit
 alias ld='lazydocker'
+alias apps='pm2 ls --sort id'
 
 # Functions so that the values are executed on demand, not ~/.zshrc load time.
 delete-docker-containers() {
