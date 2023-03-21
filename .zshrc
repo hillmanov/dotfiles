@@ -100,8 +100,8 @@ export GIT_EDITOR="nvim -c 'norm gg'"
 
 eval "$(direnv hook zsh)"
 
-# fnm
-eval "$(fnm env --use-on-cd)"
+# Make history updates happen immediately, not when the shell exits. 
+setopt share_history
 
 # tabtab source for packages
 # uninstall by removing these lines
