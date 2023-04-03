@@ -57,6 +57,7 @@ require('packer').startup(function(use)
   use "fatih/vim-go"
   use "neovim/nvim-lspconfig"
   use "nvim-treesitter/nvim-treesitter"
+  use "nvim-treesitter/playground"
   use "nvim-treesitter/nvim-treesitter-textobjects"
   use "nvim-telescope/telescope.nvim"
   use "github/copilot.vim"
