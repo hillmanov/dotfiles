@@ -16,14 +16,18 @@ require('packer').startup(function(use)
   use "nvim-tree/nvim-web-devicons"
   use {"ellisonleao/gruvbox.nvim", 
     config = function()
-      require('gruvbox').setup { }
+      require('gruvbox').setup{}
     end,
   }
   use {'akinsho/bufferline.nvim', 
-    tag = "v2.*", 
-    requires = {'kyazdani42/nvim-web-devicons'},
+    tag = "v3.*", 
+    requires = 'nvim-tree/nvim-web-devicons',
     config = function() 
-      require('bufferline').setup { } 
+      require('bufferline').setup{
+        options = {
+            separator_style = "slant"
+        }
+      } 
     end,
   }
   use "junegunn/vim-easy-align"
