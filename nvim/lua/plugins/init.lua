@@ -11,9 +11,9 @@ require('packer').startup(function(use)
 
   use "nvim-lua/plenary.nvim"
   use "AndrewRadev/splitjoin.vim"
-  use "preservim/nerdtree"
+  use "nvim-tree/nvim-tree.lua" 
   use "hoob3rt/lualine.nvim"
-  use "kyazdani42/nvim-web-devicons"
+  use "nvim-tree/nvim-web-devicons"
   use {"ellisonleao/gruvbox.nvim", 
     config = function()
       require('gruvbox').setup { }
@@ -80,7 +80,7 @@ end
 
 -- Relative requires not possible, so we have to start at the top
 require("plugins/config/copilot");
-require("plugins/config/nerdtree");
+require("plugins/config/nvim-tree");
 require("plugins/config/telescope");
 require("plugins/config/lualine");
 require("plugins/config/treesitter");

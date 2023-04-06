@@ -70,8 +70,9 @@ map("n", "<LEFT>", ":cnext<CR>", opts)
 -- Terminal jk -> ESC mapping
 map("t", "jk", "<c-\\><c-n>", opts)
 
-map("n", "<C-n>", ":NERDTreeToggle<CR>", opts)
-map("n", "<leader>nt", ":NERDTreeFind<CR>", opts)
+
+map("n", "<C-n>", ":NvimTreeToggle<CR>", opts)
+map("n", "<leader>nt", ":NvimTreeFindFile<CR>", opts)
 
 -- Start ieteractive EasyAlign in visual mode (e.g. vip<Enter>)
 map("v", "<Enter>", "<Plug>(EasyAlign)", opts)
