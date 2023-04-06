@@ -72,7 +72,7 @@ cmp.setup {
   mapping = {
     ["<down>"] = cmp.mapping.select_next_item(),
     ["<up>"] = cmp.mapping.select_prev_item(),
-    ["<cr>"] = cmp.mapping.confirm { select = true },
+    ["<cr>"] = cmp.mapping.confirm(),
     ["<c-space>"] = cmp.mapping.complete(),
   },
   experimental = {
