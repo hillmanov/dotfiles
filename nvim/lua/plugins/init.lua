@@ -43,15 +43,15 @@ require('packer').startup(function(use)
   use "dense-analysis/ale"
   
   -- Completion
-  use "hrsh7th/cmp-nvim-lsp"
-  use "hrsh7th/cmp-nvim-lua"
-  use "hrsh7th/cmp-buffer"
-  use "hrsh7th/cmp-path"
-  use "hrsh7th/cmp-cmdline"
-  use "quangnguyen30192/cmp-nvim-ultisnips"
   use {"hrsh7th/nvim-cmp",
     disable = false,
   }
+  use "hrsh7th/cmp-buffer"
+  use "hrsh7th/cmp-path"
+  use "hrsh7th/cmp-nvim-lua"
+  use "hrsh7th/cmp-nvim-lsp"
+  use "hrsh7th/cmp-cmdline"
+  use "quangnguyen30192/cmp-nvim-ultisnips"
 
   use "SirVer/ultisnips"
   use "mbbill/undotree"
@@ -61,7 +61,6 @@ require('packer').startup(function(use)
   use "fatih/vim-go"
   use "neovim/nvim-lspconfig"
   use "nvim-treesitter/nvim-treesitter"
-  use "nvim-treesitter/playground"
   use "nvim-treesitter/nvim-treesitter-textobjects"
   use "nvim-telescope/telescope.nvim"
   use "github/copilot.vim"

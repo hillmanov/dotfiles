@@ -119,7 +119,6 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export ANDROID_HOME="$XDG_DATA_HOME"/android
 export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials                                             
 export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
-export HISTFILE="${XDG_STATE_HOME}"/bash/history
 export CARGO_HOME="$XDG_DATA_HOME"/cargo 
 export CUDA_CACHE_PATH="$XDG_CACHE_HOME"/nv
 export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker 
