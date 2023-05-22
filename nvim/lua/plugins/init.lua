@@ -14,6 +14,11 @@ require('packer').startup(function(use)
   use "nvim-tree/nvim-tree.lua" 
   use "hoob3rt/lualine.nvim"
   use "nvim-tree/nvim-web-devicons"
+  use {"norcalli/nvim-colorizer.lua",
+    config = function()
+      require('colorizer').setup()
+    end,
+  }
   use {"ellisonleao/gruvbox.nvim", 
     config = function()
       require('gruvbox').setup{}
@@ -80,6 +85,8 @@ require('packer').startup(function(use)
   })
 end
 )
+
+require('lspconfig').tsserver.setup{}
 
 -- Relative requires not possible, so we have to start at the top
 require("plugins/config/copilot");
