@@ -6,6 +6,7 @@ mkdir -p ~/.nvim/{undo,backup}
 ln -s "$PWD/nvim" ~/.config/nvim
 ln -s "$PWD/.zshrc" ~/.
 ln -s "$PWD/.zsh_plugins.txt" ~/.
+ls -s "$PWD/.gitconfig" ~/.
 
 antibody bundle < "$PWD/.zsh_plugins.txt" > ~/.zsh_plugins.sh
 
