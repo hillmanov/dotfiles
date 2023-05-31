@@ -121,7 +121,6 @@ map("n", "d]", function()
   vim.diagnostic.goto_next()
 end)
 
--- map('n', '<leader>rn', "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
 map('n', '<leader>rn', function() 
   vim.lsp.buf.rename()
 end, opts)

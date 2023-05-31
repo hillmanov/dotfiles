@@ -55,11 +55,6 @@ delete-docker-volumes() {
 ds() {
    docker stop $(docker ps -a -q)
 }
-spleeter() {
-  echo "Separating into vocal and accompaniment tracks..."
-  mkdir -p "$(pwd)"/output
-  docker run --gpus all -v "$(pwd)"/output:/output -v "$(pwd)"/:/spleeter splitit:latest separate -p spleeter:2stems-16kHz -o /output -i /spleeter/"$1"
-}
 clearDockerLog(){
   dockerLogFile=$(docker inspect $1 | grep -G '\"LogPath\": \"*\"' | sed -e 's/.*\"LogPath\": \"//g' | sed -e 's/\",//g')
   rmCommand="rm $dockerLogFile"
@@ -83,6 +78,14 @@ dmb() {
 }
 opr() {
   ggpush && git open-pr "$@"
+}
+
+function copyfile() {
+  if [[ -f $1 ]]; then
+    cat $1 | xclip -selection clipboard
+  else
+    echo "File does not exist: $1"
+  fi
 }
 
 # Virtual folders
@@ -156,4 +159,3 @@ PATH=$PATH:$GOPATH/bin
 # mv $HOME/.sqlite_history $SQLITE_HISTORY
 # mv $HOME/.xinitrc $XINITRC
 # mv $HOME/.zsh_history $HISTFILE
-
