@@ -1,10 +1,9 @@
-local opts = {
+local opts = { 
   backup         = true,
   backupdir      = os.getenv "HOME" .. "/.nvim/backup/",
   clipboard      = "unnamedplus", -- Use system clipboard
   completeopt    = "menu,noselect", -- "Maybe just preview?
   conceallevel   = 1,
-  cursorline     = true,
   expandtab      = true,
   foldenable     = false,
   foldmethod     = "manual",
@@ -41,6 +40,7 @@ local opts = {
   whichwrap      = "b,s,h,l,<,>,[,]",   -- Backspace and cursor keys wrap too
   wildmode       = "list:longest,full",
   wrap           = false,
+	guicursor      = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,i-r-sm:blinkwait175-blinkoff150-blinkon175-Cursor/lCursor",
 }
 
 for k, v in pairs(opts) do

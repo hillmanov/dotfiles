@@ -70,6 +70,7 @@ require('packer').startup(function(use)
   use "nvim-telescope/telescope.nvim"
   use "github/copilot.vim"
   use 'muniftanjim/nui.nvim'
+  use 'isobit/vim-caddyfile'
   use({
     "jackMort/ChatGPT.nvim",
     config = function()
