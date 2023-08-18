@@ -64,6 +64,8 @@ require('packer').startup(function(use)
     requires = "nvim-lua/plenary.nvim",
   }
   use "fatih/vim-go"
+  use "williamboman/mason.nvim"
+  use "williamboman/mason-lspconfig.nvim"
   use "neovim/nvim-lspconfig"
   use "nvim-treesitter/nvim-treesitter"
   use "nvim-treesitter/nvim-treesitter-textobjects"
@@ -84,7 +86,8 @@ require("plugins/config/lualine");
 require("plugins/config/treesitter");
 require("plugins/config/todo-comments");
 require("plugins/config/ultisnips");
-require("plugins/config/go");
+-- require("plugins/config/go");
 require("plugins/config/cmp");
+require("plugins/config/mason");
 
 
