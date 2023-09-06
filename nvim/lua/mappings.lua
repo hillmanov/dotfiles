@@ -44,8 +44,8 @@ map("i", "<C-j>", "<Esc>:m+<CR>gi", opts)
 map("i", "<C-k>", "<Esc>:m-2<CR>gi", opts)
 
 -- Format json
-map("n", "<leader><leader>j", ":%!python -m json.tool<CR>", opts)
-map("v", "<leader><leader>j", ":'<,'>!python -m json.tool<CR>", opts)
+map("n", "<leader><leader>j", ":%!python -m json.tool --indent 2<CR>", opts)
+map("v", "<leader><leader>j", ":'<,'>!python -m json.tool --indent 2<CR>", opts)
 
 -- Select pasted text
 map("n", "gp", "`[v`]", opts)

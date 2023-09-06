@@ -86,7 +86,7 @@ require("plugins/config/lualine");
 require("plugins/config/treesitter");
 require("plugins/config/todo-comments");
 require("plugins/config/ultisnips");
--- require("plugins/config/go");
+require("plugins/config/go");
 require("plugins/config/cmp");
 require("plugins/config/mason");
 
