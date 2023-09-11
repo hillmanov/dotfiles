@@ -142,6 +142,11 @@ export ZDOTDIR="$HOME"/.config/zsh
 
 PATH=$PATH:$GOPATH/bin
 
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH=$BUN_INSTALL/bin:$PATH
+
 # mv $HOME/.android $ANDROID_HOME
 # mv $HOME/.aws "$XDG_CONFIG_HOME"/aws
 # mv $HOME/.bash_history $HISTFILE
