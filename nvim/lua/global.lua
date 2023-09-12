@@ -1,6 +1,7 @@
 local g = vim.g
 
 g.mapleader = " "
+g.maplocalleader = " "
 g.rg_derive_root = 1
 
 -- Highlight on yank

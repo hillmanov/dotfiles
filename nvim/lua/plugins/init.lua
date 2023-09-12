@@ -1,80 +1,88 @@
-require('packer').startup(function(use) 
-  use "wbthomason/packer.nvim"
-  
-  use "tpope/vim-fugitive"
-  use "tpope/vim-surround"
-  use "tpope/vim-commentary"
-  use "tpope/vim-repeat"
-  use "tpope/vim-abolish"
-  use "tpope/vim-speeddating"
-  use "tpope/vim-projectionist";
+require('lazy').setup({ 
+  "tpope/vim-fugitive",
+  "tpope/vim-surround",
+  "tpope/vim-commentary",
+  "tpope/vim-repeat",
+  "tpope/vim-abolish",
+  "tpope/vim-speeddating",
+  "tpope/vim-projectionist",
 
-  use "nvim-lua/plenary.nvim"
-  use "AndrewRadev/splitjoin.vim"
-  use "nvim-tree/nvim-tree.lua" 
-  use "hoob3rt/lualine.nvim"
-  use "nvim-tree/nvim-web-devicons"
-  use {"norcalli/nvim-colorizer.lua",
+  "nvim-lua/plenary.nvim",
+  "AndrewRadev/splitjoin.vim",
+  "nvim-tree/nvim-tree.lua", 
+  "hoob3rt/lualine.nvim",
+  "nvim-tree/nvim-web-devicons",
+  {"norcalli/nvim-colorizer.lua",
     config = function()
       require('colorizer').setup()
     end,
-  }
-  use {"ellisonleao/gruvbox.nvim", 
-    config = function()
-      require('gruvbox').setup{}
-    end,
-  }
-  use {'akinsho/bufferline.nvim', 
-    tag = "v3.*", 
-    requires = 'nvim-tree/nvim-web-devicons',
+  },
+  { "ellisonleao/gruvbox.nvim", priority = 1000,
+    init = function() 
+      vim.o.background = "dark" 
+      vim.cmd("colorscheme gruvbox")
+    end
+  },
+  {'akinsho/bufferline.nvim', 
+    version = "*", 
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
     config = function() 
       require('bufferline').setup{
         options = {
-            separator_style = "slant"
+          separator_style = "slant",
         }
       } 
     end,
-  }
-  use "junegunn/vim-easy-align"
-  use "kshenoy/vim-signature"
-  use "airblade/vim-gitgutter"
-  use "jremmen/vim-ripgrep"
-  use "easymotion/vim-easymotion"
-  use "wellle/targets.vim"
-  use "andymass/vim-matchup"
-  use "ryanoasis/vim-devicons"
-  use "brooth/far.vim"
-  use "qpkorr/vim-renamer"
-  use "dense-analysis/ale"
+  },
+  "junegunn/vim-easy-align",
+  "kshenoy/vim-signature",
+  "airblade/vim-gitgutter",
+  "jremmen/vim-ripgrep",
+  "easymotion/vim-easymotion",
+  "wellle/targets.vim",
+  "andymass/vim-matchup",
+  "ryanoasis/vim-devicons",
+  "brooth/far.vim",
+  "qpkorr/vim-renamer",
+  "dense-analysis/ale",
   
   -- Completion
-  use {"hrsh7th/nvim-cmp",
+  {"hrsh7th/nvim-cmp",
     disable = false,
-  }
-  use "hrsh7th/cmp-buffer"
-  use "hrsh7th/cmp-path"
-  use "hrsh7th/cmp-nvim-lua"
-  use "hrsh7th/cmp-nvim-lsp"
-  use "hrsh7th/cmp-cmdline"
-  use "quangnguyen30192/cmp-nvim-ultisnips"
+  },
+  "hrsh7th/cmp-buffer",
+  "hrsh7th/cmp-path",
+  "hrsh7th/cmp-nvim-lua",
+  "hrsh7th/cmp-nvim-lsp",
+  "hrsh7th/cmp-cmdline",
+  "quangnguyen30192/cmp-nvim-ultisnips",
 
-  use "SirVer/ultisnips"
-  use "mbbill/undotree"
-  use {"folke/todo-comments.nvim",
-    requires = "nvim-lua/plenary.nvim",
-  }
-  use "fatih/vim-go"
-  use "williamboman/mason.nvim"
-  use "williamboman/mason-lspconfig.nvim"
-  use "neovim/nvim-lspconfig"
-  use "nvim-treesitter/nvim-treesitter"
-  use "nvim-treesitter/nvim-treesitter-textobjects"
-  use "nvim-telescope/telescope.nvim"
-  use "github/copilot.vim"
-  use 'muniftanjim/nui.nvim'
-  use 'isobit/vim-caddyfile'
-end
-)
+  {"SirVer/ultisnips",
+    init = function()
+      -- Had to move this here for lazy.nvim, otherwise the tab button would insert whatever was in UltiSnipsExpandTrigger. Timing/loading difference. 
+      vim.g.UltiSnipsSnippetDirectories = { os.getenv "HOME" .. "/.config/nvim/UltiSnips" }
+      vim.g.UltiSnipsExpandTrigger = ';;'
+      vim.g.UltiSnipsJumpForwardTrigger = ';;'
+      vim.g.UltiSnipsJumpBackwardTrigger = '::'
+    end,
+  },
+  "mbbill/undotree",
+  {"folke/todo-comments.nvim",
+    dependencies = "nvim-lua/plenary.nvim",
+  },
+  "fatih/vim-go",
+  "williamboman/mason.nvim",
+  "williamboman/mason-lspconfig.nvim",
+  "neovim/nvim-lspconfig",
+  "nvim-treesitter/nvim-treesitter",
+  "nvim-treesitter/nvim-treesitter-textobjects",
+  "nvim-telescope/telescope.nvim",
+  "github/copilot.vim",
+  "muniftanjim/nui.nvim",
+  "isobit/vim-caddyfile",
+})
 
 require('lspconfig').tsserver.setup{}
 
