@@ -2,32 +2,41 @@ local opts = { noremap = true, silent = true }
 
 local map = require("helpers").map
 
+-- Escape insert and visual mode using "jk"
 map("i", "jk", "<Esc>", opts)
 map("v", "jk", "<Esc>", opts)
 
-map("n", "j", "gj", opts)
-map("n", "k", "gk", opts)
+-- Move by visual lines, not actual lines
+map("n", "j", "gj", opts)                    -- Move down by visual line
+map("n", "k", "gk", opts)                    -- Move up by visual line
 
-map("n", "Y", "y$", opts)
+-- Yank to end of line
+map("n", "Y", "y$", opts)                    -- Yank from cursor to end of line
 
--- Start editing after current w
+-- Start editing after current word
 map("n", "E", "ea", opts)
 
--- Go to the end of what was just pasted.
-map("v", "y", "y`]", opts)
-map("v", "p", "p`]", opts)
-map("n", "p", "p`]", opts)
+-- Go to the end of what was just pasted
+map("v", "y", "y`]", opts)                   -- After yanking, go to end of yanked text
+map("v", "p", "p`]", opts)                   -- After pasting in visual mode, go to end of pasted text
+map("n", "p", "p`]", opts)                   -- After pasting in normal mode, go to end of pasted text
+
+-- No highlight search and clear screen
 map("n", "<c-l", ":<C-u>nohlsearch<CR><c-l>", opts)
 
-map("v", "<", "<gv", opts)
-map("v", ">", ">gv", opts)
-map("n", "=", "=gv", opts)
+-- Indent and de-indent while preserving visual selection
+map("v", "<", "<gv", opts)                   -- Shift left and reselect
+map("v", ">", ">gv", opts)                   -- Shift right and reselect
+map("n", "=", "=gv", opts)                   
 
-map("n", "<tab>", ":bn<CR>", opts)
-map("n", "<s-tab>", ":bp<CR>", opts)
-map("n", "<leader>x", ":bd<CR>", opts)
-map("n", "<leader>c", "<C-w>q", opts)
-map("n", "<leader>p", "$p", opts)
+-- Switch between buffers
+map("n", "<tab>", ":bn<CR>", opts)           -- Next buffer
+map("n", "<s-tab>", ":bp<CR>", opts)         -- Previous buffer
+
+-- Buffer and window management
+map("n", "<leader>x", ":bd<CR>", opts)       -- Delete buffer
+map("n", "<leader>c", "<C-w>q", opts)        -- Close window
+map("n", "<leader>p", "$p", opts)            -- Paste at the end of the line
 
 -- Replace current word with what is in the clipboard
 map("n", "<leader>r", '"_diwP', opts)
@@ -35,62 +44,56 @@ map("n", "<leader>r", '"_diwP', opts)
 -- Repeat last replacement of a word
 map("n", "<leader>.", ':let @/=@"<cr>/<cr>cgn<c-r>.<esc>', opts)
 
--- Move lines around with Ctrl j and k in any mode
-map("n", "<C-j>", ":m .+1<CR>", opts)
-map("n", "<C-k>", ":m .-2<CR>", opts)
-map("v", "<C-k>", ":m '<-2<CR>gv", opts)
-map("v", "<C-j>", ":m '>+1<CR>gv", opts)
-map("i", "<C-j>", "<Esc>:m+<CR>gi", opts)
-map("i", "<C-k>", "<Esc>:m-2<CR>gi", opts)
+-- Move lines up and down
+map("n", "<C-j>", ":m .+1<CR>", opts)        -- Move line down
+map("n", "<C-k>", ":m .-2<CR>", opts)        -- Move line up
+map("v", "<C-k>", ":m '<-2<CR>gv", opts)     -- Move visual block up
+map("v", "<C-j>", ":m '>+1<CR>gv", opts)     -- Move visual block down
+map("i", "<C-j>", "<Esc>:m+<CR>gi", opts)    -- Move line down in insert mode
+map("i", "<C-k>", "<Esc>:m-2<CR>gi", opts)   -- Move line up in insert mode
 
--- Format json
+-- Format JSON with Python tool
 map("n", "<leader><leader>j", ":%!python -m json.tool --indent 2<CR>", opts)
 map("v", "<leader><leader>j", ":'<,'>!python -m json.tool --indent 2<CR>", opts)
 
 -- Select pasted text
-map("n", "gp", "`[v`]", opts)
+map("n", "gp", "`[v`]", opts)                -- Select last pasted text
 
-map("n", "<leader>w", ":w<CR>", opts)
+-- Quick save
+map("n", "<leader>w", ":w<CR>", opts)        -- Save current file
 
 --AOC
 map("n", "<leader>arc", ":make run-current<cr>", opts)
 
 -- Search and replace in the file
-map("n", "<leader>h", ":%s/<C-r><C-w>//c<Left><Left>", opts)
-map("v", "<leader>h", '"hy:%s/<C-r>h//c<left><left>', opts)
-
--- vimrc edit and source
--- nnoremap <leader>ev :e $MYVIMRC<cr>
--- nnoremap <leader>sv :source $MYVIMRC<cr>
+map("n", "<leader>h", ":%s/<C-r><C-w>//c<Left><Left>", opts)   -- Search and replace the word under cursor in normal mode
+map("v", "<leader>h", '"hy:%s/<C-r>h//c<left><left>', opts)    -- Search and replace the visually selected text
 
 -- Quick fix file navigation
-map("n", "<DOWN>", ":cprevious<CR>", opts)
-map("n", "<LEFT>", ":cnext<CR>", opts)
+map("n", "<DOWN>", ":cprevious<CR>", opts)   -- Navigate to previous error
+map("n", "<LEFT>", ":cnext<CR>", opts)       -- Navigate to next error
 
 -- Terminal jk -> ESC mapping
-map("t", "jk", "<c-\\><c-n>", opts)
+map("t", "jk", "<c-\\><c-n>", opts)          -- Use "jk" to exit terminal mode
 
+-- NvimTree settings
+map("n", "<C-n>", ":NvimTreeToggle<CR>", opts)       -- Toggle NvimTree
+map("n", "<leader>nt", ":NvimTreeFindFile<CR>", opts) -- Find current file in NvimTree
 
-map("n", "<C-n>", ":NvimTreeToggle<CR>", opts)
-map("n", "<leader>nt", ":NvimTreeFindFile<CR>", opts)
-
--- Start ieteractive EasyAlign in visual mode (e.g. vip<Enter>)
+-- Start EasyAlign in visual mode
 map("v", "<Enter>", "<Plug>(EasyAlign)", opts)
 
--- ALE config
-map("n", "<leader><leader>f", ":ALEFix<CR>", opts)
-
 -- Telescope config
-map('n', '<leader>f', '<cmd>lua require("telescope.builtin").find_files()<cr>', opts)
-map('n', '<leader>g', '<cmd>lua require("telescope.builtin").live_grep()<cr>', opts)
-map('n', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<cr>', opts)
-map('n', '<leader>n', '<cmd>lua require("telescope.builtin").file_browser()<cr>', opts)
+map('n', '<leader>f', '<cmd>lua require("telescope.builtin").find_files()<cr>', opts)      -- Find files with telescope
+map('n', '<leader>g', '<cmd>lua require("telescope.builtin").live_grep()<cr>', opts)       -- Grep files with telescope
+map('n', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<cr>', opts)        -- List buffers with telescope
+map('n', '<leader>n', '<cmd>lua require("telescope.builtin").file_browser()<cr>', opts)    -- Browse files with telescope
 
--- Git
-map('n', '<leader><leader>uh', '<Plug>(GitGutterUndoHunk)')
+-- GitGutter plugin to undo last hunk
+map('n', '<leader><leader>uh', '<Plug>(GitGutterUndoHunk)') 
 
 -- Random mappings
-map("n", "<leader><leader>n", ":!node %<cr>", opts)
+map("n", "<leader><leader>n", ":!node %<cr>", opts)  -- Execute current file with Node.js
 
 -- Code navigation
 map("n", "gD", function()

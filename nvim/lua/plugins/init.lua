@@ -71,6 +71,9 @@ require('lazy').setup({
   "mbbill/undotree",
   {"folke/todo-comments.nvim",
     dependencies = "nvim-lua/plenary.nvim",
+    config = function()
+      require("todo-comments").setup{}
+    end,
   },
   "fatih/vim-go",
   "williamboman/mason.nvim",
@@ -92,10 +95,7 @@ require("plugins/config/nvim-tree");
 require("plugins/config/telescope");
 require("plugins/config/lualine");
 require("plugins/config/treesitter");
-require("plugins/config/todo-comments");
 require("plugins/config/ultisnips");
 require("plugins/config/go");
 require("plugins/config/cmp");
 require("plugins/config/mason");
-
-
