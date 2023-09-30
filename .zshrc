@@ -88,6 +88,14 @@ function copyfile() {
   fi
 }
 
+function miltime() {
+  local start=$(date +%s%N)
+  "$@"
+  local end=$(date +%s%N)
+  local duration=$(bc <<< "scale=2; ($end - $start) / 1000000")
+  echo "Duration: $duration ms"
+}
+
 # Virtual folders
 mount_venus() {
   sshfs pi@192.168.86.188:/home ~/virtual/venus
