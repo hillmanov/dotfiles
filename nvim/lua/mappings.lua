@@ -36,7 +36,7 @@ map("n", "<s-tab>", ":bp<CR>", opts)         -- Previous buffer
 -- Buffer and window management
 map("n", "<leader>x", ":bd<CR>", opts)       -- Delete buffer
 map("n", "<leader>c", "<C-w>q", opts)        -- Close window
-map("n", "<leader>p", "$p", opts)            -- Paste at the end of the line
+-- map("n", "<leader>p", "$p", opts)            -- Paste at the end of the line -- REPLACES WITH THE TELESCOPE REGISTER CALL
 
 -- Replace current word with what is in the clipboard
 map("n", "<leader>r", '"_diwP', opts)
@@ -88,6 +88,7 @@ map('n', '<leader>f', '<cmd>lua require("telescope.builtin").find_files()<cr>', 
 map('n', '<leader>g', '<cmd>lua require("telescope.builtin").live_grep()<cr>', opts)       -- Grep files with telescope
 map('n', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<cr>', opts)        -- List buffers with telescope
 map('n', '<leader>n', '<cmd>lua require("telescope.builtin").file_browser()<cr>', opts)    -- Browse files with telescope
+map('n', '<leader>p', '<cmd>lua require("telescope.builtin").registers()<cr>', opts)    -- Browse registers
 
 -- GitGutter plugin to undo last hunk
 map('n', '<leader><leader>uh', '<Plug>(GitGutterUndoHunk)') 
