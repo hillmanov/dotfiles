@@ -22,7 +22,7 @@ g.go_highlight_extra_types = 1
 g.go_def_mapping_enabled = 0 -- We'll use the language server instead for go to def stuff
 
 -- automatically highlight variable your cursor is on
-g.go_auto_sameids = 0
+g.go_auto_sameids = 1
 
 -- Golang settings
 vim.api.nvim_create_autocmd("FileType", {
@@ -31,9 +31,11 @@ vim.api.nvim_create_autocmd("FileType", {
     map('n', '<leader><leader>b','<Plug>(go-build)')
     map('n', '<leader><leader>r','<Plug>(go-run)')
     map('n', '<leader><leader>t','<Plug>(go-test)')
+    -- This will override whatever vim-go does to load its own snippets, so we don't get the prompt about which snippets file to use to provide the snippet
+    g.UltiSnipsSnippetDirectories = { os.getenv "HOME" .. "/.config/nvim/UltiSnips" }
   end,
 })
+
 g.go_rename_command = 'gopls'
 g.go_def_mode='gopls'
 g.go_info_mode='gopls'
-
