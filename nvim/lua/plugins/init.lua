@@ -81,6 +81,10 @@ require('lazy').setup({
   "neovim/nvim-lspconfig",
   "nvim-treesitter/nvim-treesitter",
   "nvim-treesitter/nvim-treesitter-textobjects",
+  {'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    opts = {} -- this is equalent to setup({}) function
+  },
   "nvim-telescope/telescope.nvim",
   "github/copilot.vim",
   "muniftanjim/nui.nvim",

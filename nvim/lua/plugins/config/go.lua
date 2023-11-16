@@ -22,7 +22,7 @@ g.go_highlight_extra_types = 1
 g.go_def_mapping_enabled = 0 -- We'll use the language server instead for go to def stuff
 
 -- automatically highlight variable your cursor is on
-g.go_auto_sameids = 1
+g.go_auto_sameids = 0
 
 -- Golang settings
 vim.api.nvim_create_autocmd("FileType", {
