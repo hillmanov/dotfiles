@@ -86,6 +86,7 @@ require('lazy').setup({
     opts = {} -- this is equalent to setup({}) function
   },
   "nvim-telescope/telescope.nvim",
+  "desdic/telescope-rooter.nvim",
   "github/copilot.vim",
   "muniftanjim/nui.nvim",
   "isobit/vim-caddyfile",

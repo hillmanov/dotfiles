@@ -49,5 +49,12 @@ require('telescope').setup{
       override_generic_sorter = false,
       override_file_sorter = true,
     },
+    rooter = {
+       enable = true,
+       patterns = { ".git" },
+       debug = false
+    }
   }
 }
+
+require('telescope').load_extension('rooter')
