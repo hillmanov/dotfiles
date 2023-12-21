@@ -86,10 +86,21 @@ require('lazy').setup({
     opts = {} -- this is equalent to setup({}) function
   },
   "nvim-telescope/telescope.nvim",
+  'nvim-telescope/telescope-ui-select.nvim',
+
   "desdic/telescope-rooter.nvim",
   "github/copilot.vim",
   "muniftanjim/nui.nvim",
   "isobit/vim-caddyfile",
+  {
+    "David-Kunz/gen.nvim",
+    opts = {
+      model = "mistral", -- The default model to use.
+      display_mode = "float",
+      init = function(options) end,
+      command = "curl --silent --no-buffer -X POST http://titan:11434/api/generate -d $body",
+    }
+  },
 })
 
 require('lspconfig').tsserver.setup{}
