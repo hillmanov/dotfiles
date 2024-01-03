@@ -115,3 +115,4 @@ require("plugins/config/ultisnips");
 require("plugins/config/go");
 require("plugins/config/cmp");
 require("plugins/config/mason");
+require("plugins/config/ale");
