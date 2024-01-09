@@ -9,5 +9,5 @@ require('mason').setup({
 })
 
 require('mason-lspconfig').setup({
-  ensure_installed = { "gopls", "tsserver" },
+  ensure_installed = { "gopls", "tsserver", "tailwindcss" },
 })

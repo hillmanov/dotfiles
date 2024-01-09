@@ -75,6 +75,15 @@ require('lazy').setup({
       require("todo-comments").setup{}
     end,
   },
+  {'nvimdev/lspsaga.nvim',
+    config = function()
+      require('lspsaga').setup({})
+    end,
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter', -- optional
+      'nvim-tree/nvim-web-devicons',     -- optional
+    }
+  },
   "fatih/vim-go",
   "williamboman/mason.nvim",
   "williamboman/mason-lspconfig.nvim",
@@ -104,6 +113,13 @@ require('lazy').setup({
 })
 
 require('lspconfig').tsserver.setup{}
+require('lspconfig').tailwindcss.setup{}
+
+-- require('lspinstall').setup()
+-- local servers = require('lspinstall').installed_servers()
+-- for _, server in pairs(servers) do
+--   require('lspconfig')[server].setup{}
+-- end
 
 -- Relative requires not possible, so we have to start at the top
 require("plugins/config/copilot");

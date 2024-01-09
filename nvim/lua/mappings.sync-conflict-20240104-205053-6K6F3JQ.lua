@@ -91,7 +91,7 @@ map('n', '<leader>n', '<cmd>lua require("telescope.builtin").file_browser()<cr>'
 map('n', '<leader>p', '<cmd>lua require("telescope.builtin").registers()<cr>', opts)    -- Browse registers
 
 -- GitGutter plugin to undo last hunk
-map('n', '<leader><leader>uh', ':GitGutterUndoHunk<CR>', opts)
+map('n', '<leader><leader>uh', '<Plug>(GitGutterUndoHunk)') 
 
 -- Random mappings
 map("n", "<leader><leader>n", ":!node %<cr>", opts)  -- Execute current file with Node.js
@@ -125,5 +125,6 @@ map("n", "d]", function()
   vim.diagnostic.goto_next()
 end)
 
-map('n', '<leader>rn', ":Lspsaga rename<CR>", opts)
-map('n', '<leader>ca', ":Lspsaga code_action<CR>", opts)
+map('n', '<leader>rn', function() 
+  vim.lsp.buf.rename()
+end, opts)
