@@ -26,6 +26,7 @@ local opts = {
   shiftwidth     = 2,                   -- Set the number of space characters inserted for indentation
   shortmess      = "ITF",               -- Shorten messages to avoid the hit-enter prompt
   showmatch      = true,                -- Show matching brackets
+  signcolumn     = "yes",                 -- Always show sign column (gutter, left of the line numbers)
   slitright      = true,                -- Vertically split windows are right-aligned
   smartcase      = true,                -- Case sensitive when uc present
   smartindent    = true,                -- Smart autoindenting when starting a new line

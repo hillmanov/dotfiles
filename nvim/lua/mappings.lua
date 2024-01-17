@@ -84,10 +84,10 @@ map("n", "<leader>nt", ":NvimTreeFindFile<CR>", opts) -- Find current file in Nv
 map("v", "<Enter>", "<Plug>(EasyAlign)", opts)
 
 -- Telescope config
-map('n', '<leader>f', '<cmd>lua require("telescope.builtin").find_files()<cr>', opts)      -- Find files with telescope
-map('n', '<leader>g', '<cmd>lua require("telescope.builtin").live_grep()<cr>', opts)       -- Grep files with telescope
+map('n', '<leader>f', '<cmd>lua require("telescope.builtin").find_files({ use_git_root = true})<cr>', opts)      -- Find files with telescope
+map('n', '<leader>g', '<cmd>lua require("telescope.builtin").live_grep({ use_git_root = true})<cr>', opts)       -- Grep files with telescope
 map('n', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<cr>', opts)        -- List buffers with telescope
-map('n', '<leader>n', '<cmd>lua require("telescope.builtin").file_browser()<cr>', opts)    -- Browse files with telescope
+map('n', '<leader>n', '<cmd>lua require("telescope.builtin").file_browser({ use_git_root = true})<cr>', opts)    -- Browse files with telescope
 map('n', '<leader>p', '<cmd>lua require("telescope.builtin").registers()<cr>', opts)    -- Browse registers
 
 -- GitGutter plugin to undo last hunk
@@ -95,6 +95,7 @@ map('n', '<leader><leader>uh', ':GitGutterUndoHunk<CR>', opts)
 
 -- Random mappings
 map("n", "<leader><leader>n", ":!node %<cr>", opts)  -- Execute current file with Node.js
+
 
 -- Code navigation
 map("n", "gD", function()

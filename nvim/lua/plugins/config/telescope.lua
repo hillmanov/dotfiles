@@ -49,11 +49,6 @@ require('telescope').setup{
       override_generic_sorter = false,
       override_file_sorter = true,
     },
-    rooter = {
-       enable = true,
-       patterns = { ".git" },
-       debug = false
-    },
     ["ui-select"] = {
       require("telescope.themes").get_dropdown {
         -- even more opts
@@ -75,5 +70,4 @@ require('telescope').setup{
   }
 }
 
-require('telescope').load_extension('rooter')
 require("telescope").load_extension("ui-select")

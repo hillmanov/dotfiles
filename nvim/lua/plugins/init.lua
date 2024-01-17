@@ -97,7 +97,6 @@ require('lazy').setup({
   "nvim-telescope/telescope.nvim",
   'nvim-telescope/telescope-ui-select.nvim',
 
-  "desdic/telescope-rooter.nvim",
   "github/copilot.vim",
   "muniftanjim/nui.nvim",
   "isobit/vim-caddyfile",
@@ -108,6 +107,15 @@ require('lazy').setup({
       display_mode = "float",
       init = function(options) end,
       command = "curl --silent --no-buffer -X POST http://titan:11434/api/generate -d $body",
+    }
+  },
+  {
+    'laytan/tailwind-sorter.nvim',
+    dependencies = {'nvim-treesitter/nvim-treesitter', 'nvim-lua/plenary.nvim'},
+    build = 'cd formatter && npm i && npm run build',
+    config = true,
+    opts = {
+      on_save_enabled = true,
     }
   },
 })

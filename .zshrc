@@ -110,6 +110,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export GIT_EDITOR="nvim -c 'norm gg'" 
 
 eval "$(direnv hook zsh)"
+eval "$(atuin init zsh)"
 
 # Make history updates happen immediately, not when the shell exits. 
 setopt share_history
@@ -148,7 +149,6 @@ export ZDOTDIR="$HOME"/.config/zsh
 # Do not mess with the Xauthority file!
 
 PATH=$PATH:$GOPATH/bin
-
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
