@@ -89,6 +89,7 @@ map('n', '<leader>g', '<cmd>lua require("telescope.builtin").live_grep({ use_git
 map('n', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<cr>', opts)        -- List buffers with telescope
 map('n', '<leader>n', '<cmd>lua require("telescope.builtin").file_browser({ use_git_root = true})<cr>', opts)    -- Browse files with telescope
 map('n', '<leader>p', '<cmd>lua require("telescope.builtin").registers()<cr>', opts)    -- Browse registers
+map('n', '<leader>m', '<cmd>lua require("telescope.builtin").marks()<cr>', opts)    -- Browse marks
 
 -- GitGutter plugin to undo last hunk
 map('n', '<leader><leader>uh', ':GitGutterUndoHunk<CR>', opts)
