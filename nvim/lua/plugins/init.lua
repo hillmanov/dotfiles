@@ -77,7 +77,14 @@ require('lazy').setup({
   },
   {'nvimdev/lspsaga.nvim',
     config = function()
-      require('lspsaga').setup({})
+      require('lspsaga').setup({
+        symbol_in_winbar = {
+          enable = false
+        },
+        rename = {
+          in_select = false,
+        }
+      })
     end,
     dependencies = {
       'nvim-treesitter/nvim-treesitter', -- optional

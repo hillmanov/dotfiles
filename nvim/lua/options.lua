@@ -14,7 +14,7 @@ local opts = {
   ignorecase     = true,                -- Case insensitive search
   lazyredraw     = true,                -- Don't redraw while executing macros
   mouse          = "",                  -- Disable mouse support in all modes
-  nocursorcolumn = false,                -- Do not highlight the screen column of the cursor
+  nocursorcolumn = false,               -- Do not highlight the screen column of the cursor
   cursorline     = true,                -- Highlight the current line
   nojoinspaces   = true,                -- No double spaces with join
   noswapfile     = true,                -- Disable swap file to avoid creating swap files for changes
@@ -26,7 +26,7 @@ local opts = {
   shiftwidth     = 2,                   -- Set the number of space characters inserted for indentation
   shortmess      = "ITF",               -- Shorten messages to avoid the hit-enter prompt
   showmatch      = true,                -- Show matching brackets
-  signcolumn     = "yes",                 -- Always show sign column (gutter, left of the line numbers)
+  signcolumn     = "yes",                -- Always show sign column (gutter, left of the line numbers)
   slitright      = true,                -- Vertically split windows are right-aligned
   smartcase      = true,                -- Case sensitive when uc present
   smartindent    = true,                -- Smart autoindenting when starting a new line
@@ -43,6 +43,8 @@ local opts = {
   wildmode       = "list:longest,full", -- Define how command-line completion works
   wrap           = false,               -- Disable line wrapping
   guicursor      = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,i-r-sm:blinkwait175-blinkoff150-blinkon175-Cursor/lCursor", -- Set cursor shape and blink settings in different modes
+  shell          = 'zsh -l',
+  cmdheight      = 0,
 }
 
 for k, v in pairs(opts) do

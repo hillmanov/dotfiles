@@ -2,33 +2,20 @@ if [ -f ~/.private_zshrc ]; then
   source ~/.private_zshrc
 fi
 
-ZSH_DISABLE_COMPFIX="true"
-ZSH_THEME="agnoster"
-DEFAULT_USER=scott
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/home/scott/.local/bin"
 
-export ZSH=/usr/share/oh-my-zsh
-
-plugins=(git jump)
 autoload -U compinit && compinit
 
-# User configuration
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/home/scott/.local/bin"
+ZSH_DISABLE_COMPFIX="true"
+DEFAULT_USER=scott
 
+source /usr/share/zsh-antidote/antidote.zsh
+# set omz variables so it can work with ohmyzsh plugins as well. 
+ZSH=$(antidote path ohmyzsh/ohmyzsh)
+ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/oh-my-zsh"
+[[ -d $ZSH_CACHE_DIR ]] || mkdir -p $ZSH_CACHE_DIR
+antidote load $HOME/.zsh_plugins.txt
 source $ZSH/oh-my-zsh.sh
-source ~/.zsh_plugins.sh
-
-# Load private-zshrc if it exists
-if [ -f ~/.private-zshrc ]; then
-  source ~/.private-zshrc
-fi
-
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='nvim'
-fi
-
 
 # aliases
 alias dof='rm **/*.orig' # Delete .orig files
@@ -38,24 +25,25 @@ alias vi=nvim
 alias lg=lazygit
 alias ld='lazydocker'
 alias apps='pm2 ls --sort id'
-
-# TEMP
 alias m4b-tool='docker run -it --rm -u $(id -u):$(id -g) -v "$(pwd)":/mnt sandreas/m4b-tool:latest'
 
-# Functions so that the values are executed on demand, not ~/.zshrc load time.
 delete-docker-containers() {
   docker rm $(docker ps -a -q)
 }
+
 delete-docker-images() {
   docker rmi -f $(docker images -a -q)
 }
+
 delete-docker-volumes() {
   docker volume rm -f $(docker volume ls -q)
 }
+
 ds() {
    docker stop $(docker ps -a -q)
 }
-clearDockerLog(){
+
+clear-docker-log(){
   dockerLogFile=$(docker inspect $1 | grep -G '\"LogPath\": \"*\"' | sed -e 's/.*\"LogPath\": \"//g' | sed -e 's/\",//g')
   rmCommand="rm $dockerLogFile"
   screen -d -m -S dockerlogdelete ~/Library/Containers/com.docker.docker/Data/vms/0/tty
@@ -63,9 +51,11 @@ clearDockerLog(){
   screen -S dockerlogdelete -p 0 -X stuff $'\n'
   screen -S dockerlogdelete -X quit
 }
+
 open() {
   dolphin . &
 }
+
 dmb() {
   git remote prune origin
   for branch in $(git branch -a | sed 's/^\s*//' | sed 's/^remotes\///' | grep -v 'master$'); do
@@ -76,6 +66,7 @@ dmb() {
     fi
   done
 }
+
 opr() {
   ggpush && git open-pr "$@"
 }
@@ -96,11 +87,6 @@ function miltime() {
   echo "Duration: $duration ms"
 }
 
-# Virtual folders
-mount_venus() {
-  sshfs pi@192.168.86.188:/home ~/virtual/venus
-}
-
 # FZF
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
@@ -111,9 +97,6 @@ export GIT_EDITOR="nvim -c 'norm gg'"
 
 eval "$(direnv hook zsh)"
 eval "$(atuin init zsh)"
-
-# Make history updates happen immediately, not when the shell exits. 
-setopt share_history
 
 # tabtab source for packages
 # uninstall by removing these lines
@@ -148,26 +131,16 @@ export HISTFILE="$XDG_STATE_HOME"/zsh/history
 export ZDOTDIR="$HOME"/.config/zsh
 # Do not mess with the Xauthority file!
 
-PATH=$PATH:$GOPATH/bin
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
 
-# mv $HOME/.android $ANDROID_HOME
-# mv $HOME/.aws "$XDG_CONFIG_HOME"/aws
-# mv $HOME/.bash_history $HISTFILE
-# mv $HOME/.cargo $CARGO_HOME
-# mv $HOME/.nv $CUDA_CACHE_PATH
-# mv $HOME/.docker $DOCKER_CONFIG
-# mv $HOME/.gnupg $GNUPGHOME
-# mv $HOME/go $GOPATH
-# mv $HOME/.gtkrc-2.0 $GTK2_RC_FILES
-# mv $HOME/.kde4 $KDEHOME
-# mv $HOME/.lesshst $LESSHISTFILE
-# mv $HOME/.node_repl_history $NODE_REPL_HISTORY
-# mv $HOME/.putty "$XDG_CONFIG_HOME"/putty
-# mv $HOME/.rustup $RUSTUP_HOME
-# mv $HOME/.sqlite_history $SQLITE_HISTORY
-# mv $HOME/.xinitrc $XINITRC
-# mv $HOME/.zsh_history $HISTFILE
+PATH=$PATH:$GOPATH/bin
+
