@@ -125,6 +125,7 @@ require('lazy').setup({
       on_save_enabled = true,
     }
   },
+  'fedepujol/move.nvim',
 })
 
 require('lspconfig').tsserver.setup{}
@@ -142,6 +143,7 @@ require("plugins/config/nvim-tree");
 require("plugins/config/telescope");
 require("plugins/config/lualine");
 require("plugins/config/treesitter");
+require("plugins/config/move");
 require("plugins/config/ultisnips");
 require("plugins/config/go");
 require("plugins/config/cmp");

@@ -4,13 +4,20 @@ fi
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/home/scott/.local/bin"
 
-autoload -U compinit && compinit
+autoload -Uz compinit
+ZCOMPDUMP="${ZDOTDIR:-$HOME}/.zcompdump-${ZSH_VERSION}"
+
+if [[ ! -s $ZCOMPDUMP ]]; then
+  compinit
+else
+  compinit -C -u -d "${ZCOMPDUMP}"
+fi
 
 ZSH_DISABLE_COMPFIX="true"
 DEFAULT_USER=scott
 
 source /usr/share/zsh-antidote/antidote.zsh
-# set omz variables so it can work with ohmyzsh plugins as well. 
+
 ZSH=$(antidote path ohmyzsh/ohmyzsh)
 ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/oh-my-zsh"
 [[ -d $ZSH_CACHE_DIR ]] || mkdir -p $ZSH_CACHE_DIR
@@ -90,6 +97,7 @@ function miltime() {
 # FZF
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
+
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" -g "!node_modules/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
@@ -124,11 +132,10 @@ export LESSHISTFILE="$XDG_CACHE_HOME"/less/history
 export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node_repl_history
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export SQLITE_HISTORY="$XDG_CACHE_HOME"/sqlite_history
-alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
-compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
 export HISTFILE="$XDG_STATE_HOME"/zsh/history
 export ZDOTDIR="$HOME"/.config/zsh
+alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
 # Do not mess with the Xauthority file!
 
 # Preferred editor for local and remote sessions
@@ -144,3 +151,5 @@ export PATH=$BUN_INSTALL/bin:$PATH
 
 PATH=$PATH:$GOPATH/bin
 
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8

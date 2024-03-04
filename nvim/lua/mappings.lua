@@ -16,9 +16,9 @@ map("n", "Y", "y$", opts)                    -- Yank from cursor to end of line
 -- Start editing after current word
 map("n", "E", "ea", opts)
 
--- Go to the end of what was just pasted
 map("v", "y", "y`]", opts)                   -- After yanking, go to end of yanked text
 map("v", "p", "p`]", opts)                   -- After pasting in visual mode, go to end of pasted text
+-- Go to the end of what was just pasted
 map("n", "p", "p`]", opts)                   -- After pasting in normal mode, go to end of pasted text
 
 -- No highlight search and clear screen
@@ -45,22 +45,29 @@ map("n", "<leader>r", '"_diwP', opts)
 map("n", "<leader>.", ':let @/=@"<cr>/<cr>cgn<c-r>.<esc>', opts)
 
 -- Move lines up and down
-map("n", "<C-j>", ":m .+1<CR>", opts)        -- Move line down
-map("n", "<C-k>", ":m .-2<CR>", opts)        -- Move line up
-map("v", "<C-k>", ":m '<-2<CR>gv", opts)     -- Move visual block up
-map("v", "<C-j>", ":m '>+1<CR>gv", opts)     -- Move visual block down
-map("i", "<C-j>", "<Esc>:m+<CR>gi", opts)    -- Move line down in insert mode
-map("i", "<C-k>", "<Esc>:m-2<CR>gi", opts)   -- Move line up in insert mode
+map("n", "<C-k>", ":MoveLine(-1)<CR>", opts)  -- Move line up
+map("n", "<C-j>", ":MoveLine(1)<CR>", opts)   -- Move line down
+
+map("v", "<C-k>", ":MoveBlock(-1)<CR>", opts)    -- Move visual block up
+map("v", "<C-j>", ":MoveBlock(1)<CR>", opts)     -- Move visual block down
+
+map("i", "<C-k>", "<Esc>:MoveLine(-1)<CR>gi", opts)  -- Move line up
+map("i", "<C-j>", "<Esc>:MoveLine(1)<CR>gi", opts)   -- Move line down
+
+map("n", "<C-h>", ":MoveWord(-1)<CR>", opts)  -- Move word left
+map("n", "<C-l>", ":MoveWord(1)<CR>", opts)   -- Move word right
 
 -- Format JSON with Python tool
 map("n", "<leader><leader>j", ":%!python -m json.tool --indent 2<CR>", opts)
 map("v", "<leader><leader>j", ":'<,'>!python -m json.tool --indent 2<CR>", opts)
 
+
+
 -- Select pasted text
 map("n", "gp", "`[v`]", opts)                -- Select last pasted text
 
 -- Quick save
-map("n", "<leader>w", ":w<CR>", opts)        -- Save current file
+map("n", "<leader>w", ":silent w<CR>", opts)        -- Save current file
 
 --AOC
 map("n", "<leader>arc", ":make run-current<cr>", opts)

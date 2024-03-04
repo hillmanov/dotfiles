@@ -1,4 +1,5 @@
 local map = require("helpers").map
+
 local g = vim.g
 
 g.go_jump_to_error = 0
