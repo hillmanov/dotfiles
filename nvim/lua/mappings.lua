@@ -34,8 +34,8 @@ map("n", "<tab>", ":bn<CR>", opts)           -- Next buffer
 map("n", "<s-tab>", ":bp<CR>", opts)         -- Previous buffer
 
 -- Buffer and window management
-map("n", "<leader>x", ":bd<CR>", opts)       -- Delete buffer
-map("n", "<leader>c", "<C-w>q", opts)        -- Close window
+map("n", "<leader>x", ":NvimTreeClose<CR>:bd<CR>", opts)       -- Delete buffer
+map("n", "<leader>c", "<C-w>q",                    opts)        -- Close window
 -- map("n", "<leader>p", "$p", opts)            -- Paste at the end of the line -- REPLACES WITH THE TELESCOPE REGISTER CALL
 
 -- Replace current word with what is in the clipboard
@@ -54,14 +54,9 @@ map("v", "<C-j>", ":MoveBlock(1)<CR>", opts)     -- Move visual block down
 map("i", "<C-k>", "<Esc>:MoveLine(-1)<CR>gi", opts)  -- Move line up
 map("i", "<C-j>", "<Esc>:MoveLine(1)<CR>gi", opts)   -- Move line down
 
-map("n", "<C-h>", ":MoveWord(-1)<CR>", opts)  -- Move word left
-map("n", "<C-l>", ":MoveWord(1)<CR>", opts)   -- Move word right
-
 -- Format JSON with Python tool
 map("n", "<leader><leader>j", ":%!python -m json.tool --indent 2<CR>", opts)
 map("v", "<leader><leader>j", ":'<,'>!python -m json.tool --indent 2<CR>", opts)
-
-
 
 -- Select pasted text
 map("n", "gp", "`[v`]", opts)                -- Select last pasted text
