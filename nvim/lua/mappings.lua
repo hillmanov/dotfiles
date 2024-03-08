@@ -72,8 +72,8 @@ map("n", "<leader>h", ":%s/<C-r><C-w>//c<Left><Left>", opts)   -- Search and rep
 map("v", "<leader>h", '"hy:%s/<C-r>h//c<left><left>', opts)    -- Search and replace the visually selected text
 
 -- Quick fix file navigation
-map("n", "<DOWN>", ":cprevious<CR>", opts)   -- Navigate to previous error
-map("n", "<LEFT>", ":cnext<CR>", opts)       -- Navigate to next error
+map("n", "<DOWN>", ":silent cprevious<CR>", opts)   -- Navigate to previous error
+map("n", "<LEFT>", ":silent cnext<CR>", opts)       -- Navigate to next error
 
 -- Terminal jk -> ESC mapping
 map("t", "jk", "<c-\\><c-n>", opts)          -- Use "jk" to exit terminal mode
@@ -99,6 +99,11 @@ map('n', '<leader><leader>uh', ':GitGutterUndoHunk<CR>', opts)
 -- Random mappings
 map("n", "<leader><leader>n", ":!node %<cr>", opts)  -- Execute current file with Node.js
 
+-- Tmux keybindings
+-- map("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>", opts)
+-- map("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>", opts)
+-- map("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>", opts)
+-- map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>", opts)
 
 -- Code navigation
 map("n", "gD", function()

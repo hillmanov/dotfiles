@@ -43,7 +43,7 @@ local opts = {
   wildmode       = "list:longest,full", -- Define how command-line completion works
   wrap           = false,               -- Disable line wrapping
   guicursor      = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,i-r-sm:blinkwait175-blinkoff150-blinkon175-Cursor/lCursor", -- Set cursor shape and blink settings in different modes
-  shell          = 'zsh -l',
+  shell          = 'zsh',
   cmdheight      = 0,
 }
 

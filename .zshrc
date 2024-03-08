@@ -134,7 +134,6 @@ export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export SQLITE_HISTORY="$XDG_CACHE_HOME"/sqlite_history
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export HISTFILE="$XDG_STATE_HOME"/zsh/history
-export ZDOTDIR="$HOME"/.config/zsh
 alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
 # Do not mess with the Xauthority file!
 
