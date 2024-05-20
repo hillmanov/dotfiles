@@ -148,7 +148,12 @@ fi
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
 
+# Go
 PATH=$PATH:$GOPATH/bin
+
+# Global node - have to configure node to install globals to this directory
+PATH=$PATH:$HOME/.local/share/npm-global/bin
 
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
+

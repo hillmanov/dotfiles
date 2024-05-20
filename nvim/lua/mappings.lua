@@ -5,7 +5,7 @@ local map = require("helpers").map
 -- Escape insert and visual mode using "jk"
 map("i", "jk", "<Esc>", opts)
 map("v", "jk", "<Esc>", opts)
-
+    
 -- Move by visual lines, not actual lines
 map("n", "j", "gj", opts)                    -- Move down by visual line
 map("n", "k", "gk", opts)                    -- Move up by visual line
@@ -22,7 +22,7 @@ map("v", "p", "p`]", opts)                   -- After pasting in visual mode, go
 map("n", "p", "p`]", opts)                   -- After pasting in normal mode, go to end of pasted text
 
 -- No highlight search and clear screen
-map("n", "<c-l", ":<C-u>nohlsearch<CR><c-l>", opts)
+map("n", "<leader>l", ":nohlsearch<CR>", opts)
 
 -- Indent and de-indent while preserving visual selection
 map("v", "<", "<gv", opts)                   -- Shift left and reselect
@@ -45,14 +45,14 @@ map("n", "<leader>r", '"_diwP', opts)
 map("n", "<leader>.", ':let @/=@"<cr>/<cr>cgn<c-r>.<esc>', opts)
 
 -- Move lines up and down
-map("n", "<C-k>", ":MoveLine(-1)<CR>", opts)  -- Move line up
-map("n", "<C-j>", ":MoveLine(1)<CR>", opts)   -- Move line down
+map("n", "<A-k>", ":MoveLine(-1)<CR>", opts)  -- Move line up
+map("n", "<A-j>", ":MoveLine(1)<CR>", opts)   -- Move line down
 
-map("v", "<C-k>", ":MoveBlock(-1)<CR>", opts)    -- Move visual block up
-map("v", "<C-j>", ":MoveBlock(1)<CR>", opts)     -- Move visual block down
+map("v", "<A-k>", ":MoveBlock(-1)<CR>", opts)    -- Move visual block up
+map("v", "<A-j>", ":MoveBlock(1)<CR>", opts)     -- Move visual block down
 
-map("i", "<C-k>", "<Esc>:MoveLine(-1)<CR>gi", opts)  -- Move line up
-map("i", "<C-j>", "<Esc>:MoveLine(1)<CR>gi", opts)   -- Move line down
+map("i", "<A-k>", "<Esc>:MoveLine(-1)<CR>gi", opts)  -- Move line up
+map("i", "<A-j>", "<Esc>:MoveLine(1)<CR>gi", opts)   -- Move line down
 
 -- Format JSON with Python tool
 map("n", "<leader><leader>j", ":%!python -m json.tool --indent 2<CR>", opts)
@@ -62,7 +62,7 @@ map("v", "<leader><leader>j", ":'<,'>!python -m json.tool --indent 2<CR>", opts)
 map("n", "gp", "`[v`]", opts)                -- Select last pasted text
 
 -- Quick save
-map("n", "<leader>w", ":silent w<CR>", opts)        -- Save current file
+map("n", "<leader>w", ":silent nohlsearch<CR>:silent w<CR>", opts)        -- Save current file
 
 --AOC
 map("n", "<leader>arc", ":make run-current<cr>", opts)
@@ -100,10 +100,10 @@ map('n', '<leader><leader>uh', ':GitGutterUndoHunk<CR>', opts)
 map("n", "<leader><leader>n", ":!node %<cr>", opts)  -- Execute current file with Node.js
 
 -- Tmux keybindings
--- map("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>", opts)
--- map("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>", opts)
--- map("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>", opts)
--- map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>", opts)
+map("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>", opts)
+map("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>", opts)
+map("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>", opts)
+map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>", opts)
 
 -- Code navigation
 map("n", "gD", function()

@@ -1,4 +1,4 @@
-require('lazy').setup({ 
+require("lazy").setup({ 
   "tpope/vim-fugitive",
   "tpope/vim-surround",
   "tpope/vim-commentary",
@@ -14,22 +14,22 @@ require('lazy').setup({
   "nvim-tree/nvim-web-devicons",
   {"norcalli/nvim-colorizer.lua",
     config = function()
-      require('colorizer').setup()
+      require("colorizer").setup()
     end,
   },
-  { "ellisonleao/gruvbox.nvim", priority = 1000,
+  {"ellisonleao/gruvbox.nvim", priority = 1000,
     init = function() 
       vim.o.background = "dark" 
       vim.cmd("colorscheme gruvbox")
     end
   },
-  {'akinsho/bufferline.nvim', 
+  {"akinsho/bufferline.nvim", 
     version = "*", 
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
     config = function() 
-      require('bufferline').setup{
+      require("bufferline").setup{
         options = {
           separator_style = "slant",
         }
@@ -47,7 +47,6 @@ require('lazy').setup({
   "brooth/far.vim",
   "qpkorr/vim-renamer",
   "dense-analysis/ale",
-
   -- Completion
   {"hrsh7th/nvim-cmp",
     disable = false,
@@ -63,9 +62,9 @@ require('lazy').setup({
     init = function()
       -- Had to move this here for lazy.nvim, otherwise the tab button would insert whatever was in UltiSnipsExpandTrigger. Timing/loading difference. 
       vim.g.UltiSnipsSnippetDirectories = { os.getenv "HOME" .. "/.config/nvim/UltiSnips" }
-      vim.g.UltiSnipsExpandTrigger = ';;'
-      vim.g.UltiSnipsJumpForwardTrigger = ';;'
-      vim.g.UltiSnipsJumpBackwardTrigger = '::'
+      vim.g.UltiSnipsExpandTrigger = ";;"
+      vim.g.UltiSnipsJumpForwardTrigger = ";;"
+      vim.g.UltiSnipsJumpBackwardTrigger = "::"
     end,
   },
   "mbbill/undotree",
@@ -75,9 +74,9 @@ require('lazy').setup({
       require("todo-comments").setup{}
     end,
   },
-  {'nvimdev/lspsaga.nvim',
+  {"nvimdev/lspsaga.nvim",
     config = function()
-      require('lspsaga').setup({
+      require("lspsaga").setup({
         symbol_in_winbar = {
           enable = false
         },
@@ -87,8 +86,8 @@ require('lazy').setup({
       })
     end,
     dependencies = {
-      'nvim-treesitter/nvim-treesitter', -- optional
-      'nvim-tree/nvim-web-devicons',     -- optional
+      "nvim-treesitter/nvim-treesitter", -- optional
+      "nvim-tree/nvim-web-devicons",     -- optional
     }
   },
   "fatih/vim-go",
@@ -97,12 +96,8 @@ require('lazy').setup({
   "neovim/nvim-lspconfig",
   "nvim-treesitter/nvim-treesitter",
   "nvim-treesitter/nvim-treesitter-textobjects",
-  {'windwp/nvim-autopairs',
-    event = "InsertEnter",
-    opts = {} -- this is equalent to setup({}) function
-  },
   "nvim-telescope/telescope.nvim",
-  'nvim-telescope/telescope-ui-select.nvim',
+  "nvim-telescope/telescope-ui-select.nvim",
 
   "github/copilot.vim",
   "muniftanjim/nui.nvim",
@@ -110,31 +105,53 @@ require('lazy').setup({
   {
     "David-Kunz/gen.nvim",
     opts = {
-      model = "mistral", -- The default model to use.
+      model = "llama3", -- The default model to use.
+      host = "titan",
+      port = "11434",
       display_mode = "float",
       init = function(options) end,
-      command = "curl --silent --no-buffer -X POST http://titan:11434/api/generate -d $body",
+      command = function(options)
+            local body = {model = options.model, stream = true}
+            return "curl --silent --no-buffer -X POST http://" .. options.host .. ":" .. options.port .. "/api/chat -d $body"
+        end,
     }
   },
   {
-    'laytan/tailwind-sorter.nvim',
-    dependencies = {'nvim-treesitter/nvim-treesitter', 'nvim-lua/plenary.nvim'},
-    build = 'cd formatter && npm i && npm run build',
+    "laytan/tailwind-sorter.nvim",
+    dependencies = {"nvim-treesitter/nvim-treesitter", "nvim-lua/plenary.nvim"},
+    build = "cd formatter && npm i && npm run build",
     config = true,
     opts = {
       on_save_enabled = true,
     }
   },
-  'fedepujol/move.nvim',
+  "fedepujol/move.nvim",
+  "christoomey/vim-tmux-navigator",
+  {
+    "kristijanhusak/vim-dadbod-ui",
+    dependencies = {
+      { "tpope/vim-dadbod", lazy = true },
+      { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
+    },
+    cmd = {
+      "DBUI",
+      "DBUIToggle",
+      "DBUIAddConnection",
+      "DBUIFindBuffer",
+    },
+    init = function()
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
+  }
 })
 
-require('lspconfig').tsserver.setup{}
-require('lspconfig').tailwindcss.setup{}
+require("lspconfig").tsserver.setup{}
+require("lspconfig").tailwindcss.setup{}
 
--- require('lspinstall').setup()
--- local servers = require('lspinstall').installed_servers()
+-- require("lspinstall").setup()
+-- local servers = require("lspinstall").installed_servers()
 -- for _, server in pairs(servers) do
---   require('lspconfig')[server].setup{}
+--   require("lspconfig")[server].setup{}
 -- end
 
 -- Relative requires not possible, so we have to start at the top
