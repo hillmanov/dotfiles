@@ -37,8 +37,8 @@ require("lazy").setup({
     end,
   },
   "junegunn/vim-easy-align",
-  "kshenoy/vim-signature",
-  "airblade/vim-gitgutter",
+  "kshenoy/vim-signature", -- Show marks in the gutter
+  "airblade/vim-gitgutter", 
   "jremmen/vim-ripgrep",
   "easymotion/vim-easymotion",
   "wellle/targets.vim",
@@ -57,7 +57,6 @@ require("lazy").setup({
   "hrsh7th/cmp-nvim-lsp",
   "hrsh7th/cmp-cmdline",
   "quangnguyen30192/cmp-nvim-ultisnips",
-
   {"SirVer/ultisnips",
     init = function()
       -- Had to move this here for lazy.nvim, otherwise the tab button would insert whatever was in UltiSnipsExpandTrigger. Timing/loading difference. 
@@ -105,7 +104,7 @@ require("lazy").setup({
   {
     "David-Kunz/gen.nvim",
     opts = {
-      model = "llama3", -- The default model to use.
+      model = "llama3.1", -- The default model to use.
       host = "titan",
       port = "11434",
       display_mode = "float",
@@ -116,6 +115,7 @@ require("lazy").setup({
         end,
     }
   },
+  -- It started throwing an error. :(
   {
     "laytan/tailwind-sorter.nvim",
     dependencies = {"nvim-treesitter/nvim-treesitter", "nvim-lua/plenary.nvim"},
@@ -123,29 +123,16 @@ require("lazy").setup({
     config = true,
     opts = {
       on_save_enabled = true,
+      trim_spaces = true,
     }
   },
   "fedepujol/move.nvim",
   "christoomey/vim-tmux-navigator",
-  {
-    "kristijanhusak/vim-dadbod-ui",
-    dependencies = {
-      { "tpope/vim-dadbod", lazy = true },
-      { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
-    },
-    cmd = {
-      "DBUI",
-      "DBUIToggle",
-      "DBUIAddConnection",
-      "DBUIFindBuffer",
-    },
-    init = function()
-      vim.g.db_ui_use_nerd_fonts = 1
-    end,
-  }
 })
 
-require("lspconfig").tsserver.setup{}
+require("lspconfig").ts_ls.setup{
+  filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+}
 require("lspconfig").tailwindcss.setup{}
 
 -- require("lspinstall").setup()

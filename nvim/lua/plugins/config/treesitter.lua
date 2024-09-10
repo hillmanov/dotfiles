@@ -39,6 +39,7 @@ require'nvim-treesitter.configs'.setup {
     "scss",
     "sql",
     "tsv",
+    "tsx",
     "typescript",
     "vim",
     "vimdoc",

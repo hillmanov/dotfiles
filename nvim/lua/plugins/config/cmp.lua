@@ -70,8 +70,8 @@ cmp.setup {
     },
   },
   mapping = {
-    ["<down>"] = cmp.mapping.select_next_item(),
-    ["<up>"] = cmp.mapping.select_prev_item(),
+    ["<c-n>"] = cmp.mapping.select_next_item(),
+    ["<c-p>"] = cmp.mapping.select_prev_item(),
     ["<cr>"] = cmp.mapping.confirm(),
     ["<c-space>"] = cmp.mapping.complete(),
   },
