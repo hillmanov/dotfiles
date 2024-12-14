@@ -16,3 +16,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {  -- Create an autocmd that trigger
   group = yankAuGroup,  -- Use the 'YankHighlight' augroup
   command = 'silent! lua vim.highlight.on_yank {timeout=250}'  -- Run the on_yank function to highlight the yanked text, removing the highlight after 250ms
 })
+
+-- Typing ":" in a go file would make the line get indented, usually messing up some SQL. Turn this setting off for go. 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "go",
+  callback = function()
+    vim.opt_local.indentexpr = ""
+  end
+})
+

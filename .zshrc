@@ -24,6 +24,7 @@ ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/oh-my-zsh"
 antidote load $HOME/.zsh_plugins.txt
 source $ZSH/oh-my-zsh.sh
 
+
 # aliases
 alias dof='rm **/*.orig' # Delete .orig files
 alias 'git log'='nocorrect git log'
@@ -65,7 +66,7 @@ open() {
 
 dmb() {
   git remote prune origin
-  for branch in $(git branch -a | sed 's/^\s*//' | sed 's/^remotes\///' | grep -v 'master$'); do
+  for branch in $(git branch -a | sed 's/^\s*//' | sed 's/^remotes\///' | grep -v 'main$'); do
     last_commit_msg="$(git log --oneline --format=%f -1 $branch)"
     if [[ "$(git log --oneline --format=%f | grep $last_commit_msg | wc -l)" -eq 1 ]]; then
       echo "Deleting branch: $branch"
@@ -75,7 +76,7 @@ dmb() {
 }
 
 opr() {
-  ggpush && git open-pr "$@"
+  ggpush && git open-pr main
 }
 
 function copyfile() {
@@ -157,3 +158,8 @@ PATH=$PATH:$HOME/.local/share/npm-global/bin
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
+
+# Fix zsh overrides for git
+# Unset any existing shell alias or function for `diff`
+unalias diff 2>/dev/null
+unset -f diff 2>/dev/null

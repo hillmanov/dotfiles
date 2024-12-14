@@ -15,5 +15,6 @@ require("global")
 require("options")
 require("plugins")
 require("mappings")
+require("adventofcode")
 require("colors")
 
