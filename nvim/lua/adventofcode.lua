@@ -16,7 +16,7 @@ local function run_day(part)
   if part then
     cmd = cmd .. " " .. part
   end
-  vim.cmd("!" .. cmd)
+  vim.cmd("FloatermNew --title=Advent\\ of\\ Code:\\ Day\\ " .. day .. " --titleposition=center --autoclose=0 " .. cmd)
 end
 
 -- Keymaps

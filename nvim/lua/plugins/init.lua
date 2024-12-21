@@ -8,6 +8,7 @@ require("lazy").setup({
   "tpope/vim-projectionist",
 
   "nvim-lua/plenary.nvim",
+  "voldikss/vim-floaterm",
   "AndrewRadev/splitjoin.vim",
   "nvim-tree/nvim-tree.lua", 
   "hoob3rt/lualine.nvim",
