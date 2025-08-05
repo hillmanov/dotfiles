@@ -68,6 +68,7 @@ cmp.setup {
       },
       keyword_length = 0,
     },
+    documentation = cmp.config.window.bordered()
   },
   mapping = {
     ["<c-n>"] = cmp.mapping.select_next_item(),
@@ -123,10 +124,6 @@ vim.api.nvim_set_hl(0, "CmpBorderedWindow_FloatBorder", { fg = "#565c64" })
 for group, hl in pairs(highlights) do
   vim.api.nvim_set_hl(0, group, hl)
 end
-
--- Go setup
-local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()) --nvim-cmp
-capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end

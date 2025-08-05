@@ -6,10 +6,25 @@ require("lazy").setup({
   "tpope/vim-abolish",
   "tpope/vim-speeddating",
   "tpope/vim-projectionist",
-
+  { 
+    'echasnovski/mini.nvim', 
+    config = function()
+      require("mini.ai").setup({
+        n_lines = 1000,
+        -- How to search for object (first inside current line, then inside
+        -- neighborhood). One of 'cover', 'cover_or_next', 'cover_or_prev',
+        -- 'cover_or_nearest', 'next', 'previous', 'nearest'.
+        search_method = 'cover_or_next',
+      })
+      require("mini.splitjoin").setup()
+      -- require("mini.surround").setup()
+      require("mini.move").setup()
+      require("mini.pairs").setup()
+      require("mini.align").setup()
+    end
+  },
   "nvim-lua/plenary.nvim",
   "voldikss/vim-floaterm",
-  "AndrewRadev/splitjoin.vim",
   "nvim-tree/nvim-tree.lua", 
   "hoob3rt/lualine.nvim",
   "nvim-tree/nvim-web-devicons",
@@ -37,7 +52,6 @@ require("lazy").setup({
       } 
     end,
   },
-  "junegunn/vim-easy-align",
   "kshenoy/vim-signature", -- Show marks in the gutter
   "airblade/vim-gitgutter", 
   "jremmen/vim-ripgrep",
@@ -55,7 +69,22 @@ require("lazy").setup({
   "hrsh7th/cmp-buffer",
   "hrsh7th/cmp-path",
   "hrsh7th/cmp-nvim-lua",
-  "hrsh7th/cmp-nvim-lsp",
+  {
+    "hrsh7th/cmp-nvim-lsp",
+    dependencies = {
+      'neovim/nvim-lspconfig',
+    },
+    config = function()
+      local lspconfig = require("lspconfig")
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+      lspconfig.ts_ls.setup{
+        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+      }
+
+      lspconfig.tailwindcss.setup{}
+    end
+  },
   "hrsh7th/cmp-cmdline",
   "quangnguyen30192/cmp-nvim-ultisnips",
   {"SirVer/ultisnips",
@@ -117,24 +146,21 @@ require("lazy").setup({
     }
   },
   -- It started throwing an error. :(
-  {
-    "laytan/tailwind-sorter.nvim",
-    dependencies = {"nvim-treesitter/nvim-treesitter", "nvim-lua/plenary.nvim"},
-    build = "cd formatter && npm i && npm run build",
-    config = true,
-    opts = {
-      on_save_enabled = true,
-      trim_spaces = false, -- Removes spaces in `` marks as well, which is bad. 
-    }
-  },
-  "fedepujol/move.nvim",
+  -- {
+  --   "laytan/tailwind-sorter.nvim",
+  --   dependencies = {"nvim-treesitter/nvim-treesitter", "nvim-lua/plenary.nvim"},
+  --   build = "cd formatter && npm i && npm run build",
+  --   config = true,
+  --   opts = {
+  --     on_save_enabled = true,
+  --     on_save_pattern = { '*.html', '*.jsx', '*.tsx'}, -- The file patterns to watch and sort.
+  --     trim_spaces = false, -- Removes spaces in `` marks as well, which is bad. 
+  --   }
+  -- },
   "christoomey/vim-tmux-navigator",
 })
 
-require("lspconfig").ts_ls.setup{
-  filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-}
-require("lspconfig").tailwindcss.setup{}
+-- TS/JS LSP
 
 -- require("lspinstall").setup()
 -- local servers = require("lspinstall").installed_servers()
@@ -148,7 +174,6 @@ require("plugins/config/nvim-tree");
 require("plugins/config/telescope");
 require("plugins/config/lualine");
 require("plugins/config/treesitter");
-require("plugins/config/move");
 require("plugins/config/ultisnips");
 require("plugins/config/go");
 require("plugins/config/cmp");

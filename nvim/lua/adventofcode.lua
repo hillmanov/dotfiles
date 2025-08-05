@@ -20,6 +20,6 @@ local function run_day(part)
 end
 
 -- Keymaps
-vim.keymap.set("n", "<leader>d1", function() run_day("part1") end, { silent = true })
-vim.keymap.set("n", "<leader>d2", function() run_day("part2") end, { silent = true })
+vim.keymap.set("n", "<leader>d1", function() run_day("--part 1") end, { silent = true })
+vim.keymap.set("n", "<leader>d2", function() run_day("--part 2") end, { silent = true })
 vim.keymap.set("n", "<leader>da", function() run_day() end, { silent = true })

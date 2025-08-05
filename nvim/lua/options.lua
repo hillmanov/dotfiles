@@ -44,6 +44,23 @@ local opts = {
   -- cmdheight      = 0,
 }
 
+
+vim.g.python3_host_prog = '/usr/bin/python3'
+
 for k, v in pairs(opts) do
   vim.o[k] = v
 end
+
+vim.g.clipboard = {
+  name = 'myClipboard',
+  copy = {
+    ['+'] = { 'xclip', '-selection', 'clipboard', '-in' },
+    ['*'] = { 'xclip', '-selection', 'primary', '-in' },
+  },
+  paste = {
+    ['+'] = { 'xclip', '-selection', 'clipboard', '-out' },
+    ['*'] = { 'xclip', '-selection', 'primary', '-out' },
+  },
+  cache_enabled = 1,
+}
+

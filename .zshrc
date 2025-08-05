@@ -16,6 +16,11 @@ fi
 ZSH_DISABLE_COMPFIX="true"
 DEFAULT_USER=scott
 
+# Always show completions for bun
+compdef _gnu_generic bun
+
+eval "$(gh copilot alias -- zsh)"
+
 source /usr/share/zsh-antidote/antidote.zsh
 
 ZSH=$(antidote path ohmyzsh/ohmyzsh)
@@ -34,6 +39,8 @@ alias lg=lazygit
 alias ld='lazydocker'
 alias apps='pm2 ls --sort id'
 alias m4b-tool='docker run -it --rm -u $(id -u):$(id -g) -v "$(pwd)":/mnt sandreas/m4b-tool:latest'
+alias tone='docker run -it --rm -u $(id -u):$(id -g) -v "$(pwd)":/mnt --entrypoint /usr/local/bin/tone sandreas/m4b-tool:latest'
+alias audible='docker run -it --rm -u $(id -u):$(id -g) -v "$(pwd)":/mnt audible-cli:latest' # Audible CLI tool, built from ~/tools/audible-cli
 
 delete-docker-containers() {
   docker rm $(docker ps -a -q)
@@ -73,6 +80,27 @@ dmb() {
       git branch -D $branch &> /dev/null
     fi
   done
+}
+
+transcribe() {
+  docker run --gpus device=0 \
+    --user $(id -u):$(id -g) \
+    -e XDG_CACHE_HOME=/srv/files/.cache \
+    -v "$PWD":/srv/files \
+    -v ~/tools/.whisper/cache:/srv/files/.cache \
+    -it ghcr.io/softcatala/whisper-ctranslate2:latest \
+    "/srv/files/${1}" \
+    --output_dir "/srv/files/$(dirname "${1}")" \
+    --model large-v3-turbo \
+    --language English \
+    --word_timestamps True \
+    --verbose True \
+    --output_format json \
+    --condition_on_previous_text False \
+    --temperature 0 \
+    --beam_size 5 \
+    --vad_filter True \
+    --vad_threshold 0.6
 }
 
 opr() {

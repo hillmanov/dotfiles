@@ -45,16 +45,6 @@ map("n", "<leader>r", '"_diwP', opts)
 -- Repeat last replacement of a word
 map("n", "<leader>.", ':let @/=@"<cr>/<cr>cgn<c-r>.<esc>', opts)
 
--- Move lines up and down
-map("n", "<A-k>", ":MoveLine(-1)<CR>", opts)  -- Move line up
-map("n", "<A-j>", ":MoveLine(1)<CR>", opts)   -- Move line down
-
-map("v", "<A-k>", ":MoveBlock(-1)<CR>", opts)    -- Move visual block up
-map("v", "<A-j>", ":MoveBlock(1)<CR>", opts)     -- Move visual block down
-
-map("i", "<A-k>", "<Esc>:MoveLine(-1)<CR>gi", opts)  -- Move line up
-map("i", "<A-j>", "<Esc>:MoveLine(1)<CR>gi", opts)   -- Move line down
-
 -- Format JSON with Python tool
 map("n", "<leader><leader>j", ":%!python -m json.tool --indent 2<CR>", opts)
 map("v", "<leader><leader>j", ":'<,'>!python -m json.tool --indent 2<CR>", opts)
