@@ -1,7 +1,7 @@
 local opts = { 
   backup         = true,                -- Enable backup of the original file while editing
   backupdir      = os.getenv "HOME" .. "/.nvim/backup/",  -- Directory where backup files are stored
-  clipboard      = "unnamedplus",       -- Use system clipboard
+  clipboard      = "unnamedplus",             -- Use system clipboard
   completeopt    = "menu,noselect",     -- Completion option "menu" to see completion menu, "noselect" to prevent auto selecting the first item
   conceallevel   = 1,                   -- Set conceal level to hide certain text based on syntax (e.g., markdown)
   expandtab      = true,                -- Use spaces instead of tabs when indenting
@@ -51,16 +51,34 @@ for k, v in pairs(opts) do
   vim.o[k] = v
 end
 
-vim.g.clipboard = {
-  name = 'myClipboard',
-  copy = {
-    ['+'] = { 'xclip', '-selection', 'clipboard', '-in' },
-    ['*'] = { 'xclip', '-selection', 'primary', '-in' },
-  },
-  paste = {
-    ['+'] = { 'xclip', '-selection', 'clipboard', '-out' },
-    ['*'] = { 'xclip', '-selection', 'primary', '-out' },
-  },
-  cache_enabled = 1,
-}
+-- Required to set this here to make yank/paste work over ssh. This is different from the clipboard option above, and both are needed.
+local function in_ssh()
+  return vim.env.SSH_CONNECTION ~= nil
+end
 
+if in_ssh() then
+  vim.g.clipboard = {
+    name = 'OSC52 only',
+    copy = {
+      ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+      ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+    },
+    paste = {
+      ['+'] = function() return '' end, -- disable paste
+      ['*'] = function() return '' end,
+    },
+  }
+else
+  vim.g.clipboard = {
+    name = 'Xclip clipboard',
+    copy = {
+      ['+'] = { 'xclip', '-selection', 'clipboard', '-in' },
+      ['*'] = { 'xclip', '-selection', 'primary', '-in' },
+    },
+    paste = {
+      ['+'] = { 'xclip', '-selection', 'clipboard', '-out' },
+      ['*'] = { 'xclip', '-selection', 'primary', '-out' },
+    },
+    cache_enabled = 1,
+  }
+end

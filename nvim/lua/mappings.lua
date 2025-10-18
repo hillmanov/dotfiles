@@ -80,7 +80,6 @@ map("v", "<Enter>", "<Plug>(EasyAlign)", opts)
 map('n', '<leader>f', '<cmd>lua require("telescope.builtin").find_files({ use_git_root = true})<cr>', opts)      -- Find files with telescope
 map('n', '<leader>g', '<cmd>lua require("telescope.builtin").live_grep({ use_git_root = true})<cr>', opts)       -- Grep files with telescope
 map('n', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<cr>', opts)        -- List buffers with telescope
-map('n', '<leader>n', '<cmd>lua require("telescope.builtin").file_browser({ use_git_root = true})<cr>', opts)    -- Browse files with telescope
 map('n', '<leader>p', '<cmd>lua require("telescope.builtin").registers()<cr>', opts)    -- Browse registers
 map('n', '<leader>m', '<cmd>lua require("telescope.builtin").marks()<cr>', opts)    -- Browse marks
 
@@ -113,18 +112,10 @@ map("n", "gi", function()
   vim.lsp.buf.implementation()
 end)
 
-map("n", "gr", function()
-  vim.lsp.buf.references()
-end)
+map("n", "gr", "<cmd> Lspsaga finder<CR>", opts)
 
-map("n", "[d", function()
-  vim.diagnostic.goto_prev()
-end)
-
-map("n", "d]", function()
-  vim.diagnostic.goto_next()
-end)
-
+map("n", "<leader>dp", "<cmd> Lspsaga diagnostic_jump_prev<CR>", opts)
+map("n", "<leader>dn", "<cmd> Lspsaga diagnostic_jump_next<CR>", opts)
 map('n', '<leader>rn', ":Lspsaga rename mode=n<CR>", opts)
 map('n', '<leader>prn', ":Lspsaga rename ++project mode=n<CR>", opts)
 map('n', '<leader>ca', ":Lspsaga code_action<CR>", opts)

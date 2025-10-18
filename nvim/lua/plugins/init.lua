@@ -10,7 +10,7 @@ require("lazy").setup({
     'echasnovski/mini.nvim', 
     config = function()
       require("mini.ai").setup({
-        n_lines = 1000,
+        n_lines = 5000,
         -- How to search for object (first inside current line, then inside
         -- neighborhood). One of 'cover', 'cover_or_next', 'cover_or_prev',
         -- 'cover_or_nearest', 'next', 'previous', 'nearest'.
@@ -61,7 +61,7 @@ require("lazy").setup({
   "ryanoasis/vim-devicons",
   "brooth/far.vim",
   "qpkorr/vim-renamer",
-  "dense-analysis/ale",
+  -- "dense-analysis/ale",
   -- Completion
   {"hrsh7th/nvim-cmp",
     disable = false,
@@ -178,4 +178,4 @@ require("plugins/config/ultisnips");
 require("plugins/config/go");
 require("plugins/config/cmp");
 require("plugins/config/mason");
-require("plugins/config/ale");
+-- require("plugins/config/ale");
