@@ -48,7 +48,7 @@ local opts = {
 vim.g.python3_host_prog = '/usr/bin/python3'
 
 for k, v in pairs(opts) do
-  vim.o[k] = v
+  vim.opt[k] = v
 end
 
 -- Required to set this here to make yank/paste work over ssh. This is different from the clipboard option above, and both are needed.

@@ -306,6 +306,18 @@ snippet cll "console.log()" i
 console.log(${0});
 endsnippet
 
+post_jump "if snip.tabstop == 0: snip.buffer[snip.line] = snip.buffer[snip.line].split(' // ')[0]; snip.cursor.set(snip.line, len(snip.buffer[snip.line]))"
+snippet clm "console.log multiple variables with labels" b
+`!p
+if t[1]:
+    vars = [v.strip() for v in t[1].split(',') if v.strip()]
+    parts = '\\n'.join([v + ' -> ${' + v + '}' for v in vars])
+    snip.rv = 'console.log(' + chr(96) + parts + chr(96) + ');'
+else:
+    snip.rv = 'console.log();'
+` // $1$0
+endsnippet
+
 snippet r "require" b
 const $1 = require('$1');
 endsnippet

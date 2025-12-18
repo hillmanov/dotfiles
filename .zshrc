@@ -2,7 +2,7 @@ if [ -f ~/.private_zshrc ]; then
   source ~/.private_zshrc
 fi
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/home/scott/.local/bin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/home/scott/.local/bin:/home/scott/tools/bin"
 
 autoload -Uz compinit
 ZCOMPDUMP="${ZDOTDIR:-$HOME}/.zcompdump-${ZSH_VERSION}"
@@ -41,6 +41,7 @@ alias apps='pm2 ls --sort id'
 alias m4b-tool='docker run -it --rm -u $(id -u):$(id -g) -v "$(pwd)":/mnt sandreas/m4b-tool:latest'
 alias tone='docker run -it --rm -u $(id -u):$(id -g) -v "$(pwd)":/mnt --entrypoint /usr/local/bin/tone sandreas/m4b-tool:latest'
 alias audible='docker run -it --rm -u $(id -u):$(id -g) -v "$(pwd)":/mnt audible-cli:latest' # Audible CLI tool, built from ~/tools/audible-cli
+alias cpwd='pwd | xclip -selection clipboard'
 
 delete-docker-containers() {
   docker rm $(docker ps -a -q)
@@ -82,7 +83,20 @@ dmb() {
   done
 }
 
+# Put this in your shell rc file
 transcribe() {
+  # Check if argument is provided
+  if [ $# -eq 0 ]; then
+    echo "Usage: transcribe <audio_file>"
+    return 1
+  fi
+  
+  # Check if file exists
+  if [ ! -f "$1" ]; then
+    echo "Error: File '$1' not found"
+    return 1
+  fi
+  
   docker run --gpus device=0 \
     --user $(id -u):$(id -g) \
     -e XDG_CACHE_HOME=/srv/files/.cache \
@@ -91,20 +105,57 @@ transcribe() {
     -it ghcr.io/softcatala/whisper-ctranslate2:latest \
     "/srv/files/${1}" \
     --output_dir "/srv/files/$(dirname "${1}")" \
-    --model large-v3-turbo \
-    --language English \
+    --model large-v2 \
+    --language en \
     --word_timestamps True \
     --verbose True \
     --output_format json \
-    --condition_on_previous_text False \
+    --condition_on_previous_text True \
     --temperature 0 \
     --beam_size 5 \
-    --vad_filter True \
-    --vad_threshold 0.6
+    --vad_filter False \
+    --compute_type float16
 }
+
+# Notes:
+# - Keep all backslashes; dropping one will cause the following line
+#   (e.g. --model, --beam_size, etc.) to be executed as a shell command,
+#   which is why you were seeing `command not found: --model` etc.
+#
+# - Call it with the *actual* filename (including extension) and quote it
+#   or escape spaces, e.g.:
+#       transcribe "A Psalm for the Wild-Built.mp3"
+#   so the container sees `/srv/files/A Psalm for the Wild-Built.mp3`.
+#
+# - Using `large-v3` + `float32` + higher `beam_size` and less aggressive
+#   VAD settings trades speed for better alignment / word timestamps and
+#   respects real pauses more reliably.
 
 opr() {
   ggpush && git open-pr main
+}
+
+mkcd () {
+  \mkdir -p "$1"
+  cd "$1"
+}
+
+tempe () {
+  cd "$(mktemp -d)"
+  chmod -R 0700 .
+  if [[ $# -eq 1 ]]; then
+    \mkdir -p "$1"
+    cd "$1"
+    chmod -R 0700 .
+  fi
+}
+
+scratch () {
+  set -euo pipefail
+  local file
+  file="$(mktemp)"
+  echo "Editing $file"
+  exec "$EDITOR" "$file"
 }
 
 function copyfile() {
@@ -131,6 +182,10 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" -g "!n
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 export GIT_EDITOR="nvim -c 'norm gg'" 
+
+# fnm (Fast Node Manager)
+eval "$(fnm env --use-on-cd --shell zsh)"
+eval "$(fnm completions --shell zsh)"
 
 eval "$(direnv hook zsh)"
 eval "$(atuin init zsh)"
@@ -191,3 +246,41 @@ export LC_ALL=en_US.UTF-8
 # Unset any existing shell alias or function for `diff`
 unalias diff 2>/dev/null
 unset -f diff 2>/dev/null
+
+# Tmux CC session auto-rename function
+# Updates tmux session names that start with CC<number> to "CC<number> - <git branch>"
+update_tmux_cc_session() {
+    # Check if we're in a tmux session
+    if [ -n "$TMUX" ]; then
+        # Get current session name
+        local current_session=$(tmux display-message -p '#S')
+
+        # Check if session starts with CC followed by a number
+        if [[ $current_session =~ ^CC([0-9]+) ]]; then
+            local cc_number="${match[1]}"
+
+            # Check if we're in a git repository
+            if git rev-parse --git-dir > /dev/null 2>&1; then
+                # Get current branch name
+                local branch_name=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+
+                if [ -n "$branch_name" ]; then
+                    # Create new session name
+                    local new_session_name="CC${cc_number} - ${branch_name}"
+
+                    # Only rename if the name has changed
+                    if [ "$current_session" != "$new_session_name" ]; then
+                        tmux rename-session "$new_session_name"
+                    fi
+                fi
+            fi
+        fi
+    fi
+}
+
+
+export PATH=$PATH:/home/scott/homelab/mygpt/llama.cpp/build/bin
+
+# Add to precmd hook to run before each prompt
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd update_tmux_cc_session

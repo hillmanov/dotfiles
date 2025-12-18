@@ -71,7 +71,13 @@ cmp.setup {
     documentation = cmp.config.window.bordered()
   },
   mapping = {
-    ["<c-n>"] = cmp.mapping.select_next_item(),
+    ["<c-n>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        cmp.complete()
+      end
+    end, { "i", "s" }),
     ["<c-p>"] = cmp.mapping.select_prev_item(),
     ["<cr>"] = cmp.mapping.confirm(),
     ["<c-space>"] = cmp.mapping.complete(),
@@ -100,61 +106,5 @@ cmp.setup {
   preselect = cmp.PreselectMode.None,
 }
 
---set max height of items
-vim.cmd [[ set pumheight=20 ]]
---set highlights
-local highlights = {
-  CmpItemKindText = { fg = "LightGrey" },
-  CmpItemKindFunction = { fg = "#C586C0" },
-  CmpItemKindClass = { fg = "Orange" },
-  CmpItemKindKeyword = { fg = "#f90c71" },
-  CmpItemKindSnippet = { fg = "#565c64" },
-  CmpItemKindConstructor = { fg = "#ae43f0" },
-  CmpItemKindVariable = { fg = "#9CDCFE", bg = "NONE" },
-  CmpItemKindInterface = { fg = "#f90c71", bg = "NONE" },
-  CmpItemKindFolder = { fg = "#2986cc" },
-  CmpItemKindReference = { fg = "#922b21" },
-  CmpItemKindMethod = { fg = "#C586C0" },
-  CmpItemMenu = { fg = "#C586C0", bg = "#C586C0" },
-  CmpItemAbbr = { fg = "#565c64", bg = "NONE" },
-  CmpItemAbbrMatch = { fg = "#569CD6", bg = "NONE" },
-  CmpItemAbbrMatchFuzzy = { fg = "#569CD6", bg = "NONE" },
-}
-vim.api.nvim_set_hl(0, "CmpBorderedWindow_FloatBorder", { fg = "#565c64" })
-for group, hl in pairs(highlights) do
-  vim.api.nvim_set_hl(0, group, hl)
-end
-
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-end
-
--- Setup lspconfig.
-local nvim_lsp = require('lspconfig')
-
--- setup languages 
--- GoLang
-nvim_lsp['gopls'].setup{
-  cmd = {'gopls'},
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    gopls = {
-      experimentalPostfixCompletions = true,
-      analyses = {
-        unusedparams = true,
-        shadow = true,
-      },
-      staticcheck = true,
-    },
-  },
-  init_options = {
-    usePlaceholders = true,
-  }
-}
-
-
+vim.opt.pumheight = 20
 

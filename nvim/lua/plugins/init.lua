@@ -1,5 +1,5 @@
 require("lazy").setup({ 
-  "tpope/vim-fugitive",
+  { "tpope/vim-fugitive", cmd = { "Git", "G", "Gstatus", "Gread", "Gblame", "Gpush", "Gpull", "Gdiff" } },
   "tpope/vim-surround",
   "tpope/vim-commentary",
   "tpope/vim-repeat",
@@ -24,11 +24,12 @@ require("lazy").setup({
     end
   },
   "nvim-lua/plenary.nvim",
-  "voldikss/vim-floaterm",
+  { "voldikss/vim-floaterm", cmd = { "FloatermNew", "FloatermToggle", "FloatermNext", "FloatermPrev" } },
   "nvim-tree/nvim-tree.lua", 
   "hoob3rt/lualine.nvim",
   "nvim-tree/nvim-web-devicons",
   {"norcalli/nvim-colorizer.lua",
+    event = "BufReadPost",
     config = function()
       require("colorizer").setup()
     end,
@@ -59,8 +60,8 @@ require("lazy").setup({
   "wellle/targets.vim",
   "andymass/vim-matchup",
   "ryanoasis/vim-devicons",
-  "brooth/far.vim",
-  "qpkorr/vim-renamer",
+  { "brooth/far.vim", cmd = { "Far", "Fardo", "Farundo", "Farp", "Farr" } },
+  { "qpkorr/vim-renamer", cmd = "Renamer" },
   -- "dense-analysis/ale",
   -- Completion
   {"hrsh7th/nvim-cmp",
@@ -74,16 +75,16 @@ require("lazy").setup({
     dependencies = {
       'neovim/nvim-lspconfig',
     },
-    config = function()
-      local lspconfig = require("lspconfig")
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-      lspconfig.ts_ls.setup{
-        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-      }
-
-      lspconfig.tailwindcss.setup{}
-    end
+  },
+  {
+    "ray-x/lsp_signature.nvim",
+    event = "LspAttach",
+    opts = {
+      hint_enable = false, -- disable virtual text hints
+      handler_opts = {
+        border = "rounded",
+      },
+    },
   },
   "hrsh7th/cmp-cmdline",
   "quangnguyen30192/cmp-nvim-ultisnips",
@@ -96,14 +97,16 @@ require("lazy").setup({
       vim.g.UltiSnipsJumpBackwardTrigger = "::"
     end,
   },
-  "mbbill/undotree",
+  { "mbbill/undotree", cmd = "UndotreeToggle" },
   {"folke/todo-comments.nvim",
     dependencies = "nvim-lua/plenary.nvim",
+    event = "BufReadPost",
     config = function()
       require("todo-comments").setup{}
     end,
   },
   {"nvimdev/lspsaga.nvim",
+    event = "LspAttach",
     config = function()
       require("lspsaga").setup({
         symbol_in_winbar = {
@@ -115,11 +118,11 @@ require("lazy").setup({
       })
     end,
     dependencies = {
-      "nvim-treesitter/nvim-treesitter", -- optional
-      "nvim-tree/nvim-web-devicons",     -- optional
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
     }
   },
-  "fatih/vim-go",
+  { "fatih/vim-go", ft = { "go", "gomod", "gowork", "gotmpl" } },
   "williamboman/mason.nvim",
   "williamboman/mason-lspconfig.nvim",
   "neovim/nvim-lspconfig",
@@ -130,11 +133,12 @@ require("lazy").setup({
 
   "github/copilot.vim",
   "muniftanjim/nui.nvim",
-  "isobit/vim-caddyfile",
+  { "isobit/vim-caddyfile", ft = "caddyfile" },
   {
     "David-Kunz/gen.nvim",
+    cmd = "Gen",
     opts = {
-      model = "llama3.1", -- The default model to use.
+      model = "llama3.1",
       host = "titan",
       port = "11434",
       display_mode = "float",
@@ -169,7 +173,6 @@ require("lazy").setup({
 -- end
 
 -- Relative requires not possible, so we have to start at the top
-require("plugins/config/copilot");
 require("plugins/config/nvim-tree");
 require("plugins/config/telescope");
 require("plugins/config/lualine");
@@ -177,5 +180,5 @@ require("plugins/config/treesitter");
 require("plugins/config/ultisnips");
 require("plugins/config/go");
 require("plugins/config/cmp");
+require("plugins/config/lsp");
 require("plugins/config/mason");
--- require("plugins/config/ale");
