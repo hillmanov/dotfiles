@@ -22,6 +22,7 @@ g.go_highlight_trailing_whitespace_error = 0
 g.go_highlight_extra_types = 1
 g.go_def_mapping_enabled = 0 -- We'll use the language server instead for go to def stuff
 g.go_gopls_enabled = 0 -- Disable vim-go's gopls since we're using native LSP
+g.go_snippet_engine = "" -- Disable vim-go's bundled snippets so only our UltiSnips dir is used
 
 -- automatically highlight variable your cursor is on
 g.go_auto_sameids = 0

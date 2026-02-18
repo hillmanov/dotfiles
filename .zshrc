@@ -19,8 +19,6 @@ DEFAULT_USER=scott
 # Always show completions for bun
 compdef _gnu_generic bun
 
-eval "$(gh copilot alias -- zsh)"
-
 source /usr/share/zsh-antidote/antidote.zsh
 
 ZSH=$(antidote path ohmyzsh/ohmyzsh)
@@ -38,6 +36,35 @@ alias vi=nvim
 alias lg=lazygit
 alias ld='lazydocker'
 alias apps='pm2 ls --sort id'
+
+pm2-restart() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: pm2-restart <app_name> [config_file]"
+    echo "  app_name:    Name or ID of the PM2 process"
+    echo "  config_file: Optional path to ecosystem config (default: ./pm2.config.js)"
+    return 1
+  fi
+
+  local app="$1"
+  local config="${2:-$HOME/projects/pm2.config.js}"
+
+  if [[ ! -f "$config" ]]; then
+    echo "Config file not found: $config"
+    return 1
+  fi
+
+  echo "Stopping $app..."
+  pm2 stop "$app" 2>/dev/null
+
+  echo "Deleting $app..."
+  pm2 delete "$app" 2>/dev/null
+
+  echo "Starting $app from $config..."
+  pm2 start "$config" --only "$app" --update-env
+
+  echo "Done. Current status:"
+  pm2 show "$app"
+}
 alias m4b-tool='docker run -it --rm -u $(id -u):$(id -g) -v "$(pwd)":/mnt sandreas/m4b-tool:latest'
 alias tone='docker run -it --rm -u $(id -u):$(id -g) -v "$(pwd)":/mnt --entrypoint /usr/local/bin/tone sandreas/m4b-tool:latest'
 alias audible='docker run -it --rm -u $(id -u):$(id -g) -v "$(pwd)":/mnt audible-cli:latest' # Audible CLI tool, built from ~/tools/audible-cli
@@ -83,53 +110,7 @@ dmb() {
   done
 }
 
-# Put this in your shell rc file
-transcribe() {
-  # Check if argument is provided
-  if [ $# -eq 0 ]; then
-    echo "Usage: transcribe <audio_file>"
-    return 1
-  fi
-  
-  # Check if file exists
-  if [ ! -f "$1" ]; then
-    echo "Error: File '$1' not found"
-    return 1
-  fi
-  
-  docker run --gpus device=0 \
-    --user $(id -u):$(id -g) \
-    -e XDG_CACHE_HOME=/srv/files/.cache \
-    -v "$PWD":/srv/files \
-    -v ~/tools/.whisper/cache:/srv/files/.cache \
-    -it ghcr.io/softcatala/whisper-ctranslate2:latest \
-    "/srv/files/${1}" \
-    --output_dir "/srv/files/$(dirname "${1}")" \
-    --model large-v2 \
-    --language en \
-    --word_timestamps True \
-    --verbose True \
-    --output_format json \
-    --condition_on_previous_text True \
-    --temperature 0 \
-    --beam_size 5 \
-    --vad_filter False \
-    --compute_type float16
-}
-
-# Notes:
-# - Keep all backslashes; dropping one will cause the following line
-#   (e.g. --model, --beam_size, etc.) to be executed as a shell command,
-#   which is why you were seeing `command not found: --model` etc.
-#
-# - Call it with the *actual* filename (including extension) and quote it
-#   or escape spaces, e.g.:
-#       transcribe "A Psalm for the Wild-Built.mp3"
-#   so the container sees `/srv/files/A Psalm for the Wild-Built.mp3`.
-#
-# - Using `large-v3` + `float32` + higher `beam_size` and less aggressive
-#   VAD settings trades speed for better alignment / word timestamps and
-#   respects real pauses more reliably.
+# transcribe - uses ~/tools/transcriber (run `transcribe --help` for options)
 
 opr() {
   ggpush && git open-pr main
@@ -232,6 +213,13 @@ fi
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
 
+# Android SDK & Java (using Android Studio's bundled JDK)
+export JAVA_HOME="/opt/android-studio/jbr"
+export ANDROID_HOME="$HOME/Android/Sdk"
+export ANDROID_SDK_ROOT="$ANDROID_HOME"
+export CAPACITOR_ANDROID_STUDIO_PATH="/opt/android-studio/bin/studio.sh"
+export PATH=$PATH:$JAVA_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$ANDROID_HOME/cmdline-tools/latest/bin
+
 # Go
 PATH=$PATH:$GOPATH/bin
 
@@ -284,3 +272,12 @@ export PATH=$PATH:/home/scott/homelab/mygpt/llama.cpp/build/bin
 # Add to precmd hook to run before each prompt
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd update_tmux_cc_session
+
+# Claude Global Resume - search and resume claude code conversations from anywhere
+cgr() {
+  local cmd
+  cmd=$(/home/scott/tools/claude-global-resume/index.ts "$@")
+  if [ -n "$cmd" ]; then
+    eval "$cmd"
+  fi
+}
