@@ -51,7 +51,8 @@ require'nvim-treesitter.configs'.setup {
     enable = true              
   },
   indent = {
-    enable = true
+    enable = true,
+    disable = { "go" },
   },
   textobjects = {
     select = {
@@ -60,7 +61,8 @@ require'nvim-treesitter.configs'.setup {
       keymaps = {
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
-        ["aa"] = "@parameter.inner",
+        ["ia"] = "@parameter.inner",
+        ["aa"] = "@parameter.outer",
       },
     },
     swap = {

@@ -13,7 +13,7 @@ M.map = function(mode, keys, command, opt)
     return
   end
 
-  vim.keymap.set(mode, keys, command, opt)
+  vim.keymap.set(mode, keys, command, options)
 end
 
 return M

@@ -39,9 +39,6 @@ cmp.setup {
       vim.fn["UltiSnips#Anon"](args.body)
     end,
   },
-  style = {
-    winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-  },
   formatting = {
     fields = { "kind", "abbr", "menu" },
     format = function(entry, vim_item)
@@ -62,11 +59,7 @@ cmp.setup {
     completion = {
       border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
       scrollbar = "║",
-      autocomplete = {
-        require("cmp.types").cmp.TriggerEvent.InsertEnter,
-        require("cmp.types").cmp.TriggerEvent.TextChanged,
-      },
-      keyword_length = 0,
+      winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
     },
     documentation = cmp.config.window.bordered()
   },
@@ -81,10 +74,6 @@ cmp.setup {
     ["<c-p>"] = cmp.mapping.select_prev_item(),
     ["<cr>"] = cmp.mapping.confirm(),
     ["<c-space>"] = cmp.mapping.complete(),
-  },
-  experimental = {
-    native_menu = false,
-    ghost_text = false,
   },
   sources = {
     { name = "nvim_lsp" },

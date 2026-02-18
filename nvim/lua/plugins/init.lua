@@ -59,7 +59,6 @@ require("lazy").setup({
   "easymotion/vim-easymotion",
   "wellle/targets.vim",
   "andymass/vim-matchup",
-  "ryanoasis/vim-devicons",
   { "brooth/far.vim", cmd = { "Far", "Fardo", "Farundo", "Farp", "Farr" } },
   { "qpkorr/vim-renamer", cmd = "Renamer" },
   -- "dense-analysis/ale",

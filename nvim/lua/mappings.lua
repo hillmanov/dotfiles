@@ -27,7 +27,7 @@ map("n", "<leader>l", ":nohlsearch<CR>", opts)
 -- Indent and de-indent while preserving visual selection
 map("v", "<", "<gv", opts)                   -- Shift left and reselect
 map("v", ">", ">gv", opts)                   -- Shift right and reselect
-map("n", "=", "=gv", opts)                   
+map("v", "=", "=gv", opts)                   -- Re-indent and reselect
 
 -- Switch between buffers
 map("n", "<tab>", ":bn<CR>", opts)           -- Next buffer
